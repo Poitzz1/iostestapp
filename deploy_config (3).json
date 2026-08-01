@@ -1,0 +1,34 @@
+{
+  "input_name": "input",
+  "output_name": "embedding",
+  "input_size": 224,
+  "channel_order": "RGB",
+  "layout": "NCHW",
+  "scale": "divide_by_255",
+  "normalize_mean": [
+    0.485,
+    0.456,
+    0.406
+  ],
+  "normalize_std": [
+    0.229,
+    0.224,
+    0.225
+  ],
+  "output_is_l2_normalized": true,
+  "similarity": "cosine",
+  "verification_threshold_FAR_0.1pct": 0.508400022983551,
+  "trained_on": "11k_hands + SMPD, MediaPipe ROI-cropped (v4 domain-aligned)",
+  "models": {
+    "mobile": "palm_256_l2_fp32.onnx",
+    "web": "palm_fp16_web.onnx"
+  },
+  "notes": [
+    "INT8 deferred \u2014 corrupts this backbone (~0.70 self-cosine). Use fp32 mobile / fp16 web.",
+    "CLAHE is train-time augmentation only; do NOT apply at inference.",
+    "Enroll = mean of L2-normalized embeddings from several frames, then re-normalize.",
+    "NEVER compare single-shot embeddings \u2014 always use averaged templates.",
+    "v4: trained on ROI crops \u2014 the app MUST crop with the same MediaPipe palm-ROI logic before embedding.",
+    "Store hand_side explicitly; gate left/right before comparing."
+  ]
+}
