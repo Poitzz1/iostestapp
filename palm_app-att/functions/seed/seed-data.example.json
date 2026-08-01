@@ -1,0 +1,47 @@
+{
+  "_comment": "Copy this file to seed-data.json and edit. Non-developers: only change the values inside the quotes, keep the punctuation as-is. Re-running the seed is safe — existing records are updated, never duplicated, and an already-captured wifi_fingerprint is never wiped.",
+
+  "advisors": [
+    {
+      "uid": "REPLACE_WITH_FIREBASE_AUTH_UID",
+      "name": "Dr. A. Kumar",
+      "staff_id": "CIT1042",
+      "department": "CSE",
+      "sections": ["CSE-A", "CSE-B"],
+      "role": "advisor",
+      "classroom_id": "C302"
+    },
+    {
+      "uid": "REPLACE_WITH_ANOTHER_AUTH_UID",
+      "name": "Prof. S. Raman",
+      "staff_id": "CIT1088",
+      "department": "CSE",
+      "sections": ["CSE-C"],
+      "role": "admin",
+      "classroom_id": "C102"
+    }
+  ],
+
+  "classrooms": [
+    {
+      "classroom_id": "C302",
+      "building": "C Block",
+      "room": "C302",
+      "floor": 3,
+      "latitude": 13.083652,
+      "longitude": 80.270843,
+      "campus_radius_m": 300,
+      "min_bssid_matches": 2
+    },
+    {
+      "classroom_id": "C102",
+      "building": "C Block",
+      "room": "C102",
+      "floor": 1,
+      "latitude": 13.083652,
+      "longitude": 80.270843,
+      "campus_radius_m": 300,
+      "min_bssid_matches": 2
+    }
+  ]
+}

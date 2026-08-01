@@ -1,0 +1,71 @@
+name: palmpay_enroll
+description: PalmPay Attendance — palm enrollment app (fp32 on-device embedding).
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.4.0 <4.0.0"
+  flutter: ">=3.22.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # State management
+  flutter_riverpod: ^2.5.1
+  riverpod_annotation: ^2.3.5
+
+  # On-device model runtime (loads palm_256_l2_fp32.onnx)
+  onnxruntime: ^1.4.1
+
+  # Real device camera + frame streaming
+  camera: ^0.11.0+2
+
+  # On-device MediaPipe palm detection + 21-point hand landmarks
+  # (rejects closed fists / non-palm objects before embedding)
+  hand_detection: ^3.4.3
+
+  # Image decode / pixel access for the preprocessing pipeline
+  image: ^4.2.0
+
+  # Firebase — Auth + Firestore (asia-south1) + callable Cloud Functions
+  firebase_core: ^3.6.0
+  firebase_auth: ^5.3.1
+  cloud_firestore: ^5.4.4
+  cloud_functions: ^5.1.3
+
+  # Local-first persistence (offline enrollment, background sync)
+  shared_preferences: ^2.3.2
+  connectivity_plus: ^6.0.5
+
+  # Presence signals for attendance (§7): Wi-Fi BSSID fingerprint (primary),
+  # GPS (coarse campus sanity check), stable device id (device binding).
+  wifi_scan: ^0.4.1
+  geolocator: ^13.0.1
+  device_info_plus: ^11.1.0
+
+  # 3D + motion
+  model_viewer_plus: ^1.7.2      # real 3D glTF hand model (WebGL/SceneKit backed)
+  flutter_animate: ^4.5.0        # declarative, GPU-friendly transitions
+  vector_math: ^2.1.4            # depth/rotation math for the scan visualization
+
+  # Feedback / polish
+  vibration: ^2.0.0              # haptics on successful capture
+  permission_handler: ^11.3.1
+  google_fonts: ^6.2.1
+  intl: ^0.19.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  riverpod_generator: ^2.4.0
+  build_runner: ^2.4.11
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/models/deploy_config.json
+    - assets/models/palm_256_l2_fp32.onnx
+    - assets/3d/
+    - assets/parity/

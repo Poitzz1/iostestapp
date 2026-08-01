@@ -1,0 +1,213 @@
+rules_version = '2';
+
+// PalmPay Attendance — Firestore security rules (unified mobile app).
+//
+// The phone never decides attendance. `attendance` is written ONLY by the
+// submitAttendance Cloud Function (Admin SDK, which bypasses these rules);
+// clients are denied direct writes. These rules govern the mobile client SDK:
+// students touch only their own data, advisors manage only their own
+// sessions, and no client can read anyone else's palm embedding.
+//
+// Written-but-undeployed rules protect nothing — deploy with:
+//   firebase deploy --only firestore:rules
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Identity helpers ────────────────────────────────────────────────────
+
+    // Only @citchennai.net college accounts, and only verified ones, may
+    // touch any data. Mirrors AuthService.allowedDomain / the email-verify
+    // gate in the app; this is the real enforcement (the app UI can be
+    // bypassed). Keep in sync with lib/services/auth_service.dart.
+    function isAllowedDomain() {
+      return request.auth.token.email.lower().matches('^.*@citchennai[.]net$');
+    }
+    function isEmailVerified() {
+      return request.auth.token.email_verified == true;
+    }
+    function signedIn() {
+      return request.auth != null
+        && request.auth.token.email != null
+        && isAllowedDomain()
+        && isEmailVerified();
+    }
+
+    // Student id = uppercase local-part of the college email. Mirrors
+    // AuthService.studentIdFor — keep in sync.
+    function myStudentId() {
+      return request.auth.token.email.split('@')[0].upper();
+    }
+
+    // Advisor/admin role is a staff/{uid} document. Its presence is authority;
+    // `role` distinguishes "advisor" (manages their own section's sessions)
+    // from "admin" (can also fingerprint classrooms).
+    function staffDoc() {
+      return get(/databases/$(database)/documents/staff/$(request.auth.uid)).data;
+    }
+    function isStaff() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/staff/$(request.auth.uid));
+    }
+    function isAdmin() {
+      return isStaff() && staffDoc().role == 'admin';
+    }
+
+    // ── students/{student_id} — one profile+template per student ─────────────
+    //
+    // FIELD-LEVEL WRITES. A student may only ever touch their own biometric
+    // fields. Everything that decides *where and as whom they are verified* —
+    // section, assigned_classroom, department, year, student_id — and the
+    // device binding are writable ONLY by admins or the Cloud Functions
+    // (Admin SDK bypasses these rules entirely).
+    //
+    // Why this matters: if a student could edit `assigned_classroom` they
+    // would choose which classroom's Wi-Fi fingerprint they are validated
+    // against, which defeats the whole presence layer. Likewise a writable
+    // `bound_device_id` would let one phone re-bind itself per student and
+    // mark a whole section present.
+    match /students/{studentId} {
+      // Fields the student's own client may create/modify. `model_version`
+      // rides along with the embedding (it records which model produced it, and
+      // must change when the embedding is recaptured) so it is writable too —
+      // it carries no presence/identity authority. `created_at` is here too
+      // (not just creation-only): a roster doc created by assignStudent has no
+      // created_at yet, so the student's first enrollment ADDS it on what
+      // Firestore sees as an update (the doc already exists). Since created_at
+      // carries no gating authority either, it's safe to allow on update too —
+      // rejecting it here previously caused enrollment writes on top of a
+      // roster-only doc to silently fail (embedding never reached the server).
+      function studentWritableFields() {
+        return ['embedding', 'hand_side', 'model_version', 'consent',
+                'consent_at', 'updated_at', 'created_at'];
+      }
+      // Additionally permitted only at creation (identity is pinned to the
+      // caller's own derived id, so this is not a free choice).
+      function creationOnlyFields() {
+        return ['student_id'];
+      }
+
+      allow get: if (signedIn() && studentId == myStudentId()) || isStaff();
+
+      // No listing by ordinary clients (would expose every embedding). Staff
+      // may list for roster/marked views.
+      allow list: if isStaff();
+
+      // Create: only the biometric + consent fields, plus a student_id pinned
+      // to the caller. section / assigned_classroom / department / year /
+      // bound_device_id must be absent — they are provisioned by the seed
+      // script or set server-side.
+      allow create: if isAdmin() || (
+        signedIn()
+        && studentId == myStudentId()
+        && request.resource.data.keys()
+             .hasOnly(studentWritableFields().concat(creationOnlyFields()))
+        && request.resource.data.student_id == studentId
+        && isWellFormedStudent(request.resource.data, studentId)
+      );
+
+      // Update: whatever the client sends, only the writable fields may
+      // actually CHANGE. diff().affectedKeys() compares the incoming merged
+      // document against the stored one, so re-sending an unchanged
+      // section/assigned_classroom/bound_device_id is fine, but altering one
+      // is rejected.
+      // A student's own write must either be a complete, well-formed
+      // enrollment OR a biometric erasure (DPDP withdrawal). The erasure path
+      // exists because clearing the palm has to REMOVE the embedding, which by
+      // definition can't satisfy isWellFormedStudent's "embedding is a list of
+      // 256" check — without this the app's own delete would be rejected.
+      // Either way affectedKeys still bars any change to section /
+      // assigned_classroom / bound_device_id.
+      allow update: if isAdmin() || (
+        signedIn()
+        && studentId == myStudentId()
+        && request.resource.data.diff(resource.data).affectedKeys()
+             .hasOnly(studentWritableFields())
+        && (
+          isWellFormedStudent(request.resource.data, studentId)
+          || isBiometricErasure(request.resource.data)
+        )
+      );
+
+      // Deleting the whole document is NOT how a student erases their palm —
+      // that would also destroy the advisor-owned roster fields (section,
+      // assigned_classroom), dropping them from the roster permanently. The
+      // app clears the biometric fields instead (see isBiometricErasure).
+      // Only an admin may remove a student record outright.
+      allow delete: if isAdmin();
+    }
+
+    // A DPDP erasure: the embedding is gone and consent is withdrawn. The
+    // roster fields are untouched (enforced separately by affectedKeys), so
+    // the student stays on their section's roster and can re-enroll later.
+    function isBiometricErasure(data) {
+      return !('embedding' in data.keys()) && data.consent == false;
+    }
+
+    function isWellFormedStudent(data, studentId) {
+      return data.student_id == studentId
+        && (data.hand_side == 'left' || data.hand_side == 'right')
+        && data.consent == true
+        && data.embedding is list
+        && data.embedding.size() == 256
+        && data.model_version is string
+        && data.created_at is string
+        && data.updated_at is string
+        && data.consent_at is string;
+    }
+
+    // ── classrooms/{classroom_id} — read-only to clients, admin-writable ─────
+    match /classrooms/{classroomId} {
+      allow get, list: if signedIn();
+      allow create, update, delete: if isAdmin();
+    }
+
+    // ── attendance_sessions/{session_id} — advisor/admin managed ─────────────
+    match /attendance_sessions/{sessionId} {
+      // Any signed-in student may read sessions (to find the open one for
+      // their section). Only the owning advisor (or an admin) may create,
+      // modify, or close a session.
+      allow get, list: if signedIn();
+      allow create: if isStaff()
+        && request.resource.data.advisor_id == request.auth.uid;
+      allow update, delete: if isStaff()
+        && resource.data.advisor_id == request.auth.uid;
+    }
+
+    // ── attendance/{attendance_id} — Cloud-Function-written only ─────────────
+    match /attendance/{attendanceId} {
+      // Students read only their own records; staff read all (live marked
+      // list). NO client may write — only the Admin SDK (submitAttendance),
+      // which is not subject to these rules.
+      allow get, list: if (signedIn() && resource.data.student_id == myStudentId())
+        || isStaff();
+      // Advisors/admins may update the human-oversight fields (manual marking:
+      // absent / od / other) on records for a session, but cannot fabricate a
+      // "present" palm decision — that only comes from the function on create.
+      allow update: if isStaff();
+      allow create, delete: if false;
+    }
+
+    // ── nonces/{nonce} — issued and consumed by the Cloud Function only ──────
+    match /nonces/{nonce} {
+      allow read, write: if false;
+    }
+
+    // ── mail/{id} — outbound email queue for the Trigger Email extension ─────
+    // Written by assignStudent (Admin SDK) and consumed by the extension; no
+    // client should read or write it (verification links are sensitive).
+    match /mail/{id} {
+      allow read, write: if false;
+    }
+
+    // ── staff/{uid} — provisioned out-of-band (console/admin), read-only ─────
+    match /staff/{uid} {
+      allow get: if signedIn() && request.auth.uid == uid;
+      allow list, create, update, delete: if false;
+    }
+
+    // Deny everything else by default.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
