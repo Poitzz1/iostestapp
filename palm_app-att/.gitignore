@@ -55,3 +55,17 @@ functions/node_modules/
 functions/seed/seed-data.json
 **/serviceAccountKey*.json
 **/*-firebase-adminsdk-*.json
+
+# Palm data collector — export tooling
+tools/collector-export/node_modules/
+# Exported palm images and metadata. Raw biometric data must never be
+# committed: it is the most sensitive artifact this repo touches, and unlike a
+# leaked key it cannot be rotated.
+tools/collector-export/export/
+export/
+
+# Palm collector reset — pre-wipe backups contain raw biometric images.
+tools/collector-reset/node_modules/
+tools/collector-reset/backup/
+tools/demo-access/node_modules/
+tools/demo-access/secrets/

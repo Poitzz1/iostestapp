@@ -89,6 +89,28 @@ class PalmPreprocessor {
     return fromImage(rotated, palmRoi: palmRoi);
   }
 
+  // ── Collector-only accessors ────────────────────────────────────────────
+  //
+  // The data collector (`lib/collector/`) has to STORE the same pixels the
+  // model sees — the ROI crop is its primary artifact. These expose the
+  // existing decode/crop steps verbatim so the collector cannot drift from the
+  // v4 training crop by reimplementing the geometry. They add no behaviour and
+  // are not called from the enrollment or attendance path.
+
+  /// The decoded, rotated RGB image a live frame produces — i.e. exactly what
+  /// [fromCameraImage] crops before it resizes.
+  img.Image decodeFrame(CameraImage frame, {int rotationDegrees = 0}) {
+    final rgb = _cameraImageToRgb(frame);
+    return rotationDegrees == 0
+        ? rgb
+        : img.copyRotate(rgb, angle: rotationDegrees);
+  }
+
+  /// The crop [fromImage] would take: the landmark ROI when [palmRoi] is
+  /// given, the centre square otherwise (the training-pipeline fallback).
+  img.Image cropForEmbedding(img.Image src, {PalmRoi? palmRoi}) =>
+      palmRoi != null ? _cropPalmRoi(src, palmRoi) : _centerCropSquare(src);
+
   img.Image _centerCropSquare(img.Image src) {
     final side = math.min(src.width, src.height);
     final x = ((src.width - side) / 2).round();

@@ -34,9 +34,11 @@ dependencies:
   cloud_firestore: ^5.4.4
   cloud_functions: ^5.1.3
 
+
   # Local-first persistence (offline enrollment, background sync)
   shared_preferences: ^2.3.2
   connectivity_plus: ^6.0.5
+
 
   # Presence signals for attendance (§7): Wi-Fi BSSID fingerprint (primary),
   # GPS (coarse campus sanity check), stable device id (device binding).

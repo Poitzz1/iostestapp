@@ -1,0 +1,16 @@
+{
+  "name": "palm-demo-access",
+  "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+  "description": "Opens and closes the production pilot-section allowlist for a one-off staff demo. Saves the pre-demo value so --close restores it exactly.",
+  "engines": { "node": ">=20" },
+  "main": "demo.js",
+  "scripts": {
+    "status": "node demo.js --status",
+    "close": "node demo.js --close"
+  },
+  "dependencies": {
+    "firebase-admin": "^12.6.0"
+  }
+}

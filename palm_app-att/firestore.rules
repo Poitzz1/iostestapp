@@ -76,6 +76,16 @@ service cloud.firestore {
       // carries no gating authority either, it's safe to allow on update too —
       // rejecting it here previously caused enrollment writes on top of a
       // roster-only doc to silently fail (embedding never reached the server).
+      //
+      // NOT in this list, deliberately: `collector_subject_ids` and
+      // `collector_linked_at`. Those map a student to their pseudonymous
+      // subject_id(s) in the SEPARATE palm-data-collector Firebase project
+      // (ADDON §5), and they are the only thread linking a collected palm image
+      // back to a person. They are written exclusively by the
+      // `linkCollectorSubject` Cloud Function via the Admin SDK. A student's own
+      // client cannot add, change or clear them — a writable mapping would let
+      // someone attach their samples to another student's record, or detach
+      // their own so a removal request could never find them.
       function studentWritableFields() {
         return ['embedding', 'hand_side', 'model_version', 'consent',
                 'consent_at', 'updated_at', 'created_at'];

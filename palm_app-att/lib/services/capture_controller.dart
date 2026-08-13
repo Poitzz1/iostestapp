@@ -162,6 +162,15 @@ class CaptureController {
   bool _running = false;
   int _sensorOrientation = 0;
 
+  // ── Timing instrumentation (local-only; see README addon on capture perf) ──
+  //
+  // Debug-only per-stage timings so a slow/unreliable capture can be diagnosed
+  // from real numbers instead of guessing which stage dominates. Nothing here
+  // is sent anywhere — it's a debugPrint, stripped from release builds by the
+  // kDebugMode check.
+  Stopwatch? _sessionClock;
+  int _framesSeenThisPass = 0;
+
   // Paced acceptance: a stationary, well-lit palm passes every gate on almost
   // every camera tick (~30fps), so without this a whole 8-frame pass lands in
   // well under a second — visually instant, and the frames are so close in
@@ -290,6 +299,8 @@ class CaptureController {
     _busy = false;
     _running = true;
     _sensorOrientation = sensorOrientation;
+    _sessionClock = Stopwatch()..start();
+    _framesSeenThisPass = 0;
     _emit(CaptureProgress(
       phase: CapturePhase.capturing,
       goodFrames: 0,
@@ -319,10 +330,20 @@ class CaptureController {
   }
 
   Future<void> _process(CameraImage frame) async {
+    final frameClock = Stopwatch()..start();
+    _framesSeenThisPass++;
+    final stageUs = <String, int>{};
+    // Time from the previous call to onFrame() reaching us here — the closest
+    // proxy this stream-based pipeline has to "camera_frame_acquire_ms" (there
+    // is no shutter round-trip to measure; frames arrive continuously from
+    // camera.startImageStream).
     try {
       // ── Step 1: Quality gate ──────────────────────────────────────────────
+      final gateClock = Stopwatch()..start();
       final q = gate.evaluate(frame);
+      stageUs['quality_gate_us'] = gateClock.elapsedMicroseconds;
       if (!q.passed) {
+        _logFrame(frameClock, stageUs, 'quality_gate:${q.issue.name}');
         _emit(CaptureProgress(
           phase: CapturePhase.capturing,
           goodFrames: _embeddings.length,
@@ -336,8 +357,12 @@ class CaptureController {
       }
 
       // ── Step 2: Hand detection (must be an OPEN palm) ─────────────────────
+      final detectClock = Stopwatch()..start();
       final det = await handDetector.detect(frame, rotationDegrees: _sensorOrientation);
+      stageUs['hand_detect_us'] = detectClock.elapsedMicroseconds;
       if (!det.present || !det.openPalm) {
+        _logFrame(frameClock, stageUs,
+            det.present ? 'not_open_palm' : 'no_hand');
         _emit(CaptureProgress(
           phase: CapturePhase.capturing,
           goodFrames: _embeddings.length,
@@ -358,6 +383,7 @@ class CaptureController {
       // don't accept a single frame until the measured pose actually shows it.
       final poseHint = _poseHint(det.roi);
       if (poseHint != null) {
+        _logFrame(frameClock, stageUs, 'pose_hint');
         _emit(CaptureProgress(
           phase: CapturePhase.capturing,
           goodFrames: _embeddings.length,
@@ -377,6 +403,7 @@ class CaptureController {
       _frameCount++;
 
       if (!motionResult.passed && _frameCount > LivenessDetector.warmupFrames) {
+        _logFrame(frameClock, stageUs, 'liveness_motion:${motionResult.issue.name}');
         _emit(CaptureProgress(
           phase: CapturePhase.capturing,
           goodFrames: _embeddings.length,
@@ -393,6 +420,7 @@ class CaptureController {
       // ── Step 4: Liveness — texture analysis ───────────────────────────────
       final textureResult = liveness.evaluateTexture(frame);
       if (!textureResult.passed) {
+        _logFrame(frameClock, stageUs, 'liveness_texture:${textureResult.issue.name}');
         _emit(CaptureProgress(
           phase: CapturePhase.capturing,
           goodFrames: _embeddings.length,
@@ -412,6 +440,7 @@ class CaptureController {
       // last one — see the field doc on _minFrameGap for why this matters.
       final now = DateTime.now();
       if (_lastAcceptedAt != null && now.difference(_lastAcceptedAt!) < _minFrameGap) {
+        _logFrame(frameClock, stageUs, 'paced_out');
         _emit(CaptureProgress(
           phase: CapturePhase.capturing,
           goodFrames: _embeddings.length,
@@ -431,12 +460,22 @@ class CaptureController {
       // v4 retrain was done to remove. `det.roi` is null only when MediaPipe
       // found no hand, in which case the preprocessor falls back to a centre
       // square — the same fallback the training pipeline uses.
+      //
+      // NOTE: pre.fromCameraImage does YUV->RGB decode, crop, and resize in one
+      // call — roi_crop_ms and preprocess_ms (per the addon's instrumentation
+      // spec) are not separable without splitting that method, so both are
+      // reported together here as preprocess_us.
+      final preprocessClock = Stopwatch()..start();
       final tensor = pre.fromCameraImage(
         frame,
         rotationDegrees: _sensorOrientation,
         palmRoi: det.roi,
       );
+      stageUs['preprocess_us'] = preprocessClock.elapsedMicroseconds;
+
+      final inferenceClock = Stopwatch()..start();
       final emb = model.embed(tensor); // already L2-normalized by the graph
+      stageUs['inference_us'] = inferenceClock.elapsedMicroseconds;
 
       // ── Step 6: Liveness — embedding variance check ───────────────────────
       final embResult = liveness.evaluateEmbeddingVariance(emb, _previousEmbedding);
@@ -444,6 +483,7 @@ class CaptureController {
 
       if (!embResult.passed) {
         // Don't add this embedding — it's either static (spoof) or too different.
+        _logFrame(frameClock, stageUs, 'liveness_embedding:${embResult.issue.name}');
         _emit(CaptureProgress(
           phase: CapturePhase.capturing,
           goodFrames: _embeddings.length,
@@ -458,6 +498,7 @@ class CaptureController {
       }
 
       // ── All checks passed — accept frame ──────────────────────────────────
+      _logFrame(frameClock, stageUs, 'accepted');
       _embeddings.add(emb);
       _lastAcceptedAt = now;
       // Pose samples for this pass — pass 1's mean becomes the baseline the
@@ -497,6 +538,12 @@ class CaptureController {
       }
       _passSizes.clear();
       _passRatios.clear();
+
+      if (kDebugMode) {
+        debugPrint('[capture-timing] pass=$_pass frames_needed_to_complete='
+            '$_framesSeenThisPass (target=$maxFrames)');
+      }
+      _framesSeenThisPass = 0;
 
       final allPassesDone = _passTemplates.length >= _passesThisRun;
       if (!allPassesDone) {
@@ -540,6 +587,12 @@ class CaptureController {
 
       // All passes done: average the per-pass templates into the final one.
       _finalTemplate = EmbeddingMath.buildTemplate(_passTemplates);
+      if (kDebugMode) {
+        debugPrint('[capture-timing] total_session_ms='
+            '${_sessionClock?.elapsedMilliseconds} passes=$_passesThisRun '
+            'frames_per_pass=$maxFrames');
+      }
+      _sessionClock?.stop();
       _emit(CaptureProgress(
         phase: CapturePhase.done,
         goodFrames: maxFrames,
@@ -583,6 +636,19 @@ class CaptureController {
 
   void _emit(CaptureProgress p) {
     if (!_progress.isClosed) _progress.add(p);
+  }
+
+  /// Debug-only per-frame timing log — see the field docs above [_sessionClock].
+  /// [exit] names which stage the frame left the pipeline at (a gate name, or
+  /// 'accepted'); [stageUs] holds whichever of quality_gate_us / hand_detect_us
+  /// / preprocess_us / inference_us actually ran before that exit.
+  void _logFrame(Stopwatch frameClock, Map<String, int> stageUs, String exit) {
+    if (!kDebugMode) return;
+    final parts = stageUs.entries
+        .map((e) => '${e.key}=${(e.value / 1000).toStringAsFixed(1)}ms')
+        .join(' ');
+    debugPrint('[capture-timing] exit=$exit total_per_frame_ms='
+        '${frameClock.elapsedMilliseconds} $parts');
   }
 
   void dispose() {

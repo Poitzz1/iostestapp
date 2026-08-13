@@ -1,6 +1,31 @@
 # PalmPay Attendance — Mobile App
 
+> ## 🚧 THIS BUILD: attendance is OFF; the data collector is the only feature
+>
+> `AppMode.productionAttendanceEnabled` is **false**
+> ([`lib/config/app_mode.dart`](lib/config/app_mode.dart)). Palm enrollment and
+> attendance marking are switched off **for everyone — students and advisors
+> alike** — and every route into them resolves to a "coming soon" screen. The
+> gate is applied at the route table, not by hiding buttons: a route that can be
+> reached by name will be.
+>
+> Nothing has been deleted. Every screen, service, Cloud Function and security
+> rule below is still present and still correct. Flip the one flag to bring the
+> flow back.
+>
+> What users *can* reach is the **in-app palm data collector**
+> ([`lib/collector/`](lib/collector/README.md)) — the module that captures the
+> real-world data needed to fix the ~14% false-accept rate described below.
+> Sign-in and email verification stay live, because the collector stores its
+> pseudonymous `subject_id` mapping on the student's production record.
+>
+> **Advisors keep marking attendance manually** in the meantime, exactly as they
+> already do as the pilot's backstop.
+
 > ## ⚠️ SUPERVISED PILOT — not production-grade security
+>
+> *(Applies to the attendance flow described in this document, which is
+> currently switched off — see above.)*
 >
 > This is a **scoped pilot on 1–2 sections**, not a campus-wide rollout, and
 > the palm layer is **not a standalone gate**. Measured on real phone photos of

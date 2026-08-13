@@ -136,6 +136,7 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
+
   Widget _notEnrolled(BuildContext context, StudentProfile? profile) {
     final section = profile?.section;
     // Enrolled, but under a superseded model — a materially different state

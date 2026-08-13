@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -37,6 +38,21 @@ void main() async {
 class PalmPayApp extends StatelessWidget {
   const PalmPayApp({super.key});
 
+  static final Map<String, WidgetBuilder> _routes = {
+    '/': (_) => const SplashScreen(),
+    '/signin': (_) => const SignInScreen(),
+    '/verify-email': (_) => const VerifyEmailScreen(),
+    '/home': (_) => const HomeScreen(),
+    '/consent': (_) => const ConsentScreen(),
+    '/hand-select': (_) => const HandSelectScreen(),
+    '/capture': (_) => const CaptureScreen(),
+    '/success': (_) => const EnrollmentSuccessScreen(),
+    '/attendance': (_) => const AttendanceScreen(),
+    '/advisor': (_) => const AdvisorHomeScreen(),
+    '/assign-students': (_) => const AssignStudentScreen(),
+    '/wifi-fingerprint': (_) => const WifiFingerprintScreen(),
+  };
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -44,20 +60,13 @@ class PalmPayApp extends StatelessWidget {
       theme: AppTheme.darkTheme,
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
-      routes: {
-        '/': (context) => const SplashScreen(),
-        '/signin': (context) => const SignInScreen(),
-        '/verify-email': (context) => const VerifyEmailScreen(),
-        '/consent': (context) => const ConsentScreen(),
-        '/hand-select': (context) => const HandSelectScreen(),
-        '/capture': (context) => const CaptureScreen(),
-        '/success': (context) => const EnrollmentSuccessScreen(),
-        '/home': (context) => const HomeScreen(),
-        '/attendance': (context) => const AttendanceScreen(),
-        '/advisor': (context) => const AdvisorHomeScreen(),
-        '/assign-students': (context) => const AssignStudentScreen(),
-        '/wifi-fingerprint': (context) => const WifiFingerprintScreen(),
-      },
+      routes: _routes,
+      // An unknown route name lands somewhere real rather than on a blank
+      // "route not found" error page.
+      onUnknownRoute: (settings) => MaterialPageRoute(
+        builder: (_) => const SplashScreen(),
+        settings: settings,
+      ),
     );
   }
 }

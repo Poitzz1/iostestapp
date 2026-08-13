@@ -65,4 +65,57 @@ void main() {
       );
     });
   });
+
+
+  group('MediaPipeHandDetector.isPlausibleHand — foot rejection', () {
+    /// Builds 21 landmarks with a given palm length and finger length, laid out
+    /// vertically. Only the proportions matter to the check under test.
+    List<Point<double>> shape({
+      required double palm,
+      required double finger,
+    }) {
+      final lm = List<Point<double>>.filled(21, const Point(0, 0));
+      // wrist at origin, middle knuckle `palm` above it.
+      lm[0] = const Point(0, 0);
+      lm[9] = Point(0, -palm);
+      lm[12] = Point(0, -palm - finger); // middle tip
+      // Other knuckles level with the middle one, tips `finger` beyond.
+      for (final (mcp, tip, dx) in [(5, 8, -20.0), (13, 16, 20.0), (17, 20, 40.0)]) {
+        lm[mcp] = Point(dx, -palm);
+        lm[tip] = Point(dx, -palm - finger);
+      }
+      return lm;
+    }
+
+    test('a hand — fingers about as long as the palm — is plausible', () {
+      expect(MediaPipeHandDetector.isPlausibleHand(
+          shape(palm: 100, finger: 95)), isTrue);
+      expect(MediaPipeHandDetector.isPlausibleHand(
+          shape(palm: 100, finger: 120)), isTrue);
+    });
+
+    test('a FOOT — stubby toes on a long sole — is rejected', () {
+      // This is the real defect: MediaPipe fires on feet, and the extended-
+      // finger test passes because spread toes look like spread fingers.
+      // Proportion is what tells them apart.
+      expect(MediaPipeHandDetector.isPlausibleHand(
+          shape(palm: 100, finger: 30)), isFalse);
+      expect(MediaPipeHandDetector.isPlausibleHand(
+          shape(palm: 100, finger: 45)), isFalse);
+    });
+
+    test('the check is scale-invariant — distance from camera is irrelevant', () {
+      // Same proportions, ten times smaller (an arm at full extension).
+      expect(MediaPipeHandDetector.isPlausibleHand(
+          shape(palm: 10, finger: 9.5)), isTrue);
+      expect(MediaPipeHandDetector.isPlausibleHand(
+          shape(palm: 10, finger: 3.0)), isFalse);
+    });
+
+    test('degenerate input is rejected rather than throwing', () {
+      expect(MediaPipeHandDetector.isPlausibleHand(const []), isFalse);
+      expect(MediaPipeHandDetector.isPlausibleHand(
+          shape(palm: 0, finger: 50)), isFalse);
+    });
+  });
 }
