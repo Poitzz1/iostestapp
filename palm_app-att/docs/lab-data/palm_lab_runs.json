@@ -1,0 +1,4240 @@
+[
+  {
+    "id": "SIUNP6ZZ2ejr5n5rCSbU",
+    "measured": {
+      "luma_mean": 99.702,
+      "size": 0.4286,
+      "frames": 16,
+      "tilt_deg": 3.8465,
+      "blowout_mean": 0,
+      "pose_ratio": 0.727,
+      "luma_std": 1.884
+    },
+    "tilt_delta": 2.4364999999999997,
+    "model_version": "palm_256_l2_fp32_v5",
+    "template_conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "bright"
+    },
+    "hand_side": "right",
+    "threshold": 0.5508,
+    "pose_ratio_delta": -0.0020999999999999908,
+    "score": 0.893078973044989,
+    "at": "2026-08-16T19:47:49.082416",
+    "luma_delta": 0.5210000000000008,
+    "passed": true,
+    "size_delta": -0.006400000000000017,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "bright"
+    },
+    "template_measured": {
+      "luma_mean": 99.181,
+      "size": 0.435,
+      "frames": 32,
+      "tilt_deg": 1.41,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7291,
+      "luma_std": 0.836
+    },
+    "template_enrolled_at": "2026-08-16T19:47:35.255384",
+    "synced_at": "2026-08-16T19:47:49.114505"
+  },
+  {
+    "id": "kTo8K2twiRYRUPOmdQom",
+    "measured": {
+      "luma_mean": 105.371,
+      "size": 0.3833,
+      "frames": 16,
+      "tilt_deg": 8.0687,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7529,
+      "luma_std": 0.709
+    },
+    "tilt_delta": 6.6587,
+    "model_version": "palm_256_l2_fp32_v5",
+    "template_conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "bright"
+    },
+    "hand_side": "right",
+    "threshold": 0.5508,
+    "pose_ratio_delta": 0.023800000000000043,
+    "score": 0.6038074815182974,
+    "at": "2026-08-16T19:48:26.911269",
+    "luma_delta": 6.189999999999998,
+    "passed": true,
+    "size_delta": -0.051700000000000024,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "level",
+      "facing": "side_on",
+      "lighting": "normal"
+    },
+    "template_measured": {
+      "luma_mean": 99.181,
+      "size": 0.435,
+      "frames": 32,
+      "tilt_deg": 1.41,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7291,
+      "luma_std": 0.836
+    },
+    "template_enrolled_at": "2026-08-16T19:47:35.255384",
+    "synced_at": "2026-08-16T19:48:26.947998"
+  },
+  {
+    "id": "c1x5tMEna25YLP2MFKLl",
+    "measured": {
+      "luma_mean": 96.978,
+      "size": 0.4428,
+      "frames": 16,
+      "tilt_deg": 3.9801,
+      "blowout_mean": 0.008,
+      "pose_ratio": 0.7247,
+      "luma_std": 0.6
+    },
+    "tilt_delta": 2.5701,
+    "model_version": "palm_256_l2_fp32_v5",
+    "template_conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "bright"
+    },
+    "hand_side": "right",
+    "threshold": 0.5508,
+    "pose_ratio_delta": -0.0043999999999999595,
+    "score": 0.7166329430722119,
+    "at": "2026-08-16T19:48:56.406703",
+    "luma_delta": -2.203000000000003,
+    "passed": true,
+    "size_delta": 0.007800000000000029,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "down",
+      "facing": "toward_light",
+      "lighting": "mixed"
+    },
+    "template_measured": {
+      "luma_mean": 99.181,
+      "size": 0.435,
+      "frames": 32,
+      "tilt_deg": 1.41,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7291,
+      "luma_std": 0.836
+    },
+    "template_enrolled_at": "2026-08-16T19:47:35.255384",
+    "synced_at": "2026-08-16T19:48:56.434122"
+  },
+  {
+    "id": "FLstTtLT1FLhrrNxLJpm",
+    "measured": {
+      "luma_mean": 72.298,
+      "size": 0.4285,
+      "frames": 16,
+      "tilt_deg": 7.666,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7322,
+      "luma_std": 2.815
+    },
+    "tilt_delta": 6.256,
+    "model_version": "palm_256_l2_fp32_v5",
+    "template_conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "bright"
+    },
+    "hand_side": "right",
+    "threshold": 0.5508,
+    "pose_ratio_delta": 0.0030999999999999917,
+    "score": 0.46705502406533883,
+    "at": "2026-08-16T19:49:28.378343",
+    "luma_delta": -26.882999999999996,
+    "passed": false,
+    "size_delta": -0.006500000000000006,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "down",
+      "facing": "away_from_light",
+      "lighting": "dim"
+    },
+    "template_measured": {
+      "luma_mean": 99.181,
+      "size": 0.435,
+      "frames": 32,
+      "tilt_deg": 1.41,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7291,
+      "luma_std": 0.836
+    },
+    "template_enrolled_at": "2026-08-16T19:47:35.255384",
+    "synced_at": "2026-08-16T19:49:28.384023"
+  },
+  {
+    "id": "BhbTSnJhDVAWRyjUHA1B",
+    "measured": {
+      "luma_mean": 99.392,
+      "size": 0.4258,
+      "frames": 16,
+      "tilt_deg": 6.4785,
+      "blowout_mean": 0.001,
+      "pose_ratio": 0.7364,
+      "luma_std": 3.239
+    },
+    "tilt_delta": 5.0685,
+    "model_version": "palm_256_l2_fp32_v5",
+    "template_conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "bright"
+    },
+    "hand_side": "right",
+    "threshold": 0.5508,
+    "pose_ratio_delta": 0.007300000000000084,
+    "score": 0.38379843904749394,
+    "at": "2026-08-16T19:50:18.925523",
+    "luma_delta": 0.21099999999999852,
+    "passed": false,
+    "size_delta": -0.009199999999999986,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "toward_light",
+      "lighting": "bright"
+    },
+    "template_measured": {
+      "luma_mean": 99.181,
+      "size": 0.435,
+      "frames": 32,
+      "tilt_deg": 1.41,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7291,
+      "luma_std": 0.836
+    },
+    "template_enrolled_at": "2026-08-16T19:47:35.255384",
+    "synced_at": "2026-08-16T19:50:18.929167"
+  },
+  {
+    "id": "cEawhDLMLcpdQEXY9Kwc",
+    "measured": {
+      "luma_mean": 96.418,
+      "size": 0.421,
+      "frames": 16,
+      "tilt_deg": 5.8455,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7299,
+      "luma_std": 1.784
+    },
+    "tilt_delta": 4.4355,
+    "model_version": "palm_256_l2_fp32_v5",
+    "template_conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "bright"
+    },
+    "hand_side": "right",
+    "threshold": 0.5508,
+    "pose_ratio_delta": 0.0008000000000000229,
+    "score": 0.9226368901309013,
+    "at": "2026-08-16T19:56:10.741055",
+    "luma_delta": -2.762999999999991,
+    "passed": true,
+    "size_delta": -0.014000000000000012,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "bright"
+    },
+    "template_measured": {
+      "luma_mean": 99.181,
+      "size": 0.435,
+      "frames": 32,
+      "tilt_deg": 1.41,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7291,
+      "luma_std": 0.836
+    },
+    "template_enrolled_at": "2026-08-16T19:47:35.255384",
+    "synced_at": "2026-08-16T19:56:10.768255"
+  },
+  {
+    "id": "pMIvzrlUgoy3ejzFi6Te",
+    "measured": {
+      "luma_mean": 96.439,
+      "size": 0.4612,
+      "frames": 16,
+      "tilt_deg": 9.5094,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7311,
+      "luma_std": 2.059
+    },
+    "tilt_delta": 8.0994,
+    "model_version": "palm_256_l2_fp32_v5",
+    "template_conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "bright"
+    },
+    "hand_side": "right",
+    "threshold": 0.5508,
+    "pose_ratio_delta": 0.0020000000000000018,
+    "score": 0.90506351546511,
+    "at": "2026-08-16T19:56:27.191724",
+    "luma_delta": -2.7420000000000044,
+    "passed": true,
+    "size_delta": 0.0262,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "bright"
+    },
+    "template_measured": {
+      "luma_mean": 99.181,
+      "size": 0.435,
+      "frames": 32,
+      "tilt_deg": 1.41,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7291,
+      "luma_std": 0.836
+    },
+    "template_enrolled_at": "2026-08-16T19:47:35.255384",
+    "synced_at": "2026-08-16T19:56:27.198366"
+  },
+  {
+    "id": "5J4AWhOQC6zp0jmOrcs8",
+    "measured": {
+      "luma_mean": 97.834,
+      "size": 0.4537,
+      "frames": 16,
+      "tilt_deg": 9.0828,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7262,
+      "luma_std": 1.665
+    },
+    "tilt_delta": 7.6728000000000005,
+    "model_version": "palm_256_l2_fp32_v5",
+    "template_conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "bright"
+    },
+    "hand_side": "right",
+    "threshold": 0.5508,
+    "pose_ratio_delta": -0.0029000000000000137,
+    "score": 0.9125948241325915,
+    "at": "2026-08-16T19:56:38.682315",
+    "luma_delta": -1.3469999999999942,
+    "passed": true,
+    "size_delta": 0.018699999999999994,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "bright"
+    },
+    "template_measured": {
+      "luma_mean": 99.181,
+      "size": 0.435,
+      "frames": 32,
+      "tilt_deg": 1.41,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7291,
+      "luma_std": 0.836
+    },
+    "template_enrolled_at": "2026-08-16T19:47:35.255384",
+    "synced_at": "2026-08-16T19:56:38.710607"
+  },
+  {
+    "id": "ZMNeuTGxsflua0UgFYWB",
+    "measured": {
+      "luma_mean": 95.797,
+      "size": 0.4273,
+      "frames": 16,
+      "tilt_deg": 7.3874,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7326,
+      "luma_std": 1.439
+    },
+    "tilt_delta": 5.9774,
+    "model_version": "palm_256_l2_fp32_v5",
+    "template_conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "bright"
+    },
+    "hand_side": "right",
+    "threshold": 0.5508,
+    "pose_ratio_delta": 0.0035000000000000586,
+    "score": 0.9285118372829896,
+    "at": "2026-08-16T19:56:59.860151",
+    "luma_delta": -3.3840000000000003,
+    "passed": true,
+    "size_delta": -0.007699999999999985,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "bright"
+    },
+    "template_measured": {
+      "luma_mean": 99.181,
+      "size": 0.435,
+      "frames": 32,
+      "tilt_deg": 1.41,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7291,
+      "luma_std": 0.836
+    },
+    "template_enrolled_at": "2026-08-16T19:47:35.255384",
+    "synced_at": "2026-08-16T19:56:59.887622"
+  },
+  {
+    "id": "6nlY58pPclNg6izBd03a",
+    "measured": {
+      "luma_mean": 98.75,
+      "size": 0.424,
+      "frames": 16,
+      "tilt_deg": 7.3547,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7145,
+      "luma_std": 0.839
+    },
+    "tilt_delta": 5.9447,
+    "model_version": "palm_256_l2_fp32_v5",
+    "template_conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "bright"
+    },
+    "hand_side": "right",
+    "threshold": 0.5508,
+    "pose_ratio_delta": -0.014599999999999946,
+    "score": 0.7372673791203526,
+    "at": "2026-08-16T19:58:07.972618",
+    "luma_delta": -0.4309999999999974,
+    "passed": true,
+    "size_delta": -0.01100000000000001,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "level",
+      "facing": "side_on",
+      "lighting": "normal"
+    },
+    "template_measured": {
+      "luma_mean": 99.181,
+      "size": 0.435,
+      "frames": 32,
+      "tilt_deg": 1.41,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7291,
+      "luma_std": 0.836
+    },
+    "template_enrolled_at": "2026-08-16T19:47:35.255384",
+    "synced_at": "2026-08-16T19:58:07.994500"
+  },
+  {
+    "id": "FnxWFa1siZRpZJ5fVLkO",
+    "measured": {
+      "luma_mean": 102.355,
+      "size": 0.453,
+      "frames": 16,
+      "tilt_deg": 25.1336,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7198,
+      "luma_std": 4.307
+    },
+    "tilt_delta": 23.7236,
+    "model_version": "palm_256_l2_fp32_v5",
+    "template_conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "bright"
+    },
+    "hand_side": "right",
+    "threshold": 0.5508,
+    "pose_ratio_delta": -0.009299999999999975,
+    "score": 0.7181296575504208,
+    "at": "2026-08-16T19:58:43.593140",
+    "luma_delta": 3.1740000000000066,
+    "passed": true,
+    "size_delta": 0.018000000000000016,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "level",
+      "facing": "side_on",
+      "lighting": "normal"
+    },
+    "template_measured": {
+      "luma_mean": 99.181,
+      "size": 0.435,
+      "frames": 32,
+      "tilt_deg": 1.41,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7291,
+      "luma_std": 0.836
+    },
+    "template_enrolled_at": "2026-08-16T19:47:35.255384",
+    "synced_at": "2026-08-16T19:58:43.596959"
+  },
+  {
+    "id": "E57fHhpsepSMSmPukDSQ",
+    "measured": {
+      "luma_mean": 105.099,
+      "size": 0.3916,
+      "frames": 16,
+      "tilt_deg": 12.121,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7376,
+      "luma_std": 2.732
+    },
+    "tilt_delta": 10.711,
+    "model_version": "palm_256_l2_fp32_v5",
+    "template_conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "bright"
+    },
+    "hand_side": "right",
+    "threshold": 0.5508,
+    "pose_ratio_delta": 0.008500000000000063,
+    "score": 0.7003509365777814,
+    "at": "2026-08-16T19:59:28.254622",
+    "luma_delta": 5.918000000000006,
+    "passed": true,
+    "size_delta": -0.043399999999999994,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "level",
+      "facing": "side_on",
+      "lighting": "normal"
+    },
+    "template_measured": {
+      "luma_mean": 99.181,
+      "size": 0.435,
+      "frames": 32,
+      "tilt_deg": 1.41,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7291,
+      "luma_std": 0.836
+    },
+    "template_enrolled_at": "2026-08-16T19:47:35.255384",
+    "synced_at": "2026-08-16T19:59:28.260644"
+  },
+  {
+    "id": "WC7CNava9e0YA2z5QkpF",
+    "measured": {
+      "luma_mean": 101.526,
+      "size": 0.3825,
+      "frames": 16,
+      "tilt_deg": 64.2638,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7485,
+      "luma_std": 4.064
+    },
+    "tilt_delta": 62.85380000000001,
+    "model_version": "palm_256_l2_fp32_v5",
+    "template_conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "bright"
+    },
+    "hand_side": "right",
+    "threshold": 0.5508,
+    "pose_ratio_delta": 0.019400000000000084,
+    "score": 0.6620202663352271,
+    "at": "2026-08-16T19:59:44.283893",
+    "luma_delta": 2.344999999999999,
+    "passed": true,
+    "size_delta": -0.05249999999999999,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "level",
+      "facing": "side_on",
+      "lighting": "normal"
+    },
+    "template_measured": {
+      "luma_mean": 99.181,
+      "size": 0.435,
+      "frames": 32,
+      "tilt_deg": 1.41,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7291,
+      "luma_std": 0.836
+    },
+    "template_enrolled_at": "2026-08-16T19:47:35.255384",
+    "synced_at": "2026-08-16T19:59:44.290237"
+  },
+  {
+    "id": "w5YNIpH95DfVnf3t8gWv",
+    "measured": {
+      "luma_mean": 108.162,
+      "size": 0.3765,
+      "frames": 16,
+      "tilt_deg": 24.4421,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7516,
+      "luma_std": 0.37
+    },
+    "tilt_delta": 23.0321,
+    "model_version": "palm_256_l2_fp32_v5",
+    "template_conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "bright"
+    },
+    "hand_side": "right",
+    "threshold": 0.5508,
+    "pose_ratio_delta": 0.022500000000000075,
+    "score": 0.6519556768013235,
+    "at": "2026-08-16T20:00:04.731545",
+    "luma_delta": 8.981000000000009,
+    "passed": true,
+    "size_delta": -0.058499999999999996,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "level",
+      "facing": "side_on",
+      "lighting": "normal"
+    },
+    "template_measured": {
+      "luma_mean": 99.181,
+      "size": 0.435,
+      "frames": 32,
+      "tilt_deg": 1.41,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7291,
+      "luma_std": 0.836
+    },
+    "template_enrolled_at": "2026-08-16T19:47:35.255384",
+    "synced_at": "2026-08-16T20:00:04.735671"
+  },
+  {
+    "id": "RhzU2czL8nqcd2iU4Cc6",
+    "measured": {
+      "luma_mean": 107.903,
+      "size": 0.3947,
+      "frames": 16,
+      "tilt_deg": 21.9993,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7705,
+      "luma_std": 0.512
+    },
+    "tilt_delta": 20.5893,
+    "model_version": "palm_256_l2_fp32_v5",
+    "template_conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "bright"
+    },
+    "hand_side": "right",
+    "threshold": 0.5508,
+    "pose_ratio_delta": 0.04139999999999999,
+    "score": 0.5913232586542606,
+    "at": "2026-08-16T20:00:19.893855",
+    "luma_delta": 8.722000000000008,
+    "passed": true,
+    "size_delta": -0.0403,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "level",
+      "facing": "side_on",
+      "lighting": "normal"
+    },
+    "template_measured": {
+      "luma_mean": 99.181,
+      "size": 0.435,
+      "frames": 32,
+      "tilt_deg": 1.41,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7291,
+      "luma_std": 0.836
+    },
+    "template_enrolled_at": "2026-08-16T19:47:35.255384",
+    "synced_at": "2026-08-16T20:00:19.899993"
+  },
+  {
+    "id": "JwDJAU5hL3G25kZhcVSw",
+    "measured": {
+      "luma_mean": 103.29,
+      "size": 0.4196,
+      "frames": 16,
+      "tilt_deg": 29.1087,
+      "blowout_mean": 0.001,
+      "pose_ratio": 0.7386,
+      "luma_std": 1.509
+    },
+    "tilt_delta": 27.6987,
+    "model_version": "palm_256_l2_fp32_v5",
+    "template_conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "bright"
+    },
+    "hand_side": "right",
+    "threshold": 0.5508,
+    "pose_ratio_delta": 0.009500000000000064,
+    "score": 0.4749408154273292,
+    "at": "2026-08-16T20:01:31.856137",
+    "luma_delta": 4.109000000000009,
+    "passed": false,
+    "size_delta": -0.015400000000000025,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "level",
+      "facing": "toward_light",
+      "lighting": "bright"
+    },
+    "template_measured": {
+      "luma_mean": 99.181,
+      "size": 0.435,
+      "frames": 32,
+      "tilt_deg": 1.41,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7291,
+      "luma_std": 0.836
+    },
+    "template_enrolled_at": "2026-08-16T19:47:35.255384",
+    "synced_at": "2026-08-16T20:01:31.882141"
+  },
+  {
+    "id": "zZkxdg0WW4gfRwGAiXIc",
+    "measured": {
+      "luma_mean": 97.345,
+      "size": 0.4095,
+      "frames": 16,
+      "tilt_deg": 32.9368,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7374,
+      "luma_std": 0.655
+    },
+    "tilt_delta": 31.526799999999998,
+    "model_version": "palm_256_l2_fp32_v5",
+    "template_conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "bright"
+    },
+    "hand_side": "right",
+    "threshold": 0.5508,
+    "pose_ratio_delta": 0.008300000000000085,
+    "score": 0.5217201196904441,
+    "at": "2026-08-16T20:01:46.419514",
+    "luma_delta": -1.8359999999999985,
+    "passed": false,
+    "size_delta": -0.025500000000000023,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "level",
+      "facing": "side_on",
+      "lighting": "bright"
+    },
+    "template_measured": {
+      "luma_mean": 99.181,
+      "size": 0.435,
+      "frames": 32,
+      "tilt_deg": 1.41,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7291,
+      "luma_std": 0.836
+    },
+    "template_enrolled_at": "2026-08-16T19:47:35.255384",
+    "synced_at": "2026-08-16T20:01:46.426894"
+  },
+  {
+    "id": "U4hlQ10o7jGNJiaiY1Qp",
+    "measured": {
+      "luma_mean": 95.773,
+      "size": 0.4579,
+      "frames": 16,
+      "tilt_deg": 30.6696,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7826,
+      "luma_std": 0.869
+    },
+    "tilt_delta": 29.2596,
+    "model_version": "palm_256_l2_fp32_v5",
+    "template_conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "bright"
+    },
+    "hand_side": "right",
+    "threshold": 0.5508,
+    "pose_ratio_delta": 0.05349999999999999,
+    "score": 0.5153582175070707,
+    "at": "2026-08-16T20:01:58.728040",
+    "luma_delta": -3.4080000000000013,
+    "passed": false,
+    "size_delta": 0.022899999999999976,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "side_on",
+      "lighting": "bright"
+    },
+    "template_measured": {
+      "luma_mean": 99.181,
+      "size": 0.435,
+      "frames": 32,
+      "tilt_deg": 1.41,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7291,
+      "luma_std": 0.836
+    },
+    "template_enrolled_at": "2026-08-16T19:47:35.255384",
+    "synced_at": "2026-08-16T20:01:58.754144"
+  },
+  {
+    "id": "R5hm879hYz7I14fiupsW",
+    "measured": {
+      "luma_mean": 101.901,
+      "size": 0.4318,
+      "frames": 16,
+      "tilt_deg": 30.2745,
+      "blowout_mean": 0.001,
+      "pose_ratio": 0.739,
+      "luma_std": 2.38
+    },
+    "tilt_delta": 28.8645,
+    "model_version": "palm_256_l2_fp32_v5",
+    "template_conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "bright"
+    },
+    "hand_side": "right",
+    "threshold": 0.5508,
+    "pose_ratio_delta": 0.00990000000000002,
+    "score": 0.8218417081510565,
+    "at": "2026-08-16T20:02:16.776332",
+    "luma_delta": 2.719999999999999,
+    "passed": true,
+    "size_delta": -0.0031999999999999806,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "bright"
+    },
+    "template_measured": {
+      "luma_mean": 99.181,
+      "size": 0.435,
+      "frames": 32,
+      "tilt_deg": 1.41,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7291,
+      "luma_std": 0.836
+    },
+    "template_enrolled_at": "2026-08-16T19:47:35.255384",
+    "synced_at": "2026-08-16T20:02:16.781725"
+  },
+  {
+    "id": "aiAM7U0mGECxNuk05jNY",
+    "measured": {
+      "luma_mean": 98.926,
+      "size": 0.4227,
+      "frames": 16,
+      "tilt_deg": 29.7947,
+      "blowout_mean": 0.001,
+      "pose_ratio": 0.7428,
+      "luma_std": 1.093
+    },
+    "tilt_delta": 28.3847,
+    "model_version": "palm_256_l2_fp32_v5",
+    "template_conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "bright"
+    },
+    "hand_side": "right",
+    "threshold": 0.5508,
+    "pose_ratio_delta": 0.013700000000000045,
+    "score": 0.8222469353993375,
+    "at": "2026-08-16T20:02:28.959476",
+    "luma_delta": -0.25499999999999545,
+    "passed": true,
+    "size_delta": -0.012299999999999978,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "bright"
+    },
+    "template_measured": {
+      "luma_mean": 99.181,
+      "size": 0.435,
+      "frames": 32,
+      "tilt_deg": 1.41,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7291,
+      "luma_std": 0.836
+    },
+    "template_enrolled_at": "2026-08-16T19:47:35.255384",
+    "synced_at": "2026-08-16T20:02:28.966230"
+  },
+  {
+    "id": "twSNtEiMzJAMjwEs4Xcb",
+    "measured": {
+      "luma_mean": 97.284,
+      "size": 0.4218,
+      "frames": 16,
+      "tilt_deg": 32.6792,
+      "blowout_mean": 0.001,
+      "pose_ratio": 0.7994,
+      "luma_std": 1.693
+    },
+    "tilt_delta": 31.2692,
+    "model_version": "palm_256_l2_fp32_v5",
+    "template_conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "bright"
+    },
+    "hand_side": "right",
+    "threshold": 0.5508,
+    "pose_ratio_delta": 0.07030000000000003,
+    "score": 0.4995675600381651,
+    "at": "2026-08-16T20:02:49.690887",
+    "luma_delta": -1.8969999999999914,
+    "passed": false,
+    "size_delta": -0.01319999999999999,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "bright"
+    },
+    "template_measured": {
+      "luma_mean": 99.181,
+      "size": 0.435,
+      "frames": 32,
+      "tilt_deg": 1.41,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7291,
+      "luma_std": 0.836
+    },
+    "template_enrolled_at": "2026-08-16T19:47:35.255384",
+    "synced_at": "2026-08-16T20:02:49.715510"
+  },
+  {
+    "id": "MYuV24lkIGnScPOMnI1i",
+    "measured": {
+      "luma_mean": 98.095,
+      "size": 0.4249,
+      "frames": 16,
+      "tilt_deg": 30.3973,
+      "blowout_mean": 0.001,
+      "pose_ratio": 0.7884,
+      "luma_std": 1.151
+    },
+    "tilt_delta": 28.9873,
+    "model_version": "palm_256_l2_fp32_v5",
+    "template_conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "bright"
+    },
+    "hand_side": "right",
+    "threshold": 0.5508,
+    "pose_ratio_delta": 0.05930000000000002,
+    "score": 0.5413264463524173,
+    "at": "2026-08-16T20:02:57.659198",
+    "luma_delta": -1.0859999999999985,
+    "passed": false,
+    "size_delta": -0.010099999999999998,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "bright"
+    },
+    "template_measured": {
+      "luma_mean": 99.181,
+      "size": 0.435,
+      "frames": 32,
+      "tilt_deg": 1.41,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7291,
+      "luma_std": 0.836
+    },
+    "template_enrolled_at": "2026-08-16T19:47:35.255384",
+    "synced_at": "2026-08-16T20:02:57.665187"
+  },
+  {
+    "id": "dKiRjUhMoYheVRl7XbtY",
+    "measured": {
+      "luma_mean": 96.714,
+      "size": 0.4139,
+      "frames": 16,
+      "tilt_deg": 24.4967,
+      "blowout_mean": 0.001,
+      "pose_ratio": 0.8008,
+      "luma_std": 1.459
+    },
+    "tilt_delta": 23.0867,
+    "model_version": "palm_256_l2_fp32_v5",
+    "template_conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "bright"
+    },
+    "hand_side": "right",
+    "threshold": 0.5508,
+    "pose_ratio_delta": 0.07169999999999999,
+    "score": 0.5313692011006816,
+    "at": "2026-08-16T20:03:06.150037",
+    "luma_delta": -2.4669999999999987,
+    "passed": false,
+    "size_delta": -0.021100000000000008,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "bright"
+    },
+    "template_measured": {
+      "luma_mean": 99.181,
+      "size": 0.435,
+      "frames": 32,
+      "tilt_deg": 1.41,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7291,
+      "luma_std": 0.836
+    },
+    "template_enrolled_at": "2026-08-16T19:47:35.255384",
+    "synced_at": "2026-08-16T20:03:06.156050"
+  },
+  {
+    "id": "7Sfi39JC93MmQZJRZjKN",
+    "measured": {
+      "luma_mean": 103.722,
+      "size": 0.4391,
+      "frames": 16,
+      "tilt_deg": 26.2972,
+      "blowout_mean": 0.001,
+      "pose_ratio": 0.7249,
+      "luma_std": 1.484
+    },
+    "tilt_delta": 24.8872,
+    "model_version": "palm_256_l2_fp32_v5",
+    "template_conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "bright"
+    },
+    "hand_side": "right",
+    "threshold": 0.5508,
+    "pose_ratio_delta": -0.0041999999999999815,
+    "score": 0.4280406984080041,
+    "at": "2026-08-16T20:03:40.820702",
+    "luma_delta": 4.540999999999997,
+    "passed": false,
+    "size_delta": 0.0040999999999999925,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "level",
+      "facing": "toward_light",
+      "lighting": "bright"
+    },
+    "template_measured": {
+      "luma_mean": 99.181,
+      "size": 0.435,
+      "frames": 32,
+      "tilt_deg": 1.41,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7291,
+      "luma_std": 0.836
+    },
+    "template_enrolled_at": "2026-08-16T19:47:35.255384",
+    "synced_at": "2026-08-16T20:03:40.828305"
+  },
+  {
+    "id": "GDISLVUkfx0JI4gdN1cc",
+    "measured": {
+      "luma_mean": 102.592,
+      "size": 0.421,
+      "frames": 16,
+      "tilt_deg": 26.8637,
+      "blowout_mean": 0.001,
+      "pose_ratio": 0.7237,
+      "luma_std": 1.156
+    },
+    "tilt_delta": 25.4537,
+    "model_version": "palm_256_l2_fp32_v5",
+    "template_conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "bright"
+    },
+    "hand_side": "right",
+    "threshold": 0.5508,
+    "pose_ratio_delta": -0.00539999999999996,
+    "score": 0.399775454846666,
+    "at": "2026-08-16T20:03:49.472518",
+    "luma_delta": 3.4110000000000014,
+    "passed": false,
+    "size_delta": -0.014000000000000012,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "level",
+      "facing": "toward_light",
+      "lighting": "bright"
+    },
+    "template_measured": {
+      "luma_mean": 99.181,
+      "size": 0.435,
+      "frames": 32,
+      "tilt_deg": 1.41,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7291,
+      "luma_std": 0.836
+    },
+    "template_enrolled_at": "2026-08-16T19:47:35.255384",
+    "synced_at": "2026-08-16T20:03:49.503648"
+  },
+  {
+    "id": "Xz2plcJEDQk6cJ810WvH",
+    "measured": {
+      "luma_mean": 102.411,
+      "size": 0.4187,
+      "frames": 16,
+      "tilt_deg": 26.2582,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7245,
+      "luma_std": 1.702
+    },
+    "tilt_delta": 24.8482,
+    "model_version": "palm_256_l2_fp32_v5",
+    "template_conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "bright"
+    },
+    "hand_side": "right",
+    "threshold": 0.5508,
+    "pose_ratio_delta": -0.0045999999999999375,
+    "score": 0.42151886265102184,
+    "at": "2026-08-16T20:03:58.676125",
+    "luma_delta": 3.230000000000004,
+    "passed": false,
+    "size_delta": -0.01629999999999998,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "level",
+      "facing": "toward_light",
+      "lighting": "bright"
+    },
+    "template_measured": {
+      "luma_mean": 99.181,
+      "size": 0.435,
+      "frames": 32,
+      "tilt_deg": 1.41,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7291,
+      "luma_std": 0.836
+    },
+    "template_enrolled_at": "2026-08-16T19:47:35.255384",
+    "synced_at": "2026-08-16T20:03:58.709317"
+  },
+  {
+    "id": "BzWFB631GgcEZO0Mucha",
+    "measured": {
+      "luma_mean": 103.101,
+      "size": 0.4364,
+      "frames": 16,
+      "tilt_deg": 12.8728,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7545,
+      "luma_std": 0.665
+    },
+    "model_version": "palm_256_l2_fp32_v5",
+    "margin": null,
+    "scores": [
+      {
+        "score": 0.5890350025056248,
+        "tilt_delta": 11.4628,
+        "template_subject": "me",
+        "template_id": "2026-08-16T19:47:35.255384",
+        "template_label": "me · bright / phone up / away_from_light",
+        "luma_delta": 3.9200000000000017,
+        "pose_ratio_delta": 0.025399999999999978,
+        "size_delta": 0.0014000000000000123
+      },
+      {
+        "score": 0.58576707213889,
+        "tilt_delta": 9.7487,
+        "template_subject": "me",
+        "template_id": "1786891618121501",
+        "template_label": "me · mixed / phone down / side_on",
+        "luma_delta": 7.807999999999993,
+        "pose_ratio_delta": 0.03579999999999994,
+        "size_delta": 0.04410000000000003
+      }
+    ],
+    "template_count": 2,
+    "templates": [
+      {
+        "measured": {
+          "luma_mean": 99.181,
+          "size": 0.435,
+          "frames": 32,
+          "tilt_deg": 1.41,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7291,
+          "luma_std": 0.836
+        },
+        "enrolled_at": "2026-08-16T19:47:35.255384",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "2026-08-16T19:47:35.255384",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "away_from_light",
+          "lighting": "bright"
+        }
+      },
+      {
+        "measured": {
+          "luma_mean": 95.293,
+          "size": 0.3923,
+          "frames": 32,
+          "tilt_deg": 3.1241,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7187,
+          "luma_std": 2.036
+        },
+        "enrolled_at": "2026-08-16T20:16:58.123246",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "1786891618121501",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "down",
+          "facing": "side_on",
+          "lighting": "mixed"
+        }
+      }
+    ],
+    "threshold": 0.5508,
+    "score": 0.5890350025056248,
+    "probe_subject": "me",
+    "at": "2026-08-16T20:17:26.306271",
+    "best_impostor": null,
+    "passed": true,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "level",
+      "facing": "side_on",
+      "lighting": "normal"
+    },
+    "synced_at": "2026-08-16T20:17:26.338938"
+  },
+  {
+    "id": "xzBFkm9ulnDhqQiMUdKb",
+    "measured": {
+      "luma_mean": 104.102,
+      "size": 0.3942,
+      "frames": 16,
+      "tilt_deg": 17.9264,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7647,
+      "luma_std": 1.487
+    },
+    "model_version": "palm_256_l2_fp32_v5",
+    "margin": null,
+    "scores": [
+      {
+        "score": 0.5207043907978982,
+        "tilt_delta": 16.5164,
+        "template_subject": "me",
+        "template_id": "2026-08-16T19:47:35.255384",
+        "template_label": "me · bright / phone up / away_from_light",
+        "luma_delta": 4.9210000000000065,
+        "pose_ratio_delta": 0.035600000000000076,
+        "size_delta": -0.0408
+      },
+      {
+        "score": 0.5009493912841985,
+        "tilt_delta": 14.8023,
+        "template_subject": "me",
+        "template_id": "1786891618121501",
+        "template_label": "me · mixed / phone down / side_on",
+        "luma_delta": 8.808999999999997,
+        "pose_ratio_delta": 0.04600000000000004,
+        "size_delta": 0.0019000000000000128
+      }
+    ],
+    "template_count": 2,
+    "templates": [
+      {
+        "measured": {
+          "luma_mean": 99.181,
+          "size": 0.435,
+          "frames": 32,
+          "tilt_deg": 1.41,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7291,
+          "luma_std": 0.836
+        },
+        "enrolled_at": "2026-08-16T19:47:35.255384",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "2026-08-16T19:47:35.255384",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "away_from_light",
+          "lighting": "bright"
+        }
+      },
+      {
+        "measured": {
+          "luma_mean": 95.293,
+          "size": 0.3923,
+          "frames": 32,
+          "tilt_deg": 3.1241,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7187,
+          "luma_std": 2.036
+        },
+        "enrolled_at": "2026-08-16T20:16:58.123246",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "1786891618121501",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "down",
+          "facing": "side_on",
+          "lighting": "mixed"
+        }
+      }
+    ],
+    "threshold": 0.5508,
+    "score": 0.5207043907978982,
+    "probe_subject": "me",
+    "at": "2026-08-16T20:17:48.793001",
+    "best_impostor": null,
+    "passed": false,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "level",
+      "facing": "side_on",
+      "lighting": "normal"
+    },
+    "synced_at": "2026-08-16T20:17:48.801206"
+  },
+  {
+    "id": "BvUZ3ir9ajcq0lHuuEJF",
+    "measured": {
+      "luma_mean": 104.907,
+      "size": 0.4305,
+      "frames": 16,
+      "tilt_deg": 5.8589,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7436,
+      "luma_std": 0.936
+    },
+    "model_version": "palm_256_l2_fp32_v5",
+    "margin": null,
+    "scores": [
+      {
+        "score": 0.7109676320938139,
+        "tilt_delta": 2.7348000000000003,
+        "template_subject": "me",
+        "template_id": "1786891618121501",
+        "template_label": "me · mixed / phone down / side_on",
+        "luma_delta": 9.61399999999999,
+        "pose_ratio_delta": 0.024900000000000033,
+        "size_delta": 0.03820000000000001
+      },
+      {
+        "score": 0.6530483527136403,
+        "tilt_delta": 4.4489,
+        "template_subject": "me",
+        "template_id": "2026-08-16T19:47:35.255384",
+        "template_label": "me · bright / phone up / away_from_light",
+        "luma_delta": 5.725999999999999,
+        "pose_ratio_delta": 0.014500000000000068,
+        "size_delta": -0.004500000000000004
+      }
+    ],
+    "template_count": 2,
+    "templates": [
+      {
+        "measured": {
+          "luma_mean": 99.181,
+          "size": 0.435,
+          "frames": 32,
+          "tilt_deg": 1.41,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7291,
+          "luma_std": 0.836
+        },
+        "enrolled_at": "2026-08-16T19:47:35.255384",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "2026-08-16T19:47:35.255384",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "away_from_light",
+          "lighting": "bright"
+        }
+      },
+      {
+        "measured": {
+          "luma_mean": 95.293,
+          "size": 0.3923,
+          "frames": 32,
+          "tilt_deg": 3.1241,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7187,
+          "luma_std": 2.036
+        },
+        "enrolled_at": "2026-08-16T20:16:58.123246",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "1786891618121501",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "down",
+          "facing": "side_on",
+          "lighting": "mixed"
+        }
+      }
+    ],
+    "threshold": 0.5508,
+    "score": 0.7109676320938139,
+    "probe_subject": "me",
+    "at": "2026-08-16T20:18:31.266338",
+    "best_impostor": null,
+    "passed": true,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "level",
+      "facing": "side_on",
+      "lighting": "normal"
+    },
+    "synced_at": "2026-08-16T20:18:31.309240"
+  },
+  {
+    "id": "MSh05090mV7JFD1uie5H",
+    "measured": {
+      "luma_mean": 105.566,
+      "size": 0.352,
+      "frames": 16,
+      "tilt_deg": 5.6881,
+      "blowout_mean": 0,
+      "pose_ratio": 0.778,
+      "luma_std": 0.507
+    },
+    "model_version": "palm_256_l2_fp32_v5",
+    "margin": null,
+    "scores": [
+      {
+        "score": 0.7305465429601902,
+        "tilt_delta": 2.5640000000000005,
+        "template_subject": "me",
+        "template_id": "1786891618121501",
+        "template_label": "me · mixed / phone down / side_on",
+        "luma_delta": 10.272999999999996,
+        "pose_ratio_delta": 0.05930000000000002,
+        "size_delta": -0.0403
+      },
+      {
+        "score": 0.5673431756170245,
+        "tilt_delta": 4.2781,
+        "template_subject": "me",
+        "template_id": "2026-08-16T19:47:35.255384",
+        "template_label": "me · bright / phone up / away_from_light",
+        "luma_delta": 6.385000000000005,
+        "pose_ratio_delta": 0.048900000000000055,
+        "size_delta": -0.08300000000000002
+      }
+    ],
+    "template_count": 2,
+    "templates": [
+      {
+        "measured": {
+          "luma_mean": 99.181,
+          "size": 0.435,
+          "frames": 32,
+          "tilt_deg": 1.41,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7291,
+          "luma_std": 0.836
+        },
+        "enrolled_at": "2026-08-16T19:47:35.255384",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "2026-08-16T19:47:35.255384",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "away_from_light",
+          "lighting": "bright"
+        }
+      },
+      {
+        "measured": {
+          "luma_mean": 95.293,
+          "size": 0.3923,
+          "frames": 32,
+          "tilt_deg": 3.1241,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7187,
+          "luma_std": 2.036
+        },
+        "enrolled_at": "2026-08-16T20:16:58.123246",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "1786891618121501",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "down",
+          "facing": "side_on",
+          "lighting": "mixed"
+        }
+      }
+    ],
+    "threshold": 0.5508,
+    "score": 0.7305465429601902,
+    "probe_subject": "me",
+    "at": "2026-08-16T20:18:41.145304",
+    "best_impostor": null,
+    "passed": true,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "level",
+      "facing": "side_on",
+      "lighting": "normal"
+    },
+    "synced_at": "2026-08-16T20:18:41.152412"
+  },
+  {
+    "id": "14zUWFjyULlW49bwKvqB",
+    "measured": {
+      "luma_mean": 107.752,
+      "size": 0.4376,
+      "frames": 16,
+      "tilt_deg": 1.2621,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7338,
+      "luma_std": 1.902
+    },
+    "model_version": "palm_256_l2_fp32_v5",
+    "margin": null,
+    "scores": [
+      {
+        "score": 0.7211097835892628,
+        "tilt_delta": -1.8619999999999999,
+        "template_subject": "me",
+        "template_id": "1786891618121501",
+        "template_label": "me · mixed / phone down / side_on",
+        "luma_delta": 12.458999999999989,
+        "pose_ratio_delta": 0.015100000000000002,
+        "size_delta": 0.04530000000000001
+      },
+      {
+        "score": 0.5654748808849058,
+        "tilt_delta": -0.14789999999999992,
+        "template_subject": "me",
+        "template_id": "2026-08-16T19:47:35.255384",
+        "template_label": "me · bright / phone up / away_from_light",
+        "luma_delta": 8.570999999999998,
+        "pose_ratio_delta": 0.0047000000000000375,
+        "size_delta": 0.002599999999999991
+      }
+    ],
+    "template_count": 2,
+    "templates": [
+      {
+        "measured": {
+          "luma_mean": 99.181,
+          "size": 0.435,
+          "frames": 32,
+          "tilt_deg": 1.41,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7291,
+          "luma_std": 0.836
+        },
+        "enrolled_at": "2026-08-16T19:47:35.255384",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "2026-08-16T19:47:35.255384",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "away_from_light",
+          "lighting": "bright"
+        }
+      },
+      {
+        "measured": {
+          "luma_mean": 95.293,
+          "size": 0.3923,
+          "frames": 32,
+          "tilt_deg": 3.1241,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7187,
+          "luma_std": 2.036
+        },
+        "enrolled_at": "2026-08-16T20:16:58.123246",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "1786891618121501",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "down",
+          "facing": "side_on",
+          "lighting": "mixed"
+        }
+      }
+    ],
+    "threshold": 0.5508,
+    "score": 0.7211097835892628,
+    "probe_subject": "me",
+    "at": "2026-08-16T20:18:51.599332",
+    "best_impostor": null,
+    "passed": true,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "level",
+      "facing": "side_on",
+      "lighting": "normal"
+    },
+    "synced_at": "2026-08-16T20:18:51.631132"
+  },
+  {
+    "id": "he7CFTdKg0LU5T40gFzw",
+    "measured": {
+      "luma_mean": 107.025,
+      "size": 0.5051,
+      "frames": 16,
+      "tilt_deg": 2.3591,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7081,
+      "luma_std": 0.612
+    },
+    "model_version": "palm_256_l2_fp32_v5",
+    "margin": null,
+    "scores": [
+      {
+        "score": 0.7353647741037705,
+        "tilt_delta": -0.7649999999999997,
+        "template_subject": "me",
+        "template_id": "1786891618121501",
+        "template_label": "me · mixed / phone down / side_on",
+        "luma_delta": 11.732,
+        "pose_ratio_delta": -0.010600000000000054,
+        "size_delta": 0.11280000000000001
+      },
+      {
+        "score": 0.6053655401809392,
+        "tilt_delta": 0.9491000000000003,
+        "template_subject": "me",
+        "template_id": "2026-08-16T19:47:35.255384",
+        "template_label": "me · bright / phone up / away_from_light",
+        "luma_delta": 7.844000000000008,
+        "pose_ratio_delta": -0.02100000000000002,
+        "size_delta": 0.0701
+      }
+    ],
+    "template_count": 2,
+    "templates": [
+      {
+        "measured": {
+          "luma_mean": 99.181,
+          "size": 0.435,
+          "frames": 32,
+          "tilt_deg": 1.41,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7291,
+          "luma_std": 0.836
+        },
+        "enrolled_at": "2026-08-16T19:47:35.255384",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "2026-08-16T19:47:35.255384",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "away_from_light",
+          "lighting": "bright"
+        }
+      },
+      {
+        "measured": {
+          "luma_mean": 95.293,
+          "size": 0.3923,
+          "frames": 32,
+          "tilt_deg": 3.1241,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7187,
+          "luma_std": 2.036
+        },
+        "enrolled_at": "2026-08-16T20:16:58.123246",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "1786891618121501",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "down",
+          "facing": "side_on",
+          "lighting": "mixed"
+        }
+      }
+    ],
+    "threshold": 0.5508,
+    "score": 0.7353647741037705,
+    "probe_subject": "me",
+    "at": "2026-08-16T20:19:01.215991",
+    "best_impostor": null,
+    "passed": true,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "level",
+      "facing": "side_on",
+      "lighting": "normal"
+    },
+    "synced_at": "2026-08-16T20:19:01.246472"
+  },
+  {
+    "id": "HUT53BiTLxbLaBif7Tl4",
+    "measured": {
+      "luma_mean": 92.789,
+      "size": 0.466,
+      "frames": 16,
+      "tilt_deg": 1.8292,
+      "blowout_mean": 0.002,
+      "pose_ratio": 0.7315,
+      "luma_std": 5.967
+    },
+    "model_version": "palm_256_l2_fp32_v5",
+    "margin": null,
+    "scores": [
+      {
+        "score": 0.49285933419651784,
+        "tilt_delta": 0.4192,
+        "template_subject": "me",
+        "template_id": "2026-08-16T19:47:35.255384",
+        "template_label": "me · bright / phone up / away_from_light",
+        "luma_delta": -6.391999999999996,
+        "pose_ratio_delta": 0.0024000000000000687,
+        "size_delta": 0.031000000000000028
+      },
+      {
+        "score": 0.22633453789322128,
+        "tilt_delta": -1.2949,
+        "template_subject": "me",
+        "template_id": "1786891618121501",
+        "template_label": "me · mixed / phone down / side_on",
+        "luma_delta": -2.504000000000005,
+        "pose_ratio_delta": 0.012800000000000034,
+        "size_delta": 0.07370000000000004
+      }
+    ],
+    "template_count": 2,
+    "templates": [
+      {
+        "measured": {
+          "luma_mean": 99.181,
+          "size": 0.435,
+          "frames": 32,
+          "tilt_deg": 1.41,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7291,
+          "luma_std": 0.836
+        },
+        "enrolled_at": "2026-08-16T19:47:35.255384",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "2026-08-16T19:47:35.255384",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "away_from_light",
+          "lighting": "bright"
+        }
+      },
+      {
+        "measured": {
+          "luma_mean": 95.293,
+          "size": 0.3923,
+          "frames": 32,
+          "tilt_deg": 3.1241,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7187,
+          "luma_std": 2.036
+        },
+        "enrolled_at": "2026-08-16T20:16:58.123246",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "1786891618121501",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "down",
+          "facing": "side_on",
+          "lighting": "mixed"
+        }
+      }
+    ],
+    "threshold": 0.5508,
+    "score": 0.49285933419651784,
+    "probe_subject": "me",
+    "at": "2026-08-16T20:20:07.480721",
+    "best_impostor": null,
+    "passed": false,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "toward_light",
+      "lighting": "mixed"
+    },
+    "synced_at": "2026-08-16T20:20:07.488553"
+  },
+  {
+    "id": "lHkVMQ43CNNxoLN4LKYZ",
+    "measured": {
+      "luma_mean": 105.27,
+      "size": 0.4444,
+      "frames": 16,
+      "tilt_deg": 2.2771,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7367,
+      "luma_std": 0.857
+    },
+    "model_version": "palm_256_l2_fp32_v5",
+    "margin": null,
+    "scores": [
+      {
+        "score": 0.5543384533609155,
+        "tilt_delta": 0.8671,
+        "template_subject": "me",
+        "template_id": "2026-08-16T19:47:35.255384",
+        "template_label": "me · bright / phone up / away_from_light",
+        "luma_delta": 6.088999999999999,
+        "pose_ratio_delta": 0.007600000000000051,
+        "size_delta": 0.00940000000000002
+      },
+      {
+        "score": 0.4468061930419146,
+        "tilt_delta": -0.847,
+        "template_subject": "me",
+        "template_id": "1786891618121501",
+        "template_label": "me · mixed / phone down / side_on",
+        "luma_delta": 9.97699999999999,
+        "pose_ratio_delta": 0.018000000000000016,
+        "size_delta": 0.052100000000000035
+      }
+    ],
+    "template_count": 2,
+    "templates": [
+      {
+        "measured": {
+          "luma_mean": 99.181,
+          "size": 0.435,
+          "frames": 32,
+          "tilt_deg": 1.41,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7291,
+          "luma_std": 0.836
+        },
+        "enrolled_at": "2026-08-16T19:47:35.255384",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "2026-08-16T19:47:35.255384",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "away_from_light",
+          "lighting": "bright"
+        }
+      },
+      {
+        "measured": {
+          "luma_mean": 95.293,
+          "size": 0.3923,
+          "frames": 32,
+          "tilt_deg": 3.1241,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7187,
+          "luma_std": 2.036
+        },
+        "enrolled_at": "2026-08-16T20:16:58.123246",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "1786891618121501",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "down",
+          "facing": "side_on",
+          "lighting": "mixed"
+        }
+      }
+    ],
+    "threshold": 0.5508,
+    "score": 0.5543384533609155,
+    "probe_subject": "me",
+    "at": "2026-08-16T20:20:29.787379",
+    "best_impostor": null,
+    "passed": true,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "toward_light",
+      "lighting": "mixed"
+    },
+    "synced_at": "2026-08-16T20:20:29.823287"
+  },
+  {
+    "id": "WD1HW6wX49jWYQwVDjZp",
+    "measured": {
+      "luma_mean": 95.596,
+      "size": 0.4129,
+      "frames": 16,
+      "tilt_deg": 4.1296,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7424,
+      "luma_std": 2.605
+    },
+    "model_version": "palm_256_l2_fp32_v5",
+    "margin": null,
+    "scores": [
+      {
+        "score": 0.8607009031794588,
+        "tilt_delta": 2.7196,
+        "template_subject": "me",
+        "template_id": "2026-08-16T19:47:35.255384",
+        "template_label": "me · bright / phone up / away_from_light",
+        "luma_delta": -3.5849999999999937,
+        "pose_ratio_delta": 0.013299999999999979,
+        "size_delta": -0.02210000000000001
+      },
+      {
+        "score": 0.5775551170784781,
+        "tilt_delta": 1.0055,
+        "template_subject": "me",
+        "template_id": "1786891618121501",
+        "template_label": "me · mixed / phone down / side_on",
+        "luma_delta": 0.30299999999999727,
+        "pose_ratio_delta": 0.023699999999999943,
+        "size_delta": 0.020600000000000007
+      }
+    ],
+    "template_count": 2,
+    "templates": [
+      {
+        "measured": {
+          "luma_mean": 99.181,
+          "size": 0.435,
+          "frames": 32,
+          "tilt_deg": 1.41,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7291,
+          "luma_std": 0.836
+        },
+        "enrolled_at": "2026-08-16T19:47:35.255384",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "2026-08-16T19:47:35.255384",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "away_from_light",
+          "lighting": "bright"
+        }
+      },
+      {
+        "measured": {
+          "luma_mean": 95.293,
+          "size": 0.3923,
+          "frames": 32,
+          "tilt_deg": 3.1241,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7187,
+          "luma_std": 2.036
+        },
+        "enrolled_at": "2026-08-16T20:16:58.123246",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "1786891618121501",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "down",
+          "facing": "side_on",
+          "lighting": "mixed"
+        }
+      }
+    ],
+    "threshold": 0.5508,
+    "score": 0.8607009031794588,
+    "probe_subject": "me",
+    "at": "2026-08-16T20:21:22.177892",
+    "best_impostor": null,
+    "passed": true,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "bright"
+    },
+    "synced_at": "2026-08-16T20:21:22.204694"
+  },
+  {
+    "id": "BxgFRBvpPHKnLq5Zv7Bs",
+    "measured": {
+      "luma_mean": 92.646,
+      "size": 0.3425,
+      "frames": 16,
+      "tilt_deg": 3.0885,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7721,
+      "luma_std": 0.974
+    },
+    "model_version": "palm_256_l2_fp32_v5",
+    "margin": null,
+    "scores": [
+      {
+        "score": 0.8352384060842233,
+        "tilt_delta": 1.6784999999999999,
+        "template_subject": "me",
+        "template_id": "2026-08-16T19:47:35.255384",
+        "template_label": "me · bright / phone up / away_from_light",
+        "luma_delta": -6.534999999999997,
+        "pose_ratio_delta": 0.04300000000000004,
+        "size_delta": -0.09249999999999997
+      },
+      {
+        "score": 0.64997978951077,
+        "tilt_delta": -0.035600000000000076,
+        "template_subject": "me",
+        "template_id": "1786891618121501",
+        "template_label": "me · mixed / phone down / side_on",
+        "luma_delta": -2.6470000000000056,
+        "pose_ratio_delta": 0.0534,
+        "size_delta": -0.049799999999999955
+      }
+    ],
+    "template_count": 2,
+    "templates": [
+      {
+        "measured": {
+          "luma_mean": 99.181,
+          "size": 0.435,
+          "frames": 32,
+          "tilt_deg": 1.41,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7291,
+          "luma_std": 0.836
+        },
+        "enrolled_at": "2026-08-16T19:47:35.255384",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "2026-08-16T19:47:35.255384",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "away_from_light",
+          "lighting": "bright"
+        }
+      },
+      {
+        "measured": {
+          "luma_mean": 95.293,
+          "size": 0.3923,
+          "frames": 32,
+          "tilt_deg": 3.1241,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7187,
+          "luma_std": 2.036
+        },
+        "enrolled_at": "2026-08-16T20:16:58.123246",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "1786891618121501",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "down",
+          "facing": "side_on",
+          "lighting": "mixed"
+        }
+      }
+    ],
+    "threshold": 0.5508,
+    "score": 0.8352384060842233,
+    "probe_subject": "me",
+    "at": "2026-08-16T20:21:32.747582",
+    "best_impostor": null,
+    "passed": true,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "bright"
+    },
+    "synced_at": "2026-08-16T20:21:32.753486"
+  },
+  {
+    "id": "nEbVss9ciFkUciKOYmpR",
+    "measured": {
+      "luma_mean": 103.179,
+      "size": 0.3906,
+      "frames": 16,
+      "tilt_deg": 18.7045,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7095,
+      "luma_std": 1.762
+    },
+    "model_version": "palm_256_l2_fp32_v5",
+    "margin": null,
+    "scores": [
+      {
+        "score": 0.1410751512367339,
+        "tilt_delta": 17.2945,
+        "template_subject": "me",
+        "template_id": "2026-08-16T19:47:35.255384",
+        "template_label": "me · bright / phone up / away_from_light",
+        "luma_delta": 3.9980000000000047,
+        "pose_ratio_delta": -0.01959999999999995,
+        "size_delta": -0.044399999999999995
+      },
+      {
+        "score": 0.11810739753579748,
+        "tilt_delta": 15.5804,
+        "template_subject": "me",
+        "template_id": "1786891618121501",
+        "template_label": "me · mixed / phone down / side_on",
+        "luma_delta": 7.885999999999996,
+        "pose_ratio_delta": -0.009199999999999986,
+        "size_delta": -0.0016999999999999793
+      }
+    ],
+    "template_count": 2,
+    "templates": [
+      {
+        "measured": {
+          "luma_mean": 99.181,
+          "size": 0.435,
+          "frames": 32,
+          "tilt_deg": 1.41,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7291,
+          "luma_std": 0.836
+        },
+        "enrolled_at": "2026-08-16T19:47:35.255384",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "2026-08-16T19:47:35.255384",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "away_from_light",
+          "lighting": "bright"
+        }
+      },
+      {
+        "measured": {
+          "luma_mean": 95.293,
+          "size": 0.3923,
+          "frames": 32,
+          "tilt_deg": 3.1241,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7187,
+          "luma_std": 2.036
+        },
+        "enrolled_at": "2026-08-16T20:16:58.123246",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "1786891618121501",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "down",
+          "facing": "side_on",
+          "lighting": "mixed"
+        }
+      }
+    ],
+    "threshold": 0.5508,
+    "score": null,
+    "probe_subject": "person 1",
+    "at": "2026-08-16T20:25:08.962963",
+    "best_impostor": 0.1410751512367339,
+    "passed": false,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "side_on",
+      "lighting": "bright"
+    },
+    "synced_at": "2026-08-16T20:25:08.969571"
+  },
+  {
+    "id": "RMIMxwr12xPTAvSBfeQD",
+    "measured": {
+      "luma_mean": 100.381,
+      "size": 0.4414,
+      "frames": 16,
+      "tilt_deg": 13.7456,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7363,
+      "luma_std": 2.281
+    },
+    "model_version": "palm_256_l2_fp32_v5",
+    "margin": 0.704904466423871,
+    "scores": [
+      {
+        "score": 0.8436939454406234,
+        "tilt_delta": 8.9953,
+        "template_subject": "person 1",
+        "template_id": "1786892571026058",
+        "template_label": "person 1 · bright / phone up / side_on",
+        "luma_delta": -1.5019999999999953,
+        "pose_ratio_delta": 0.006399999999999961,
+        "size_delta": 0.026000000000000023
+      },
+      {
+        "score": 0.13878947901675245,
+        "tilt_delta": 12.3356,
+        "template_subject": "me",
+        "template_id": "2026-08-16T19:47:35.255384",
+        "template_label": "me · bright / phone up / away_from_light",
+        "luma_delta": 1.2000000000000028,
+        "pose_ratio_delta": 0.007199999999999984,
+        "size_delta": 0.006400000000000017
+      },
+      {
+        "score": 0.0653912810477082,
+        "tilt_delta": 10.6215,
+        "template_subject": "me",
+        "template_id": "1786891618121501",
+        "template_label": "me · mixed / phone down / side_on",
+        "luma_delta": 5.087999999999994,
+        "pose_ratio_delta": 0.01759999999999995,
+        "size_delta": 0.04910000000000003
+      }
+    ],
+    "template_count": 3,
+    "templates": [
+      {
+        "measured": {
+          "luma_mean": 99.181,
+          "size": 0.435,
+          "frames": 32,
+          "tilt_deg": 1.41,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7291,
+          "luma_std": 0.836
+        },
+        "enrolled_at": "2026-08-16T19:47:35.255384",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "2026-08-16T19:47:35.255384",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "away_from_light",
+          "lighting": "bright"
+        }
+      },
+      {
+        "measured": {
+          "luma_mean": 95.293,
+          "size": 0.3923,
+          "frames": 32,
+          "tilt_deg": 3.1241,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7187,
+          "luma_std": 2.036
+        },
+        "enrolled_at": "2026-08-16T20:16:58.123246",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "1786891618121501",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "down",
+          "facing": "side_on",
+          "lighting": "mixed"
+        }
+      },
+      {
+        "measured": {
+          "luma_mean": 101.883,
+          "size": 0.4154,
+          "frames": 32,
+          "tilt_deg": 4.7503,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7299,
+          "luma_std": 0.933
+        },
+        "enrolled_at": "2026-08-16T20:32:51.027369",
+        "subject": "person 1",
+        "hand_side": "right",
+        "id": "1786892571026058",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "side_on",
+          "lighting": "bright"
+        }
+      }
+    ],
+    "threshold": 0.5508,
+    "score": 0.8436939454406234,
+    "probe_subject": "person 1",
+    "at": "2026-08-16T20:33:01.667815",
+    "best_impostor": 0.13878947901675245,
+    "passed": true,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "side_on",
+      "lighting": "bright"
+    },
+    "synced_at": "2026-08-16T20:33:01.709745"
+  },
+  {
+    "id": "wAPH1LaODVZGzIq6tVwq",
+    "measured": {
+      "luma_mean": 98.317,
+      "size": 0.4236,
+      "frames": 16,
+      "tilt_deg": 15.6487,
+      "blowout_mean": 0,
+      "pose_ratio": 0.737,
+      "luma_std": 0.759
+    },
+    "model_version": "palm_256_l2_fp32_v5",
+    "margin": 0.7048185377238599,
+    "scores": [
+      {
+        "score": 0.8621296353137512,
+        "tilt_delta": 10.898399999999999,
+        "template_subject": "person 1",
+        "template_id": "1786892571026058",
+        "template_label": "person 1 · bright / phone up / side_on",
+        "luma_delta": -3.5660000000000025,
+        "pose_ratio_delta": 0.007099999999999995,
+        "size_delta": 0.008199999999999985
+      },
+      {
+        "score": 0.15731109758989126,
+        "tilt_delta": 14.2387,
+        "template_subject": "me",
+        "template_id": "2026-08-16T19:47:35.255384",
+        "template_label": "me · bright / phone up / away_from_light",
+        "luma_delta": -0.8640000000000043,
+        "pose_ratio_delta": 0.007900000000000018,
+        "size_delta": -0.011400000000000021
+      },
+      {
+        "score": 0.10171215539402875,
+        "tilt_delta": 12.5246,
+        "template_subject": "me",
+        "template_id": "1786891618121501",
+        "template_label": "me · mixed / phone down / side_on",
+        "luma_delta": 3.0239999999999867,
+        "pose_ratio_delta": 0.018299999999999983,
+        "size_delta": 0.031299999999999994
+      }
+    ],
+    "template_count": 3,
+    "templates": [
+      {
+        "measured": {
+          "luma_mean": 99.181,
+          "size": 0.435,
+          "frames": 32,
+          "tilt_deg": 1.41,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7291,
+          "luma_std": 0.836
+        },
+        "enrolled_at": "2026-08-16T19:47:35.255384",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "2026-08-16T19:47:35.255384",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "away_from_light",
+          "lighting": "bright"
+        }
+      },
+      {
+        "measured": {
+          "luma_mean": 95.293,
+          "size": 0.3923,
+          "frames": 32,
+          "tilt_deg": 3.1241,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7187,
+          "luma_std": 2.036
+        },
+        "enrolled_at": "2026-08-16T20:16:58.123246",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "1786891618121501",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "down",
+          "facing": "side_on",
+          "lighting": "mixed"
+        }
+      },
+      {
+        "measured": {
+          "luma_mean": 101.883,
+          "size": 0.4154,
+          "frames": 32,
+          "tilt_deg": 4.7503,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7299,
+          "luma_std": 0.933
+        },
+        "enrolled_at": "2026-08-16T20:32:51.027369",
+        "subject": "person 1",
+        "hand_side": "right",
+        "id": "1786892571026058",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "side_on",
+          "lighting": "bright"
+        }
+      }
+    ],
+    "threshold": 0.5508,
+    "score": 0.8621296353137512,
+    "probe_subject": "person 1",
+    "at": "2026-08-16T20:33:09.409187",
+    "best_impostor": 0.15731109758989126,
+    "passed": true,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "side_on",
+      "lighting": "bright"
+    },
+    "synced_at": "2026-08-16T20:33:09.419581"
+  },
+  {
+    "id": "M21xHa4SZBnsQrZDdsRE",
+    "measured": {
+      "luma_mean": 84.101,
+      "size": 0.4001,
+      "frames": 16,
+      "tilt_deg": 14.3094,
+      "blowout_mean": 0.006,
+      "pose_ratio": 0.6903,
+      "luma_std": 0.926
+    },
+    "model_version": "palm_256_l2_fp32_v5",
+    "margin": 0.4188266320028996,
+    "scores": [
+      {
+        "score": 0.4495476455763613,
+        "tilt_delta": 9.5591,
+        "template_subject": "person 1",
+        "template_id": "1786892571026058",
+        "template_label": "person 1 · bright / phone up / side_on",
+        "luma_delta": -17.781999999999996,
+        "pose_ratio_delta": -0.03959999999999997,
+        "size_delta": -0.01529999999999998
+      },
+      {
+        "score": 0.030721013573461697,
+        "tilt_delta": 12.8994,
+        "template_subject": "me",
+        "template_id": "2026-08-16T19:47:35.255384",
+        "template_label": "me · bright / phone up / away_from_light",
+        "luma_delta": -15.079999999999998,
+        "pose_ratio_delta": -0.038799999999999946,
+        "size_delta": -0.03489999999999999
+      },
+      {
+        "score": -0.2271583834716295,
+        "tilt_delta": 11.1853,
+        "template_subject": "me",
+        "template_id": "1786891618121501",
+        "template_label": "me · mixed / phone down / side_on",
+        "luma_delta": -11.192000000000007,
+        "pose_ratio_delta": -0.02839999999999998,
+        "size_delta": 0.007800000000000029
+      }
+    ],
+    "template_count": 3,
+    "templates": [
+      {
+        "measured": {
+          "luma_mean": 99.181,
+          "size": 0.435,
+          "frames": 32,
+          "tilt_deg": 1.41,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7291,
+          "luma_std": 0.836
+        },
+        "enrolled_at": "2026-08-16T19:47:35.255384",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "2026-08-16T19:47:35.255384",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "away_from_light",
+          "lighting": "bright"
+        }
+      },
+      {
+        "measured": {
+          "luma_mean": 95.293,
+          "size": 0.3923,
+          "frames": 32,
+          "tilt_deg": 3.1241,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7187,
+          "luma_std": 2.036
+        },
+        "enrolled_at": "2026-08-16T20:16:58.123246",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "1786891618121501",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "down",
+          "facing": "side_on",
+          "lighting": "mixed"
+        }
+      },
+      {
+        "measured": {
+          "luma_mean": 101.883,
+          "size": 0.4154,
+          "frames": 32,
+          "tilt_deg": 4.7503,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7299,
+          "luma_std": 0.933
+        },
+        "enrolled_at": "2026-08-16T20:32:51.027369",
+        "subject": "person 1",
+        "hand_side": "right",
+        "id": "1786892571026058",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "side_on",
+          "lighting": "bright"
+        }
+      }
+    ],
+    "threshold": 0.5508,
+    "score": 0.4495476455763613,
+    "probe_subject": "person 1",
+    "at": "2026-08-16T20:33:43.104383",
+    "best_impostor": 0.030721013573461697,
+    "passed": false,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "toward_light",
+      "lighting": "normal"
+    },
+    "synced_at": "2026-08-16T20:33:43.144154"
+  },
+  {
+    "id": "PkLXEM7GZMeG5YtWYymm",
+    "measured": {
+      "luma_mean": 110.661,
+      "size": 0.3814,
+      "frames": 16,
+      "tilt_deg": 14.8586,
+      "blowout_mean": 0,
+      "pose_ratio": 0.6681,
+      "luma_std": 5.622
+    },
+    "model_version": "palm_256_l2_fp32_v5",
+    "margin": 0.2453014310263755,
+    "scores": [
+      {
+        "score": 0.45687755297730026,
+        "tilt_delta": 10.1083,
+        "template_subject": "person 1",
+        "template_id": "1786892571026058",
+        "template_label": "person 1 · bright / phone up / side_on",
+        "luma_delta": 8.778000000000006,
+        "pose_ratio_delta": -0.061799999999999966,
+        "size_delta": -0.033999999999999975
+      },
+      {
+        "score": 0.21157612195092476,
+        "tilt_delta": 13.448599999999999,
+        "template_subject": "me",
+        "template_id": "2026-08-16T19:47:35.255384",
+        "template_label": "me · bright / phone up / away_from_light",
+        "luma_delta": 11.480000000000004,
+        "pose_ratio_delta": -0.06099999999999994,
+        "size_delta": -0.05359999999999998
+      },
+      {
+        "score": 0.11157500883573895,
+        "tilt_delta": 11.734499999999999,
+        "template_subject": "me",
+        "template_id": "1786891618121501",
+        "template_label": "me · mixed / phone down / side_on",
+        "luma_delta": 15.367999999999995,
+        "pose_ratio_delta": -0.05059999999999998,
+        "size_delta": -0.010899999999999965
+      }
+    ],
+    "template_count": 3,
+    "templates": [
+      {
+        "measured": {
+          "luma_mean": 99.181,
+          "size": 0.435,
+          "frames": 32,
+          "tilt_deg": 1.41,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7291,
+          "luma_std": 0.836
+        },
+        "enrolled_at": "2026-08-16T19:47:35.255384",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "2026-08-16T19:47:35.255384",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "away_from_light",
+          "lighting": "bright"
+        }
+      },
+      {
+        "measured": {
+          "luma_mean": 95.293,
+          "size": 0.3923,
+          "frames": 32,
+          "tilt_deg": 3.1241,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7187,
+          "luma_std": 2.036
+        },
+        "enrolled_at": "2026-08-16T20:16:58.123246",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "1786891618121501",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "down",
+          "facing": "side_on",
+          "lighting": "mixed"
+        }
+      },
+      {
+        "measured": {
+          "luma_mean": 101.883,
+          "size": 0.4154,
+          "frames": 32,
+          "tilt_deg": 4.7503,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7299,
+          "luma_std": 0.933
+        },
+        "enrolled_at": "2026-08-16T20:32:51.027369",
+        "subject": "person 1",
+        "hand_side": "right",
+        "id": "1786892571026058",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "side_on",
+          "lighting": "bright"
+        }
+      }
+    ],
+    "threshold": 0.5508,
+    "score": 0.45687755297730026,
+    "probe_subject": "person 1",
+    "at": "2026-08-16T20:34:35.409154",
+    "best_impostor": 0.21157612195092476,
+    "passed": false,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "normal"
+    },
+    "synced_at": "2026-08-16T20:34:35.417187"
+  },
+  {
+    "id": "IdJ2thkadopMCJl4d1KN",
+    "measured": {
+      "luma_mean": 107.775,
+      "size": 0.3613,
+      "frames": 16,
+      "tilt_deg": 23.295,
+      "blowout_mean": 0,
+      "pose_ratio": 0.6757,
+      "luma_std": 2.615
+    },
+    "model_version": "palm_256_l2_fp32_v5",
+    "margin": 0.29859523539417065,
+    "scores": [
+      {
+        "score": 0.5080500414395092,
+        "tilt_delta": 18.544700000000002,
+        "template_subject": "person 1",
+        "template_id": "1786892571026058",
+        "template_label": "person 1 · bright / phone up / side_on",
+        "luma_delta": 5.89200000000001,
+        "pose_ratio_delta": -0.054200000000000026,
+        "size_delta": -0.05409999999999998
+      },
+      {
+        "score": 0.20945480604533848,
+        "tilt_delta": 21.885,
+        "template_subject": "me",
+        "template_id": "2026-08-16T19:47:35.255384",
+        "template_label": "me · bright / phone up / away_from_light",
+        "luma_delta": 8.594000000000008,
+        "pose_ratio_delta": -0.0534,
+        "size_delta": -0.07369999999999999
+      },
+      {
+        "score": -0.024230066957932915,
+        "tilt_delta": 20.170900000000003,
+        "template_subject": "me",
+        "template_id": "1786891618121501",
+        "template_label": "me · mixed / phone down / side_on",
+        "luma_delta": 12.482,
+        "pose_ratio_delta": -0.04300000000000004,
+        "size_delta": -0.030999999999999972
+      }
+    ],
+    "template_count": 3,
+    "templates": [
+      {
+        "measured": {
+          "luma_mean": 99.181,
+          "size": 0.435,
+          "frames": 32,
+          "tilt_deg": 1.41,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7291,
+          "luma_std": 0.836
+        },
+        "enrolled_at": "2026-08-16T19:47:35.255384",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "2026-08-16T19:47:35.255384",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "away_from_light",
+          "lighting": "bright"
+        }
+      },
+      {
+        "measured": {
+          "luma_mean": 95.293,
+          "size": 0.3923,
+          "frames": 32,
+          "tilt_deg": 3.1241,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7187,
+          "luma_std": 2.036
+        },
+        "enrolled_at": "2026-08-16T20:16:58.123246",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "1786891618121501",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "down",
+          "facing": "side_on",
+          "lighting": "mixed"
+        }
+      },
+      {
+        "measured": {
+          "luma_mean": 101.883,
+          "size": 0.4154,
+          "frames": 32,
+          "tilt_deg": 4.7503,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7299,
+          "luma_std": 0.933
+        },
+        "enrolled_at": "2026-08-16T20:32:51.027369",
+        "subject": "person 1",
+        "hand_side": "right",
+        "id": "1786892571026058",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "side_on",
+          "lighting": "bright"
+        }
+      }
+    ],
+    "threshold": 0.5508,
+    "score": 0.5080500414395092,
+    "probe_subject": "person 1",
+    "at": "2026-08-16T20:34:47.338830",
+    "best_impostor": 0.20945480604533848,
+    "passed": false,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "normal"
+    },
+    "synced_at": "2026-08-16T20:34:47.372932"
+  },
+  {
+    "id": "FKW8iUSrmmUQiVBEWVyK",
+    "measured": {
+      "luma_mean": 112.214,
+      "size": 0.3393,
+      "frames": 16,
+      "tilt_deg": 60.5013,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7257,
+      "luma_std": 5.925
+    },
+    "model_version": "palm_256_l2_fp32_v5",
+    "margin": 0.33341982826092853,
+    "scores": [
+      {
+        "score": 0.578326453871281,
+        "tilt_delta": 55.751,
+        "template_subject": "person 1",
+        "template_id": "1786892571026058",
+        "template_label": "person 1 · bright / phone up / side_on",
+        "luma_delta": 10.331000000000003,
+        "pose_ratio_delta": -0.0041999999999999815,
+        "size_delta": -0.0761
+      },
+      {
+        "score": 0.24490662561035248,
+        "tilt_delta": 59.091300000000004,
+        "template_subject": "me",
+        "template_id": "2026-08-16T19:47:35.255384",
+        "template_label": "me · bright / phone up / away_from_light",
+        "luma_delta": 13.033000000000001,
+        "pose_ratio_delta": -0.0033999999999999586,
+        "size_delta": -0.09570000000000001
+      },
+      {
+        "score": 0.011851053386464423,
+        "tilt_delta": 57.3772,
+        "template_subject": "me",
+        "template_id": "1786891618121501",
+        "template_label": "me · mixed / phone down / side_on",
+        "luma_delta": 16.920999999999992,
+        "pose_ratio_delta": 0.007000000000000006,
+        "size_delta": -0.05299999999999999
+      }
+    ],
+    "template_count": 3,
+    "templates": [
+      {
+        "measured": {
+          "luma_mean": 99.181,
+          "size": 0.435,
+          "frames": 32,
+          "tilt_deg": 1.41,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7291,
+          "luma_std": 0.836
+        },
+        "enrolled_at": "2026-08-16T19:47:35.255384",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "2026-08-16T19:47:35.255384",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "away_from_light",
+          "lighting": "bright"
+        }
+      },
+      {
+        "measured": {
+          "luma_mean": 95.293,
+          "size": 0.3923,
+          "frames": 32,
+          "tilt_deg": 3.1241,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7187,
+          "luma_std": 2.036
+        },
+        "enrolled_at": "2026-08-16T20:16:58.123246",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "1786891618121501",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "down",
+          "facing": "side_on",
+          "lighting": "mixed"
+        }
+      },
+      {
+        "measured": {
+          "luma_mean": 101.883,
+          "size": 0.4154,
+          "frames": 32,
+          "tilt_deg": 4.7503,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7299,
+          "luma_std": 0.933
+        },
+        "enrolled_at": "2026-08-16T20:32:51.027369",
+        "subject": "person 1",
+        "hand_side": "right",
+        "id": "1786892571026058",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "side_on",
+          "lighting": "bright"
+        }
+      }
+    ],
+    "threshold": 0.5508,
+    "score": 0.578326453871281,
+    "probe_subject": "person 1",
+    "at": "2026-08-16T20:34:55.869416",
+    "best_impostor": 0.24490662561035248,
+    "passed": true,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "away_from_light",
+      "lighting": "normal"
+    },
+    "synced_at": "2026-08-16T20:34:55.900834"
+  },
+  {
+    "id": "XzUInlji8jNG9JTaq86E",
+    "measured": {
+      "luma_mean": 94.9,
+      "size": 0.3392,
+      "frames": 16,
+      "tilt_deg": 6.4478,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7696,
+      "luma_std": 2.452
+    },
+    "model_version": "palm_256_l2_fp32_v5",
+    "margin": 0.730025164302176,
+    "scores": [
+      {
+        "score": 0.7328429290141283,
+        "tilt_delta": 3.3237,
+        "template_subject": "me",
+        "template_id": "1786891618121501",
+        "template_label": "me · mixed / phone down / side_on",
+        "luma_delta": -0.3930000000000007,
+        "pose_ratio_delta": 0.050899999999999945,
+        "size_delta": -0.05309999999999998
+      },
+      {
+        "score": 0.690738365929106,
+        "tilt_delta": 5.0378,
+        "template_subject": "me",
+        "template_id": "2026-08-16T19:47:35.255384",
+        "template_label": "me · bright / phone up / away_from_light",
+        "luma_delta": -4.280999999999992,
+        "pose_ratio_delta": 0.04049999999999998,
+        "size_delta": -0.0958
+      },
+      {
+        "score": 0.002817764711952259,
+        "tilt_delta": 1.6974999999999998,
+        "template_subject": "person 1",
+        "template_id": "1786892571026058",
+        "template_label": "person 1 · bright / phone up / side_on",
+        "luma_delta": -6.98299999999999,
+        "pose_ratio_delta": 0.03969999999999996,
+        "size_delta": -0.07619999999999999
+      }
+    ],
+    "template_count": 3,
+    "templates": [
+      {
+        "measured": {
+          "luma_mean": 99.181,
+          "size": 0.435,
+          "frames": 32,
+          "tilt_deg": 1.41,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7291,
+          "luma_std": 0.836
+        },
+        "enrolled_at": "2026-08-16T19:47:35.255384",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "2026-08-16T19:47:35.255384",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "away_from_light",
+          "lighting": "bright"
+        }
+      },
+      {
+        "measured": {
+          "luma_mean": 95.293,
+          "size": 0.3923,
+          "frames": 32,
+          "tilt_deg": 3.1241,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7187,
+          "luma_std": 2.036
+        },
+        "enrolled_at": "2026-08-16T20:16:58.123246",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "1786891618121501",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "down",
+          "facing": "side_on",
+          "lighting": "mixed"
+        }
+      },
+      {
+        "measured": {
+          "luma_mean": 101.883,
+          "size": 0.4154,
+          "frames": 32,
+          "tilt_deg": 4.7503,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7299,
+          "luma_std": 0.933
+        },
+        "enrolled_at": "2026-08-16T20:32:51.027369",
+        "subject": "person 1",
+        "hand_side": "right",
+        "id": "1786892571026058",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "side_on",
+          "lighting": "bright"
+        }
+      }
+    ],
+    "threshold": 0.5508,
+    "score": 0.7328429290141283,
+    "probe_subject": "me",
+    "at": "2026-08-16T21:31:59.979053",
+    "best_impostor": 0.002817764711952259,
+    "passed": true,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "level",
+      "facing": "side_on",
+      "lighting": "normal"
+    },
+    "synced_at": "2026-08-16T21:32:00.023577"
+  },
+  {
+    "id": "nsrKoWvaBLFs3FYD5vNq",
+    "measured": {
+      "luma_mean": 96.851,
+      "size": 0.3553,
+      "frames": 16,
+      "tilt_deg": 10.3319,
+      "blowout_mean": 0.001,
+      "pose_ratio": 0.7814,
+      "luma_std": 1.915
+    },
+    "model_version": "palm_256_l2_fp32_v5",
+    "margin": 0.30974928941880786,
+    "scores": [
+      {
+        "score": 0.4617952688015934,
+        "tilt_delta": 7.207799999999999,
+        "template_subject": "me",
+        "template_id": "1786891618121501",
+        "template_label": "me · mixed / phone down / side_on",
+        "luma_delta": 1.5579999999999927,
+        "pose_ratio_delta": 0.06269999999999998,
+        "size_delta": -0.03699999999999998
+      },
+      {
+        "score": 0.4323175600603254,
+        "tilt_delta": 8.921899999999999,
+        "template_subject": "me",
+        "template_id": "2026-08-16T19:47:35.255384",
+        "template_label": "me · bright / phone up / away_from_light",
+        "luma_delta": -2.3299999999999983,
+        "pose_ratio_delta": 0.05230000000000001,
+        "size_delta": -0.0797
+      },
+      {
+        "score": 0.15204597938278555,
+        "tilt_delta": 5.581599999999999,
+        "template_subject": "person 1",
+        "template_id": "1786892571026058",
+        "template_label": "person 1 · bright / phone up / side_on",
+        "luma_delta": -5.0319999999999965,
+        "pose_ratio_delta": 0.05149999999999999,
+        "size_delta": -0.06009999999999999
+      }
+    ],
+    "template_count": 3,
+    "templates": [
+      {
+        "measured": {
+          "luma_mean": 99.181,
+          "size": 0.435,
+          "frames": 32,
+          "tilt_deg": 1.41,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7291,
+          "luma_std": 0.836
+        },
+        "enrolled_at": "2026-08-16T19:47:35.255384",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "2026-08-16T19:47:35.255384",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "away_from_light",
+          "lighting": "bright"
+        }
+      },
+      {
+        "measured": {
+          "luma_mean": 95.293,
+          "size": 0.3923,
+          "frames": 32,
+          "tilt_deg": 3.1241,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7187,
+          "luma_std": 2.036
+        },
+        "enrolled_at": "2026-08-16T20:16:58.123246",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "1786891618121501",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "down",
+          "facing": "side_on",
+          "lighting": "mixed"
+        }
+      },
+      {
+        "measured": {
+          "luma_mean": 101.883,
+          "size": 0.4154,
+          "frames": 32,
+          "tilt_deg": 4.7503,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7299,
+          "luma_std": 0.933
+        },
+        "enrolled_at": "2026-08-16T20:32:51.027369",
+        "subject": "person 1",
+        "hand_side": "right",
+        "id": "1786892571026058",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "side_on",
+          "lighting": "bright"
+        }
+      }
+    ],
+    "threshold": 0.5508,
+    "score": 0.4617952688015934,
+    "probe_subject": "me",
+    "at": "2026-08-16T21:33:24.049579",
+    "best_impostor": 0.15204597938278555,
+    "passed": false,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "side_on",
+      "lighting": "normal"
+    },
+    "synced_at": "2026-08-16T21:33:24.082975"
+  },
+  {
+    "id": "PYHH9ca2UCsfP8DRVVTO",
+    "measured": {
+      "luma_mean": 105.508,
+      "size": 0.4092,
+      "frames": 16,
+      "tilt_deg": 4.631,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7327,
+      "luma_std": 5.192
+    },
+    "model_version": "palm_256_l2_fp32_v5",
+    "margin": 0.6254447052963077,
+    "scores": [
+      {
+        "score": 0.7732855512097413,
+        "tilt_delta": 3.221,
+        "template_subject": "me",
+        "template_id": "2026-08-16T19:47:35.255384",
+        "template_label": "me · bright / phone up / away_from_light",
+        "luma_delta": 6.326999999999998,
+        "pose_ratio_delta": 0.0036000000000000476,
+        "size_delta": -0.02579999999999999
+      },
+      {
+        "score": 0.14784084591343358,
+        "tilt_delta": -0.11929999999999996,
+        "template_subject": "person 1",
+        "template_id": "1786892571026058",
+        "template_label": "person 1 · bright / phone up / side_on",
+        "luma_delta": 3.625,
+        "pose_ratio_delta": 0.0028000000000000247,
+        "size_delta": -0.006199999999999983
+      }
+    ],
+    "template_count": 2,
+    "templates": [
+      {
+        "measured": {
+          "luma_mean": 99.181,
+          "size": 0.435,
+          "frames": 32,
+          "tilt_deg": 1.41,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7291,
+          "luma_std": 0.836
+        },
+        "enrolled_at": "2026-08-16T19:47:35.255384",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "2026-08-16T19:47:35.255384",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "away_from_light",
+          "lighting": "bright"
+        }
+      },
+      {
+        "measured": {
+          "luma_mean": 101.883,
+          "size": 0.4154,
+          "frames": 32,
+          "tilt_deg": 4.7503,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7299,
+          "luma_std": 0.933
+        },
+        "enrolled_at": "2026-08-16T20:32:51.027369",
+        "subject": "person 1",
+        "hand_side": "right",
+        "id": "1786892571026058",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "side_on",
+          "lighting": "bright"
+        }
+      }
+    ],
+    "threshold": 0.5508,
+    "score": 0.7732855512097413,
+    "probe_subject": "me",
+    "at": "2026-08-16T21:34:18.771477",
+    "best_impostor": 0.14784084591343358,
+    "passed": true,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "side_on",
+      "lighting": "normal"
+    },
+    "synced_at": "2026-08-16T21:34:18.799005"
+  },
+  {
+    "id": "wtjOvIkS4Z9b9dIP9Nys",
+    "measured": {
+      "luma_mean": 100.89,
+      "size": 0.378,
+      "frames": 16,
+      "tilt_deg": 6.7626,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7439,
+      "luma_std": 2.118
+    },
+    "model_version": "palm_256_l2_fp32_v5",
+    "margin": 0.7407200444372757,
+    "scores": [
+      {
+        "score": 0.8555420012340242,
+        "tilt_delta": 5.3526,
+        "template_subject": "me",
+        "template_id": "2026-08-16T19:47:35.255384",
+        "template_label": "me · bright / phone up / away_from_light",
+        "luma_delta": 1.7090000000000032,
+        "pose_ratio_delta": 0.014800000000000035,
+        "size_delta": -0.056999999999999995
+      },
+      {
+        "score": 0.11482195679674861,
+        "tilt_delta": 2.0122999999999998,
+        "template_subject": "person 1",
+        "template_id": "1786892571026058",
+        "template_label": "person 1 · bright / phone up / side_on",
+        "luma_delta": -0.992999999999995,
+        "pose_ratio_delta": 0.014000000000000012,
+        "size_delta": -0.03739999999999999
+      }
+    ],
+    "template_count": 2,
+    "templates": [
+      {
+        "measured": {
+          "luma_mean": 99.181,
+          "size": 0.435,
+          "frames": 32,
+          "tilt_deg": 1.41,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7291,
+          "luma_std": 0.836
+        },
+        "enrolled_at": "2026-08-16T19:47:35.255384",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "2026-08-16T19:47:35.255384",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "away_from_light",
+          "lighting": "bright"
+        }
+      },
+      {
+        "measured": {
+          "luma_mean": 101.883,
+          "size": 0.4154,
+          "frames": 32,
+          "tilt_deg": 4.7503,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7299,
+          "luma_std": 0.933
+        },
+        "enrolled_at": "2026-08-16T20:32:51.027369",
+        "subject": "person 1",
+        "hand_side": "right",
+        "id": "1786892571026058",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "side_on",
+          "lighting": "bright"
+        }
+      }
+    ],
+    "threshold": 0.5508,
+    "score": 0.8555420012340242,
+    "probe_subject": "me",
+    "at": "2026-08-16T21:34:37.230450",
+    "best_impostor": 0.11482195679674861,
+    "passed": true,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "side_on",
+      "lighting": "normal"
+    },
+    "synced_at": "2026-08-16T21:34:37.269478"
+  },
+  {
+    "id": "7FP32xTt34Zc9kyX4q60",
+    "measured": {
+      "luma_mean": 93.659,
+      "size": 0.4142,
+      "frames": 16,
+      "tilt_deg": 2.9539,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7238,
+      "luma_std": 3.302
+    },
+    "model_version": "palm_256_l2_fp32_v5",
+    "margin": 0.500217174458173,
+    "scores": [
+      {
+        "score": 0.4551209810409607,
+        "tilt_delta": 1.5439,
+        "template_subject": "me",
+        "template_id": "2026-08-16T19:47:35.255384",
+        "template_label": "me · bright / phone up / away_from_light",
+        "luma_delta": -5.521999999999991,
+        "pose_ratio_delta": -0.005299999999999971,
+        "size_delta": -0.020799999999999985
+      },
+      {
+        "score": -0.04509619341721237,
+        "tilt_delta": -1.7964000000000002,
+        "template_subject": "person 1",
+        "template_id": "1786892571026058",
+        "template_label": "person 1 · bright / phone up / side_on",
+        "luma_delta": -8.22399999999999,
+        "pose_ratio_delta": -0.006099999999999994,
+        "size_delta": -0.0011999999999999789
+      }
+    ],
+    "template_count": 2,
+    "templates": [
+      {
+        "measured": {
+          "luma_mean": 99.181,
+          "size": 0.435,
+          "frames": 32,
+          "tilt_deg": 1.41,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7291,
+          "luma_std": 0.836
+        },
+        "enrolled_at": "2026-08-16T19:47:35.255384",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "2026-08-16T19:47:35.255384",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "away_from_light",
+          "lighting": "bright"
+        }
+      },
+      {
+        "measured": {
+          "luma_mean": 101.883,
+          "size": 0.4154,
+          "frames": 32,
+          "tilt_deg": 4.7503,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7299,
+          "luma_std": 0.933
+        },
+        "enrolled_at": "2026-08-16T20:32:51.027369",
+        "subject": "person 1",
+        "hand_side": "right",
+        "id": "1786892571026058",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "side_on",
+          "lighting": "bright"
+        }
+      }
+    ],
+    "threshold": 0.5508,
+    "score": 0.4551209810409607,
+    "probe_subject": "me",
+    "at": "2026-08-16T21:34:48.163434",
+    "best_impostor": -0.04509619341721237,
+    "passed": false,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "side_on",
+      "lighting": "normal"
+    },
+    "synced_at": "2026-08-16T21:34:48.170984"
+  },
+  {
+    "id": "yEj28HX1YsSlPyL555MH",
+    "measured": {
+      "luma_mean": 98.003,
+      "size": 0.4083,
+      "frames": 16,
+      "tilt_deg": 8.369,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7427,
+      "luma_std": 5.342
+    },
+    "model_version": "palm_256_l2_fp32_v5",
+    "margin": 0.5972098274481331,
+    "scores": [
+      {
+        "score": 0.655772005085818,
+        "tilt_delta": 6.959,
+        "template_subject": "me",
+        "template_id": "2026-08-16T19:47:35.255384",
+        "template_label": "me · bright / phone up / away_from_light",
+        "luma_delta": -1.1779999999999973,
+        "pose_ratio_delta": 0.013600000000000056,
+        "size_delta": -0.0267
+      },
+      {
+        "score": 0.058562177637684884,
+        "tilt_delta": 3.6186999999999996,
+        "template_subject": "person 1",
+        "template_id": "1786892571026058",
+        "template_label": "person 1 · bright / phone up / side_on",
+        "luma_delta": -3.8799999999999955,
+        "pose_ratio_delta": 0.012800000000000034,
+        "size_delta": -0.007099999999999995
+      }
+    ],
+    "template_count": 2,
+    "templates": [
+      {
+        "measured": {
+          "luma_mean": 99.181,
+          "size": 0.435,
+          "frames": 32,
+          "tilt_deg": 1.41,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7291,
+          "luma_std": 0.836
+        },
+        "enrolled_at": "2026-08-16T19:47:35.255384",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "2026-08-16T19:47:35.255384",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "away_from_light",
+          "lighting": "bright"
+        }
+      },
+      {
+        "measured": {
+          "luma_mean": 101.883,
+          "size": 0.4154,
+          "frames": 32,
+          "tilt_deg": 4.7503,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7299,
+          "luma_std": 0.933
+        },
+        "enrolled_at": "2026-08-16T20:32:51.027369",
+        "subject": "person 1",
+        "hand_side": "right",
+        "id": "1786892571026058",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "side_on",
+          "lighting": "bright"
+        }
+      }
+    ],
+    "threshold": 0.5508,
+    "score": 0.655772005085818,
+    "probe_subject": "me",
+    "at": "2026-08-16T21:35:30.936218",
+    "best_impostor": 0.058562177637684884,
+    "passed": true,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "side_on",
+      "lighting": "normal"
+    },
+    "synced_at": "2026-08-16T21:35:30.940610"
+  },
+  {
+    "id": "ofjCjZMbhHxeRxydROa9",
+    "measured": {
+      "luma_mean": 66.247,
+      "size": 0.4897,
+      "frames": 16,
+      "tilt_deg": 9.6906,
+      "blowout_mean": 0,
+      "pose_ratio": 0.749,
+      "luma_std": 1.924
+    },
+    "model_version": "palm_256_l2_fp32_v5",
+    "margin": 0.32146593213890107,
+    "scores": [
+      {
+        "score": 0.3680429884867294,
+        "tilt_delta": 8.2806,
+        "template_subject": "me",
+        "template_id": "2026-08-16T19:47:35.255384",
+        "template_label": "me · bright / phone up / away_from_light",
+        "luma_delta": -32.934,
+        "pose_ratio_delta": 0.01990000000000003,
+        "size_delta": 0.054700000000000026
+      },
+      {
+        "score": 0.046577056347828334,
+        "tilt_delta": 4.9403,
+        "template_subject": "person 1",
+        "template_id": "1786892571026058",
+        "template_label": "person 1 · bright / phone up / side_on",
+        "luma_delta": -35.635999999999996,
+        "pose_ratio_delta": 0.019100000000000006,
+        "size_delta": 0.07430000000000003
+      }
+    ],
+    "template_count": 2,
+    "templates": [
+      {
+        "measured": {
+          "luma_mean": 99.181,
+          "size": 0.435,
+          "frames": 32,
+          "tilt_deg": 1.41,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7291,
+          "luma_std": 0.836
+        },
+        "enrolled_at": "2026-08-16T19:47:35.255384",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "2026-08-16T19:47:35.255384",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "away_from_light",
+          "lighting": "bright"
+        }
+      },
+      {
+        "measured": {
+          "luma_mean": 101.883,
+          "size": 0.4154,
+          "frames": 32,
+          "tilt_deg": 4.7503,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7299,
+          "luma_std": 0.933
+        },
+        "enrolled_at": "2026-08-16T20:32:51.027369",
+        "subject": "person 1",
+        "hand_side": "right",
+        "id": "1786892571026058",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "side_on",
+          "lighting": "bright"
+        }
+      }
+    ],
+    "threshold": 0.5508,
+    "score": 0.3680429884867294,
+    "probe_subject": "me",
+    "at": "2026-08-16T21:36:01.214967",
+    "best_impostor": 0.046577056347828334,
+    "passed": false,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "side_on",
+      "lighting": "normal"
+    },
+    "synced_at": "2026-08-16T21:36:01.238264"
+  },
+  {
+    "id": "S1kHvKSBsmkWrGyUim8b",
+    "measured": {
+      "luma_mean": 72.777,
+      "size": 0.4658,
+      "frames": 16,
+      "tilt_deg": 15.4917,
+      "blowout_mean": 0.002,
+      "pose_ratio": 0.7843,
+      "luma_std": 2.547
+    },
+    "model_version": "palm_256_l2_fp32_v5",
+    "margin": 0.36074179915578186,
+    "scores": [
+      {
+        "score": 0.4624370233000337,
+        "tilt_delta": 14.0817,
+        "template_subject": "me",
+        "template_id": "2026-08-16T19:47:35.255384",
+        "template_label": "me · bright / phone up / away_from_light",
+        "luma_delta": -26.403999999999996,
+        "pose_ratio_delta": 0.05520000000000003,
+        "size_delta": 0.030799999999999994
+      },
+      {
+        "score": 0.10169522414425189,
+        "tilt_delta": 10.741399999999999,
+        "template_subject": "person 1",
+        "template_id": "1786892571026058",
+        "template_label": "person 1 · bright / phone up / side_on",
+        "luma_delta": -29.105999999999995,
+        "pose_ratio_delta": 0.054400000000000004,
+        "size_delta": 0.0504
+      }
+    ],
+    "template_count": 2,
+    "templates": [
+      {
+        "measured": {
+          "luma_mean": 99.181,
+          "size": 0.435,
+          "frames": 32,
+          "tilt_deg": 1.41,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7291,
+          "luma_std": 0.836
+        },
+        "enrolled_at": "2026-08-16T19:47:35.255384",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "2026-08-16T19:47:35.255384",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "away_from_light",
+          "lighting": "bright"
+        }
+      },
+      {
+        "measured": {
+          "luma_mean": 101.883,
+          "size": 0.4154,
+          "frames": 32,
+          "tilt_deg": 4.7503,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7299,
+          "luma_std": 0.933
+        },
+        "enrolled_at": "2026-08-16T20:32:51.027369",
+        "subject": "person 1",
+        "hand_side": "right",
+        "id": "1786892571026058",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "side_on",
+          "lighting": "bright"
+        }
+      }
+    ],
+    "threshold": 0.5508,
+    "score": 0.4624370233000337,
+    "probe_subject": "me",
+    "at": "2026-08-16T21:36:22.828256",
+    "best_impostor": 0.10169522414425189,
+    "passed": false,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "down",
+      "facing": "toward_light",
+      "lighting": "dim"
+    },
+    "synced_at": "2026-08-16T21:36:22.834517"
+  },
+  {
+    "id": "ECH8aLmb7mMp7iCdoYYQ",
+    "measured": {
+      "luma_mean": 98.55,
+      "size": 0.3764,
+      "frames": 16,
+      "tilt_deg": 11.8513,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7323,
+      "luma_std": 4.287
+    },
+    "model_version": "palm_256_l2_fp32_v5",
+    "margin": 0.5823216051051949,
+    "scores": [
+      {
+        "score": 0.7203073097742381,
+        "tilt_delta": 10.4413,
+        "template_subject": "me",
+        "template_id": "2026-08-16T19:47:35.255384",
+        "template_label": "me · bright / phone up / away_from_light",
+        "luma_delta": -0.6310000000000002,
+        "pose_ratio_delta": 0.0031999999999999806,
+        "size_delta": -0.058599999999999985
+      },
+      {
+        "score": 0.1379857046690431,
+        "tilt_delta": 7.101,
+        "template_subject": "person 1",
+        "template_id": "1786892571026058",
+        "template_label": "person 1 · bright / phone up / side_on",
+        "luma_delta": -3.3329999999999984,
+        "pose_ratio_delta": 0.0023999999999999577,
+        "size_delta": -0.03899999999999998
+      }
+    ],
+    "template_count": 2,
+    "templates": [
+      {
+        "measured": {
+          "luma_mean": 99.181,
+          "size": 0.435,
+          "frames": 32,
+          "tilt_deg": 1.41,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7291,
+          "luma_std": 0.836
+        },
+        "enrolled_at": "2026-08-16T19:47:35.255384",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "2026-08-16T19:47:35.255384",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "away_from_light",
+          "lighting": "bright"
+        }
+      },
+      {
+        "measured": {
+          "luma_mean": 101.883,
+          "size": 0.4154,
+          "frames": 32,
+          "tilt_deg": 4.7503,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7299,
+          "luma_std": 0.933
+        },
+        "enrolled_at": "2026-08-16T20:32:51.027369",
+        "subject": "person 1",
+        "hand_side": "right",
+        "id": "1786892571026058",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "side_on",
+          "lighting": "bright"
+        }
+      }
+    ],
+    "threshold": 0.5508,
+    "score": 0.7203073097742381,
+    "probe_subject": "me",
+    "at": "2026-08-16T21:36:50.770675",
+    "best_impostor": 0.1379857046690431,
+    "passed": true,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "down",
+      "facing": "toward_light",
+      "lighting": "dim"
+    },
+    "synced_at": "2026-08-16T21:36:50.795281"
+  },
+  {
+    "id": "DhBa6Z6jokgQ7T3P6wjS",
+    "measured": {
+      "luma_mean": 103.313,
+      "size": 0.5081,
+      "frames": 16,
+      "tilt_deg": 5.0128,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7414,
+      "luma_std": 0.313
+    },
+    "model_version": "palm_256_l2_fp32_v5",
+    "margin": 0.5096498998094144,
+    "scores": [
+      {
+        "score": 0.6200605680050925,
+        "tilt_delta": 3.6028000000000002,
+        "template_subject": "me",
+        "template_id": "2026-08-16T19:47:35.255384",
+        "template_label": "me · bright / phone up / away_from_light",
+        "luma_delta": 4.132000000000005,
+        "pose_ratio_delta": 0.012299999999999978,
+        "size_delta": 0.0731
+      },
+      {
+        "score": 0.11041066819567803,
+        "tilt_delta": 0.2625000000000002,
+        "template_subject": "person 1",
+        "template_id": "1786892571026058",
+        "template_label": "person 1 · bright / phone up / side_on",
+        "luma_delta": 1.4300000000000068,
+        "pose_ratio_delta": 0.011499999999999955,
+        "size_delta": 0.0927
+      }
+    ],
+    "template_count": 2,
+    "templates": [
+      {
+        "measured": {
+          "luma_mean": 99.181,
+          "size": 0.435,
+          "frames": 32,
+          "tilt_deg": 1.41,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7291,
+          "luma_std": 0.836
+        },
+        "enrolled_at": "2026-08-16T19:47:35.255384",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "2026-08-16T19:47:35.255384",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "away_from_light",
+          "lighting": "bright"
+        }
+      },
+      {
+        "measured": {
+          "luma_mean": 101.883,
+          "size": 0.4154,
+          "frames": 32,
+          "tilt_deg": 4.7503,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7299,
+          "luma_std": 0.933
+        },
+        "enrolled_at": "2026-08-16T20:32:51.027369",
+        "subject": "person 1",
+        "hand_side": "right",
+        "id": "1786892571026058",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "side_on",
+          "lighting": "bright"
+        }
+      }
+    ],
+    "threshold": 0.5508,
+    "score": 0.6200605680050925,
+    "probe_subject": "me",
+    "at": "2026-08-16T21:37:03.465829",
+    "best_impostor": 0.11041066819567803,
+    "passed": true,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "down",
+      "facing": "toward_light",
+      "lighting": "dim"
+    },
+    "synced_at": "2026-08-16T21:37:03.493883"
+  },
+  {
+    "id": "IRrSqRc380H1xa8MXbZc",
+    "measured": {
+      "luma_mean": 92.099,
+      "size": 0.5102,
+      "frames": 16,
+      "tilt_deg": 4.8314,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7277,
+      "luma_std": 1.412
+    },
+    "model_version": "palm_256_l2_fp32_v5",
+    "margin": 0.6022666651335464,
+    "scores": [
+      {
+        "score": 0.6638447318239734,
+        "tilt_delta": 3.4214,
+        "template_subject": "me",
+        "template_id": "2026-08-16T19:47:35.255384",
+        "template_label": "me · bright / phone up / away_from_light",
+        "luma_delta": -7.081999999999994,
+        "pose_ratio_delta": -0.0013999999999999568,
+        "size_delta": 0.07519999999999999
+      },
+      {
+        "score": 0.06157806669042694,
+        "tilt_delta": 0.08110000000000017,
+        "template_subject": "person 1",
+        "template_id": "1786892571026058",
+        "template_label": "person 1 · bright / phone up / side_on",
+        "luma_delta": -9.783999999999992,
+        "pose_ratio_delta": -0.0021999999999999797,
+        "size_delta": 0.0948
+      }
+    ],
+    "template_count": 2,
+    "templates": [
+      {
+        "measured": {
+          "luma_mean": 99.181,
+          "size": 0.435,
+          "frames": 32,
+          "tilt_deg": 1.41,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7291,
+          "luma_std": 0.836
+        },
+        "enrolled_at": "2026-08-16T19:47:35.255384",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "2026-08-16T19:47:35.255384",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "away_from_light",
+          "lighting": "bright"
+        }
+      },
+      {
+        "measured": {
+          "luma_mean": 101.883,
+          "size": 0.4154,
+          "frames": 32,
+          "tilt_deg": 4.7503,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7299,
+          "luma_std": 0.933
+        },
+        "enrolled_at": "2026-08-16T20:32:51.027369",
+        "subject": "person 1",
+        "hand_side": "right",
+        "id": "1786892571026058",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "side_on",
+          "lighting": "bright"
+        }
+      }
+    ],
+    "threshold": 0.5508,
+    "score": 0.6638447318239734,
+    "probe_subject": "me",
+    "at": "2026-08-16T21:37:15.070638",
+    "best_impostor": 0.06157806669042694,
+    "passed": true,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "down",
+      "facing": "toward_light",
+      "lighting": "dim"
+    },
+    "synced_at": "2026-08-16T21:37:15.097047"
+  },
+  {
+    "id": "caFumanoTK2Xl6kAeDy7",
+    "measured": {
+      "luma_mean": 79.06,
+      "size": 0.4906,
+      "frames": 16,
+      "tilt_deg": 7.375,
+      "blowout_mean": 0,
+      "pose_ratio": 0.7589,
+      "luma_std": 1.921
+    },
+    "model_version": "palm_256_l2_fp32_v5",
+    "margin": 0.277588847264439,
+    "scores": [
+      {
+        "score": 0.37055887110139973,
+        "tilt_delta": 5.965,
+        "template_subject": "me",
+        "template_id": "2026-08-16T19:47:35.255384",
+        "template_label": "me · bright / phone up / away_from_light",
+        "luma_delta": -20.120999999999995,
+        "pose_ratio_delta": 0.02980000000000005,
+        "size_delta": 0.05559999999999998
+      },
+      {
+        "score": 0.09297002383696072,
+        "tilt_delta": 2.6247,
+        "template_subject": "person 1",
+        "template_id": "1786892571026058",
+        "template_label": "person 1 · bright / phone up / side_on",
+        "luma_delta": -22.822999999999993,
+        "pose_ratio_delta": 0.029000000000000026,
+        "size_delta": 0.07519999999999999
+      }
+    ],
+    "template_count": 2,
+    "templates": [
+      {
+        "measured": {
+          "luma_mean": 99.181,
+          "size": 0.435,
+          "frames": 32,
+          "tilt_deg": 1.41,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7291,
+          "luma_std": 0.836
+        },
+        "enrolled_at": "2026-08-16T19:47:35.255384",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "2026-08-16T19:47:35.255384",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "away_from_light",
+          "lighting": "bright"
+        }
+      },
+      {
+        "measured": {
+          "luma_mean": 101.883,
+          "size": 0.4154,
+          "frames": 32,
+          "tilt_deg": 4.7503,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7299,
+          "luma_std": 0.933
+        },
+        "enrolled_at": "2026-08-16T20:32:51.027369",
+        "subject": "person 1",
+        "hand_side": "right",
+        "id": "1786892571026058",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "side_on",
+          "lighting": "bright"
+        }
+      }
+    ],
+    "threshold": 0.5508,
+    "score": 0.37055887110139973,
+    "probe_subject": "me",
+    "at": "2026-08-16T21:37:34.123717",
+    "best_impostor": 0.09297002383696072,
+    "passed": false,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "down",
+      "facing": "toward_light",
+      "lighting": "dim"
+    },
+    "synced_at": "2026-08-16T21:37:34.128354"
+  },
+  {
+    "id": "Gxr8O1kWDpbdkW2WtBDf",
+    "measured": {
+      "luma_mean": 97.8,
+      "size": 0.5368,
+      "frames": 16,
+      "tilt_deg": 1.4614,
+      "blowout_mean": 0.001,
+      "pose_ratio": 0.7467,
+      "luma_std": 2.923
+    },
+    "model_version": "palm_256_l2_fp32_v5",
+    "margin": 0.46762573540299224,
+    "scores": [
+      {
+        "score": 0.49932635083718196,
+        "tilt_delta": 0.05140000000000011,
+        "template_subject": "me",
+        "template_id": "2026-08-16T19:47:35.255384",
+        "template_label": "me · bright / phone up / away_from_light",
+        "luma_delta": -1.3810000000000002,
+        "pose_ratio_delta": 0.01760000000000006,
+        "size_delta": 0.10180000000000006
+      },
+      {
+        "score": 0.031700615434189734,
+        "tilt_delta": -3.2889,
+        "template_subject": "person 1",
+        "template_id": "1786892571026058",
+        "template_label": "person 1 · bright / phone up / side_on",
+        "luma_delta": -4.082999999999998,
+        "pose_ratio_delta": 0.016800000000000037,
+        "size_delta": 0.12140000000000006
+      }
+    ],
+    "template_count": 2,
+    "templates": [
+      {
+        "measured": {
+          "luma_mean": 99.181,
+          "size": 0.435,
+          "frames": 32,
+          "tilt_deg": 1.41,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7291,
+          "luma_std": 0.836
+        },
+        "enrolled_at": "2026-08-16T19:47:35.255384",
+        "subject": "me",
+        "hand_side": "right",
+        "id": "2026-08-16T19:47:35.255384",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "away_from_light",
+          "lighting": "bright"
+        }
+      },
+      {
+        "measured": {
+          "luma_mean": 101.883,
+          "size": 0.4154,
+          "frames": 32,
+          "tilt_deg": 4.7503,
+          "blowout_mean": 0,
+          "pose_ratio": 0.7299,
+          "luma_std": 0.933
+        },
+        "enrolled_at": "2026-08-16T20:32:51.027369",
+        "subject": "person 1",
+        "hand_side": "right",
+        "id": "1786892571026058",
+        "conditions": {
+          "note": "",
+          "phone_tilt": "up",
+          "facing": "side_on",
+          "lighting": "bright"
+        }
+      }
+    ],
+    "threshold": 0.5508,
+    "score": 0.49932635083718196,
+    "probe_subject": "me",
+    "at": "2026-08-16T21:38:09.219275",
+    "best_impostor": 0.031700615434189734,
+    "passed": false,
+    "conditions": {
+      "note": "",
+      "phone_tilt": "up",
+      "facing": "toward_light",
+      "lighting": "bright"
+    },
+    "synced_at": "2026-08-16T21:38:09.224228"
+  }
+]

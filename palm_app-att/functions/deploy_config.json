@@ -1,8 +1,8 @@
 {
-  "model_version": "palm_256_l2_fp32_v4",
+  "model_version": "palm_256_l2_fp32_v5",
   "similarity": "cosine",
-  "verification_threshold_FAR_0.1pct": 0.70,
+  "verification_threshold_FAR_0.1pct": 0.5508,
   "_note": "Server-side copy of the mobile app's assets/models/deploy_config.json verification threshold. submitAttendance prefers a Firestore config/model doc if present (so the threshold can change without redeploying functions), and falls back to this file. Keep BOTH in sync on every retrain — a mismatch means the app and server disagree about which model's embeddings are valid.",
-  "_threshold_note": "0.70 is an INTERIM threshold set 2026-07-28, NOT the v4 FAR-derived value (0.5084) and NOT FAR-derived at all despite the field name. On-device measurement with v4 + ROI crop on 2 real people: genuine 0.7593 / 0.8437; live impostor ~0.63; cross-person enrolled templates 0.5696. 0.5084 sat BELOW the entire impostor range, so the palm layer accepted anyone. 0.70 separates this sample, but margins are thin (genuine 0.7593 clears by only 0.06) and it is fitted to n=2 — expect false rejects on other people. Re-derive from 10+ identities before widening the pilot. Do NOT lower it back toward 0.5084 without new evidence.",
-  "_pilot_note": "PILOT SCOPE. The palm layer is not a standalone gate — it is one layer alongside the Wi-Fi fingerprint and session window, for a supervised pilot on 1-2 sections. Device binding is deliberately NOT enforced in this build."
+  "_threshold_note": "0.5508 is FAR-0.1% derived on 98 held-out identities (AUC 0.9915, EER 4.27%). Supersedes the v4 interim 0.70, which was fitted to only 2 people and belongs to a different embedding space. See assets/models/deploy_config.json training_provenance for the full eval, and issue.md for the operating-margin analysis (genuine mean 0.6279, only 0.077 above threshold).",
+  "_pilot_note": "The palm layer is not a standalone gate — it is one layer alongside the Wi-Fi fingerprint and the staff-opened, palm-verified session window. Device binding is deliberately NOT enforced in this build. See README.md for the current scope statement (year-3 rollout) and honest limits of the Wi-Fi check."
 }

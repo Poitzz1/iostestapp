@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../services/hand_detector.dart';
+import 'palm_template.dart';
 
 /// Timestamp fields in this collection are written by both this app (always
 /// ISO8601 strings) and Cloud Functions (which must also write strings — see
@@ -39,7 +40,23 @@ class StudentProfile {
   final String? assignedClassroom;
 
   final HandSide handSide;
+  /// LEGACY single template. Kept readable and writable during migration:
+  /// 8,000+ students are already enrolled with one, and forcing them all to
+  /// re-enrol is not acceptable. New enrolments write [templates] instead.
   final List<double> embedding; // 256 floats, L2-normalized template
+
+  /// MULTI-TEMPLATE enrolment: several vectors captured under different
+  /// lighting. Verification takes max(cosine(probe, t)) server-side.
+  ///
+  /// Empty on a legacy record — [allTemplates] papers over the difference so
+  /// no caller has to branch on which era a student enrolled in.
+  final List<PalmTemplate> templates;
+
+  /// False when enrolment could not achieve the required lighting spread and
+  /// the record was stored anyway. Flagged rather than silently accepted: three
+  /// identical templates look like multi-template enrolment while delivering
+  /// none of its benefit.
+  final bool templateSpreadOk;
   final String modelVersion;
 
   final bool consent;
@@ -49,6 +66,21 @@ class StudentProfile {
   // enrollment; the server checks a submission's device_id against this.
   final String? boundDeviceId;
   final DateTime? deviceBoundAt;
+
+  /// Illumination the template was ENROLLED under — mean/spread of the luma of
+  /// the accepted frames, as the camera's own auto-exposure settled them. See
+  /// CaptureIllumination and issue.md: a genuine pair can be rejected purely
+  /// for enrolling and verifying under different light, and without this stored
+  /// on the template there is nothing to compare a probe against.
+  ///
+  /// Null on templates enrolled before this was recorded, and on roster-only
+  /// documents.
+  final Map<String, dynamic>? enrollIllumination;
+
+  /// Pose the template was ENROLLED at — see CapturePose. Out-of-plane tilt is
+  /// the largest UNCORRECTED nuisance factor (r=-0.169); the rotation-aligned
+  /// crop cancels in-plane rotation but cannot undo foreshortening.
+  final Map<String, dynamic>? enrollPose;
 
   final DateTime createdAt;
   final DateTime updatedAt;
@@ -64,11 +96,15 @@ class StudentProfile {
     this.assignedClassroom,
     required this.handSide,
     required this.embedding,
+    this.templates = const [],
+    this.templateSpreadOk = true,
     required this.modelVersion,
     required this.consent,
     required this.consentAt,
     this.boundDeviceId,
     this.deviceBoundAt,
+    this.enrollIllumination,
+    this.enrollPose,
     required this.createdAt,
     DateTime? updatedAt,
     this.synced = false,
@@ -80,7 +116,31 @@ class StudentProfile {
   /// True once a palm template has actually been captured. A roster-only doc
   /// created by an advisor (section assigned, palm not yet enrolled) has an
   /// empty embedding and reads as not-enrolled.
-  bool get isEnrolled => embedding.length == 256;
+  bool get isEnrolled => embedding.length == 256 || templates.any((t) => t.isValid);
+
+  /// Every usable template, whichever schema the record uses. A legacy single
+  /// `embedding` is presented as a one-element list so callers never branch.
+  List<PalmTemplate> get allTemplates => templates.isNotEmpty
+      ? templates.where((t) => t.isValid).toList()
+      : (embedding.length == 256
+          ? [
+              PalmTemplate(
+                vec: embedding,
+                handSide: handSide,
+                modelVersion: modelVersion,
+                // Pre-telemetry: the lighting it was captured under was never
+                // recorded, and null is the honest value.
+                enrollLumaMean: null,
+                capturedAt: createdAt,
+              )
+            ]
+          : const []);
+
+  int get templateCount => allTemplates.length;
+
+  /// Spread of enrolment lighting across the stored templates. Null when fewer
+  /// than two record a luma — which is the normal state for backfilled records.
+  double? get templateLumaSpread => PalmTemplate.lumaSpread(allTemplates);
 
   /// Whether this template was produced by [currentModelVersion].
   ///
@@ -101,12 +161,21 @@ class StudentProfile {
         if (section != null) 'section': section,
         if (assignedClassroom != null) 'assigned_classroom': assignedClassroom,
         'hand_side': handSide.label,
-        'embedding': embedding,
+        // Write BOTH shapes during migration. The legacy field keeps an
+        // older client (or a rollback) working; the array is what the server
+        // prefers.
+        if (embedding.isNotEmpty) 'embedding': embedding,
+        if (templates.isNotEmpty)
+          'embeddings': templates.map((t) => t.toJson()).toList(),
+        if (templates.isNotEmpty) 'embedding_count': templates.length,
+        if (templates.isNotEmpty) 'template_spread_ok': templateSpreadOk,
         'model_version': modelVersion,
         'consent': consent,
         'consent_at': consentAt.toIso8601String(),
         if (boundDeviceId != null) 'bound_device_id': boundDeviceId,
         if (deviceBoundAt != null) 'device_bound_at': deviceBoundAt!.toIso8601String(),
+        if (enrollIllumination != null) 'enroll_illumination': enrollIllumination,
+        if (enrollPose != null) 'enroll_pose': enrollPose,
         'created_at': createdAt.toIso8601String(),
         'updated_at': updatedAt.toIso8601String(),
       };
@@ -129,11 +198,20 @@ class StudentProfile {
               ?.map((e) => (e as num).toDouble())
               .toList() ??
           const [],
+      templates: ((d['embeddings'] as List?) ?? const [])
+          .whereType<Map>()
+          .map((e) => PalmTemplate.fromJson(e.cast<String, dynamic>()))
+          .where((t) => t.isValid)
+          .toList(),
+      templateSpreadOk: d['template_spread_ok'] as bool? ?? true,
       modelVersion: d['model_version'] as String? ?? '',
       consent: d['consent'] as bool? ?? false,
       consentAt: _coerceTimestamp(d['consent_at']) ?? created,
       boundDeviceId: d['bound_device_id'] as String?,
       deviceBoundAt: _coerceTimestamp(d['device_bound_at']),
+      enrollIllumination:
+          (d['enroll_illumination'] as Map?)?.cast<String, dynamic>(),
+      enrollPose: (d['enroll_pose'] as Map?)?.cast<String, dynamic>(),
       createdAt: created,
       updatedAt: _coerceTimestamp(d['updated_at']) ?? created,
       synced: true,
@@ -159,6 +237,10 @@ class StudentProfile {
     required String modelVersion,
     required DateTime consentAt,
     String? boundDeviceId,
+    Map<String, dynamic>? enrollIllumination,
+    Map<String, dynamic>? enrollPose,
+    List<PalmTemplate> templates = const [],
+    bool templateSpreadOk = true,
   }) {
     final now = DateTime.now();
     return StudentProfile(
@@ -169,11 +251,15 @@ class StudentProfile {
       assignedClassroom: assignedClassroom,
       handSide: handSide,
       embedding: List<double>.from(template),
+      templates: templates,
+      templateSpreadOk: templateSpreadOk,
       modelVersion: modelVersion,
       consent: true,
       consentAt: consentAt,
       boundDeviceId: boundDeviceId,
       deviceBoundAt: boundDeviceId != null ? now : null,
+      enrollIllumination: enrollIllumination,
+      enrollPose: enrollPose,
       createdAt: now,
       updatedAt: now,
       synced: false,
@@ -205,12 +291,18 @@ class StudentProfile {
         section: section,
         assignedClassroom: assignedClassroom,
         handSide: handSide,
-        embedding: const [], // <- the actual erasure; isEnrolled becomes false
+        // The actual erasure — BOTH shapes must go, or the biometric survives
+        // in the array while the record claims to be erased.
+        embedding: const [],
+        templates: const [],
         modelVersion: '',
         consent: false,
         consentAt: consentAt,
         boundDeviceId: boundDeviceId,
         deviceBoundAt: deviceBoundAt,
+        // Describe the template that just got erased — meaningless without it.
+        enrollIllumination: null,
+        enrollPose: null,
         createdAt: createdAt,
         updatedAt: DateTime.now(),
         synced: synced,
@@ -257,11 +349,15 @@ class StudentProfile {
         assignedClassroom: assignedClassroom ?? this.assignedClassroom,
         handSide: handSide,
         embedding: embedding,
+        templates: templates,
+        templateSpreadOk: templateSpreadOk,
         modelVersion: modelVersion,
         consent: consent,
         consentAt: consentAt,
         boundDeviceId: boundDeviceId ?? this.boundDeviceId,
         deviceBoundAt: deviceBoundAt ?? this.deviceBoundAt,
+        enrollIllumination: enrollIllumination,
+        enrollPose: enrollPose,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
         synced: synced ?? this.synced,

@@ -9,6 +9,8 @@ import 'package:vibration/vibration.dart';
 import '../config/app_theme.dart';
 import '../models/student_profile.dart';
 import '../providers/providers.dart';
+import '../models/palm_template.dart';
+import '../services/capture_controller.dart' show PassTemplate;
 import '../services/hand_detector.dart';
 import '../widgets/particle_background.dart';
 
@@ -74,6 +76,16 @@ class _EnrollmentSuccessScreenState
       final template = args['template'] as Float32List;
       final handSide = args['handSide'] as HandSide;
       final consentAt = args['consentAt'] as DateTime;
+      // What the light was like during enrollment (issue.md). Stored on the
+      // template so a later probe's illumination can be compared against it.
+      final illumination =
+          (args['illumination'] as Map?)?.cast<String, dynamic>();
+      final pose = (args['pose'] as Map?)?.cast<String, dynamic>();
+      // Each pass becomes its OWN stored template (multi-template enrolment).
+      // Verification takes max(cosine(probe, t)) server-side, which is what
+      // makes a lighting-varied enrolment pay off.
+      final passes = (args['passTemplates'] as List?)?.cast<PassTemplate>() ?? const [];
+      final spreadOk = args['lightingSpreadOk'] as bool? ?? true;
 
       final user = ref.read(currentUserProvider);
       if (user == null) throw StateError('Not signed in');
@@ -102,6 +114,20 @@ class _EnrollmentSuccessScreenState
         template: template,
         modelVersion: cfg.modelVersion,
         consentAt: consentAt,
+        enrollIllumination: illumination,
+        enrollPose: pose,
+        templates: [
+          for (final p in passes)
+            PalmTemplate(
+              vec: List<double>.from(p.vec),
+              handSide: handSide,
+              modelVersion: cfg.modelVersion,
+              enrollLumaMean: p.lumaMean,
+              enrollLumaStd: p.lumaStd,
+              capturedAt: DateTime.now(),
+            ),
+        ],
+        templateSpreadOk: spreadOk,
       );
 
       await svc.saveProfile(profile);

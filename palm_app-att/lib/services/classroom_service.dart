@@ -5,8 +5,16 @@ import 'firestore_ref.dart';
 import '../models/classroom.dart';
 import 'wifi_scan_service.dart';
 
-/// Reads classrooms (any signed-in client) and writes the Wi-Fi fingerprint
-/// (admin only — enforced by firestore.rules). Spec §7.
+/// Reads classrooms and writes the Wi-Fi fingerprint. STAFF ONLY — enforced by
+/// firestore.rules, which no longer lets ordinary students read this collection
+/// at all.
+///
+/// The reason is that these documents carry `wifi_fingerprint`, and a
+/// fingerprint is a matching SECRET: handing it to a client tells an attacker
+/// exactly which BSSIDs at which strengths to fake. Students never needed it —
+/// the phone scans, sends what it saw, and `submitAttendance` does the
+/// comparison server-side. The only in-app reader is the staff fingerprint
+/// capture screen.
 class ClassroomService {
   final FirebaseFirestore _firestore;
   ClassroomService({FirebaseFirestore? firestore})

@@ -73,11 +73,14 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
         return;
       }
 
-      // Advisors/admins go to their own home; everyone else is a student.
+      // Coordinators land on the advisor list (that's their whole job);
+      // advisors/admins go to their session home; everyone else is a student.
       final staff = await ref.read(staffProfileProvider.future);
       if (!mounted) return;
-      Navigator.of(context)
-          .pushReplacementNamed(staff != null ? '/advisor' : '/home');
+      final route = staff == null
+          ? '/home'
+          : (staff.isCoordinator ? '/manage-advisors' : '/advisor');
+      Navigator.of(context).pushReplacementNamed(route);
     } catch (e) {
       // Without a way forward this is a dead end that reads to the user as
       // "the app logged me out" — the staff lookup and model load both depend
@@ -146,7 +149,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
               const SizedBox(height: AppTheme.spacingXl),
 
               // App name
-              Text('PalmPay', style: AppTheme.displayLarge)
+              Text('Cit Attendance', style: AppTheme.displayLarge)
                   .animate()
                   .fadeIn(delay: 300.ms, duration: 500.ms)
                   .slideY(begin: 0.3, curve: Curves.easeOutCubic),

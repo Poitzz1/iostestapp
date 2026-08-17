@@ -38,9 +38,12 @@ service cloud.firestore {
       return request.auth.token.email.split('@')[0].upper();
     }
 
-    // Advisor/admin role is a staff/{uid} document. Its presence is authority;
-    // `role` distinguishes "advisor" (manages their own section's sessions)
-    // from "admin" (can also fingerprint classrooms).
+    // Advisor/admin/coordinator role is a staff/{uid} document. Its presence
+    // is authority; `role` distinguishes "advisor" (manages their own
+    // section's sessions), "admin" (can also fingerprint classrooms), and
+    // "coordinator" (manages the advisor roster itself — see assignAdvisor /
+    // listAdvisors in functions/index.js, which are the only way staff/*
+    // ever changes; these rules keep it fully client-unwritable).
     function staffDoc() {
       return get(/databases/$(database)/documents/staff/$(request.auth.uid)).data;
     }
@@ -48,8 +51,24 @@ service cloud.firestore {
       return signedIn()
         && exists(/databases/$(database)/documents/staff/$(request.auth.uid));
     }
+    // §7 ROLE HIERARCHY. Roles are designated by the web console and stored on
+    // staff/{uid}.role. 'admin' is the LEGACY value from before this build and
+    // is treated as coordinator-equivalent so existing accounts keep working.
+    function staffRole() {
+      return staffDoc().role;
+    }
     function isAdmin() {
-      return isStaff() && staffDoc().role == 'admin';
+      return isStaff() && (staffRole() == 'admin' || staffRole() == 'coordinator'
+                           || staffRole() == 'hod');
+    }
+    function isCoordinator() {
+      return isStaff() && (staffRole() == 'coordinator' || staffRole() == 'admin');
+    }
+    function isHod() {
+      return isStaff() && staffRole() == 'hod';
+    }
+    function isAdvisor() {
+      return isStaff() && staffRole() == 'advisor';
     }
 
     // ── students/{student_id} — one profile+template per student ─────────────
@@ -78,17 +97,39 @@ service cloud.firestore {
       // roster-only doc to silently fail (embedding never reached the server).
       //
       // NOT in this list, deliberately: `collector_subject_ids` and
-      // `collector_linked_at`. Those map a student to their pseudonymous
-      // subject_id(s) in the SEPARATE palm-data-collector Firebase project
-      // (ADDON §5), and they are the only thread linking a collected palm image
-      // back to a person. They are written exclusively by the
-      // `linkCollectorSubject` Cloud Function via the Admin SDK. A student's own
-      // client cannot add, change or clear them — a writable mapping would let
+      // `collector_linked_at`. LEGACY — the in-app data collector and its
+      // `linkCollectorSubject` Cloud Function were removed from this build, so
+      // nothing writes these any more. They are kept out of the student-writable
+      // list because docs created during the collector period still carry them,
+      // and they remain the only thread linking a collected palm image back to a
+      // person: a student who could clear their own mapping could detach
+      // themselves from samples that were collected with their consent.
+      // A student's own client cannot add, change or clear them — a writable
+      // mapping would let
       // someone attach their samples to another student's record, or detach
       // their own so a removal request could never find them.
+      // `enroll_illumination` and `enroll_pose` ride along with the embedding:
+      // they record the light and the palm geometry the template was captured
+      // under. Both are diagnostic only and carry no presence/identity
+      // authority — neither can change WHERE or AS WHOM a student is verified —
+      // so they are safe for the student's own client to write, exactly like
+      // model_version. They MUST be listed here: this is a hasOnly() allowlist,
+      // so an unlisted key does not merely get dropped, it rejects the ENTIRE
+      // enrollment write.
+      // `embeddings` is the MULTI-TEMPLATE array (several palm vectors captured
+      // under different lighting; verification takes the max). `embedding` is
+      // the legacy single vector and stays writable so already-enrolled
+      // students are not forced to re-enrol.
+      //
+      // Adding `embeddings` here is not optional: this list is a hasOnly()
+      // allowlist, so an unlisted key does not get quietly dropped — it rejects
+      // the ENTIRE enrolment write. That exact omission has already cost this
+      // project a debugging session once.
       function studentWritableFields() {
-        return ['embedding', 'hand_side', 'model_version', 'consent',
-                'consent_at', 'updated_at', 'created_at'];
+        return ['embedding', 'embeddings', 'embedding_count',
+                'hand_side', 'model_version', 'consent',
+                'consent_at', 'updated_at', 'created_at',
+                'enroll_illumination', 'enroll_pose', 'template_spread_ok'];
       }
       // Additionally permitted only at creation (identity is pinned to the
       // caller's own derived id, so this is not a free choice).
@@ -149,26 +190,111 @@ service cloud.firestore {
     // A DPDP erasure: the embedding is gone and consent is withdrawn. The
     // roster fields are untouched (enforced separately by affectedKeys), so
     // the student stays on their section's roster and can re-enroll later.
+    // Erasure must remove BOTH shapes. Checking only `embedding` would let a
+    // student "delete" their palm while the embeddings[] array survived — the
+    // biometric would still be on the server and still verifiable.
     function isBiometricErasure(data) {
-      return !('embedding' in data.keys()) && data.consent == false;
+      return !('embedding' in data.keys())
+        && !('embeddings' in data.keys())
+        && data.consent == false;
     }
 
+    // A well-formed enrolment carries EITHER the legacy single `embedding` or
+    // the new `embeddings` array. Requiring the legacy field would reject every
+    // multi-template enrolment; requiring the new one would break the migration
+    // window. Both are accepted, deliberately.
+    function hasLegacyEmbedding(data) {
+      return 'embedding' in data.keys()
+        && data.embedding is list
+        && data.embedding.size() == 256;
+    }
+    function hasEmbeddingArray(data) {
+      return 'embeddings' in data.keys()
+        && data.embeddings is list
+        && data.embeddings.size() > 0
+        && data.embeddings.size() <= 8;
+    }
     function isWellFormedStudent(data, studentId) {
       return data.student_id == studentId
         && (data.hand_side == 'left' || data.hand_side == 'right')
         && data.consent == true
-        && data.embedding is list
-        && data.embedding.size() == 256
+        && (hasLegacyEmbedding(data) || hasEmbeddingArray(data))
         && data.model_version is string
         && data.created_at is string
         && data.updated_at is string
         && data.consent_at is string;
     }
 
-    // ── classrooms/{classroom_id} — read-only to clients, admin-writable ─────
+    // ── classrooms/{classroom_id} — STAFF-ONLY READ, server-written ─────────
+    //
+    // NOT readable by students any more. These documents carry
+    // `wifi_fingerprint`, and §3 of the build brief is explicit that
+    // fingerprints must never reach a client: they are matching secrets, and
+    // handing them out both bloats the payload and tells an attacker exactly
+    // what to spoof. The student client no longer needs them — it scans, sends
+    // what it saw, and the SERVER compares.
+    //
+    // BLAST RADIUS, stated plainly: this is NOT year-gatable. Rules cannot see
+    // a student's year without an extra document read per request, so closing
+    // the leak necessarily closes it for years 1/2/4 as well. Their clients did
+    // not use the data either — submitAttendance has always done the comparison
+    // server-side — so the change is safe, but it is genuinely global and is
+    // called out in STEP0_AUDIT.md rather than slipped in.
     match /classrooms/{classroomId} {
+      allow get, list: if isStaff();
+      allow create, update, delete: if isCoordinator() || isHod();
+    }
+
+    // ── sections/{section_id} — roster/timetable metadata ────────────────────
+    // Readable by any signed-in user (a student must be able to learn their own
+    // section's year); writable only by the console-level roles.
+    match /sections/{sectionId} {
       allow get, list: if signedIn();
-      allow create, update, delete: if isAdmin();
+      allow create, update, delete: if isCoordinator() || isHod();
+    }
+
+    // ── schedule_templates/{year} — period + break timings (§7) ──────────────
+    // Advisors must NOT be able to change timings. Writes go through the
+    // setScheduleTemplate function (Admin SDK), which re-checks the year
+    // ownership; these rules deny every client write outright.
+    match /schedule_templates/{year} {
+      allow get, list: if signedIn();
+      allow write: if false;
+    }
+
+    // ── timetable / overrides / substitutions / OD — function-written ────────
+    //
+    // All four are READ-ONLY to staff and written exclusively by the callable
+    // functions (setTimetableEntry, setVenueOverride, setStaffSubstitution,
+    // setODAssignment), which enforce §7 scoping AND the rule that a venue must
+    // be fingerprinted before it can be targeted. That constraint cannot be
+    // expressed in rules — it needs a lookup into classrooms and a check that
+    // the fingerprint array is non-empty — so allowing direct client writes
+    // here would create a path that bypasses it and strands a whole class in an
+    // unfingerprinted room.
+    match /timetable/{sectionId}/entries/{entryId} {
+      allow get, list: if isStaff();
+      allow write: if false;
+    }
+    match /venue_overrides/{id} {
+      allow get, list: if isStaff();
+      allow write: if false;
+    }
+    match /staff_substitutions/{id} {
+      allow get, list: if isStaff();
+      allow write: if false;
+    }
+    match /od_assignments/{id} {
+      allow get, list: if isStaff();
+      allow write: if false;
+    }
+
+    // ── day_plans/{section_id}_{date} — the §3 low-bandwidth document ────────
+    // Contains NO fingerprint data by construction (see buildDayPlan). Students
+    // read their own section's plan; only the server writes it.
+    match /day_plans/{planId} {
+      allow get, list: if signedIn();
+      allow write: if false;
     }
 
     // ── attendance_sessions/{session_id} — advisor/admin managed ─────────────
@@ -177,10 +303,20 @@ service cloud.firestore {
       // their section). Only the owning advisor (or an admin) may create,
       // modify, or close a session.
       allow get, list: if signedIn();
+      // Year-3 sessions are created ONLY by the openSession function, which
+      // palm-verifies the staff member first (§5) and stamps
+      // opened_via_palm: true. A client cannot forge that, because it cannot
+      // write this collection with that flag set.
+      //
+      // Years 1/2/4 keep the existing client-create path untouched — that is
+      // the whole point of the `opened_via_palm != true` guard rather than a
+      // blanket denial.
       allow create: if isStaff()
-        && request.resource.data.advisor_id == request.auth.uid;
+        && request.resource.data.advisor_id == request.auth.uid
+        && request.resource.data.get('opened_via_palm', false) != true;
       allow update, delete: if isStaff()
-        && resource.data.advisor_id == request.auth.uid;
+        && resource.data.advisor_id == request.auth.uid
+        && resource.data.get('opened_via_palm', false) != true;
     }
 
     // ── attendance/{attendance_id} — Cloud-Function-written only ─────────────
@@ -209,7 +345,11 @@ service cloud.firestore {
       allow read, write: if false;
     }
 
-    // ── staff/{uid} — provisioned out-of-band (console/admin), read-only ─────
+    // ── staff/{uid} — client read-only; writes ONLY via Cloud Functions ──────
+    // The first coordinator/admin is provisioned out-of-band (console / the
+    // seed script). Every advisor after that is provisioned by a coordinator
+    // through assignAdvisor (Admin SDK, bypasses these rules) — never by a
+    // direct client write, which stays denied here regardless of role.
     match /staff/{uid} {
       allow get: if signedIn() && request.auth.uid == uid;
       allow list, create, update, delete: if false;

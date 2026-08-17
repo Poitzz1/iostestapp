@@ -1,35 +1,88 @@
 {
-  "model_file": "palm_256_l2_fp32.onnx",
-  "model_version": "palm_256_l2_fp32_v4",
+  "model_file": "palm_256_l2_fp32_v5.onnx",
+  "model_version": "palm_256_l2_fp32_v5",
   "input_name": "input",
   "output_name": "embedding",
   "input_size": 224,
   "channel_order": "RGB",
   "layout": "NCHW",
   "scale": "divide_by_255",
-  "normalize_mean": [0.485, 0.456, 0.406],
-  "normalize_std": [0.229, 0.224, 0.225],
+  "normalize_mean": [
+    0.485,
+    0.456,
+    0.406
+  ],
+  "normalize_std": [
+    0.229,
+    0.224,
+    0.225
+  ],
   "output_is_l2_normalized": true,
   "embedding_dim": 256,
-  "similarity": "cosine",
+  "similarity": "cosine (dot product of unit vectors)",
   "parity_threshold": 0.999,
-  "verification_threshold_FAR_0.1pct": 0.70,
-  "trained_on": "11k_hands + SMPD, MediaPipe ROI-cropped (v4 domain-aligned)",
+  "verification_threshold_FAR_0.1pct": 0.5508,
+  "roi_crop_spec": {
+    "description": "ROTATION-ALIGNED palm ROI crop. MUST be implemented identically in the app — this is the v5 change that fixes angle-dependent false rejects. Any mismatch reintroduces the train/deploy bug.",
+    "steps": [
+      "1. Detect 21 hand landmarks on the ORIGINAL, unrotated frame.",
+      "2. Vector from landmark[0] (wrist) to landmark[9] (middle MCP), pixel coords.",
+      "3. current_angle_deg = atan2(y9 - y0, x9 - x0), in degrees.",
+      "4. rotation_needed_deg = -90 - current_angle_deg.",
+      "5. Rotate the WHOLE frame by (-rotation_needed_deg) about the image center: getRotationMatrix2D(center, -rotation_needed_deg, 1.0) + warpAffine, same canvas size, BORDER_REPLICATE, INTER_LINEAR.",
+      "6. Transform all 21 landmarks through the SAME rotation matrix.",
+      "7. From ROTATED landmarks: palm_center = mean of indices [0,1,2,5,9,13,17]; span = distance(landmark[9], landmark[0]); half_size = 1.1 * span.",
+      "8. Square crop of the ROTATED image at [center +/- half_size] on both axes.",
+      "9. Resize crop to 224x224.",
+      "10. If NO hand detected: center-square crop of the raw frame, NO rotation."
+    ],
+    "landmark_indices": {
+      "wrist": 0,
+      "middle_mcp": 9,
+      "palm_center_points": [
+        0,
+        1,
+        2,
+        5,
+        9,
+        13,
+        17
+      ]
+    },
+    "span_multiplier": 1.1,
+    "detect_max_px": 800,
+    "fallback": "center_square_crop_no_rotation"
+  },
   "models": {
-    "mobile": "palm_256_l2_fp32.onnx",
-    "web": "palm_fp16_web.onnx"
+    "mobile": "palm_256_l2_fp32_v5.onnx",
+    "web_primary_webgpu": "palm_256_l2_fp32_v5_fp16.onnx",
+    "web_fallback_wasm": "palm_256_l2_fp32_v5.onnx"
+  },
+  "int8_viable": false,
+  "training_provenance": {
+    "trained_on": "kaggle",
+    "crop_logic_version": "v5_rotation_aligned_800px",
+    "datasets": [
+      "11k_palmar_roi",
+      "collector_roi"
+    ],
+    "num_train_identities": 419,
+    "num_heldout_identities": 98,
+    "eval_auc": 0.9915294116926664,
+    "eval_eer_pct": 4.2658405037805585,
+    "eval_genuine_mean": 0.6278937930777774,
+    "eval_impostor_mean": 0.04754126166290177,
+    "eval_gap": 0.5803525314148756
   },
   "notes": [
-    "v4: trained on ROI crops — the app MUST crop with the same MediaPipe palm-ROI logic before embedding. See MediaPipeHandDetector.palmRoiFrom + PalmPreprocessor._cropPalmRoi, which reproduce the training crop exactly (landmarks 0,1,2,5,9,13,17; centre = mean; half = 1.1 x dist(wrist, middle_mcp); square clipped to bounds; centre-square fallback when no hand is detected).",
-    "THRESHOLD IS 0.70 (INTERIM, set 2026-07-28) — not the v4 eval value 0.5084, and not FAR-derived despite the field name. Measured on-device with v4 + ROI crop, 2 real people: genuine 0.7593 / 0.8437; live impostor ~0.63; cross-person enrolled templates 0.5696. 0.5084 sat BELOW the entire impostor range, i.e. the palm layer accepted anyone. 0.70 separates this sample but margins are thin (genuine 0.7593 clears by 0.06) and it is fitted to n=2 — expect false rejects on other people. Re-derive from 10+ identities before widening the pilot. Do NOT lower it toward 0.5084 without new evidence.",
+    "v5 ROTATION-ALIGNED CROP. The app MUST reproduce roi_crop_spec exactly: rotate the frame so wrist(0) -> middle_mcp(9) points straight up, THEN take the 1.1 x span square around the palm centre. See MediaPipeHandDetector.palmRoiFrom + PalmPreprocessor._cropPalmRoi. Skipping the rotation reintroduces the angle-dependent false rejects v5 exists to fix.",
+    "MEASURED NUISANCE FACTORS (v5 diagnostic, 3,210 real comparisons): in-plane rotation drove score decay at r=-0.322, p<0.0001 — this is what the rotation-aligned crop CANCELS. Out-of-plane tilt is r=-0.169, roughly half the effect, and is NOT corrected by anything: the crop cannot undo foreshortening. Observed in the field: same palm, same lighting, phone angled up vs down scored 0.607 where same-angle scored 0.800 (2026-08-16). Expect that.",
+    "THRESHOLD 0.5508 is FAR-0.1% derived on 98 held-out identities (AUC 0.9915, EER 4.27%). It SUPERSEDES the v4 interim 0.70, which was fitted to only 2 people. Do not carry 0.70 forward — it belongs to a different embedding space.",
     "The SERVER decides. Firestore config/model overrides this file, so the live threshold is whatever that doc says — check there first when the numbers look wrong.",
-    "PILOT ONLY — not a standalone security gate. Measured on two real people: false rejects 14% -> 0%, false accepts 29% -> 14%. Acceptable as ONE layer alongside the Wi-Fi fingerprint and session window, under supervision, on 1-2 sections.",
-    "v4 changes the embedding space: templates enrolled under any earlier model_version are NOT comparable and must be re-enrolled. submitAttendance rejects cross-version comparisons rather than scoring them.",
-    "INT8 deferred — corrupts this backbone (~0.70 self-cosine). Use fp32 mobile / fp16 web.",
+    "v5 changes the embedding space: EVERY template enrolled under v4 or earlier is invalid and must be re-enrolled. submitAttendance rejects cross-version comparisons rather than scoring them.",
     "CLAHE is train-time augmentation only; do NOT apply at inference.",
-    "Enroll = mean of L2-normalized embeddings from several frames, then re-normalize.",
-    "NEVER compare single-shot embeddings — always use averaged templates.",
+    "Enroll = mean of 4-8 L2-normalized embeddings, then re-normalize. NEVER compare single-shot embeddings.",
     "Store hand_side explicitly; gate left/right before comparing.",
-    "palm_fp16_web.onnx (see models.web) is for a separate web client — it is not bundled into this Flutter app's assets (not referenced in pubspec.yaml)."
+    "INT8 is not viable for this backbone (int8_viable=false). Use fp32 on mobile."
   ]
 }

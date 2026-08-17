@@ -2,12 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'firestore_ref.dart';
 
-/// Advisor/admin role, backed by a `staff/{uid}` document provisioned
-/// out-of-band (Firebase console / an admin tool). Its existence is authority;
-/// `role` distinguishes advisor from admin. Students have no staff doc.
+/// Advisor/admin/coordinator role, backed by a `staff/{uid}` document. A
+/// coordinator or admin is provisioned out-of-band (Firebase console / the
+/// seed script) as the bootstrap step; from then on a coordinator can add
+/// advisors entirely from within the app (see AdvisorService.assignAdvisor —
+/// no further console work needed). Its existence is authority; `role`
+/// distinguishes advisor / admin / coordinator. Students have no staff doc.
 class StaffProfile {
   final String uid;
-  final String role; // 'advisor' | 'admin'
+  final String role; // 'advisor' | 'admin' | 'coordinator'
   final List<String> sections; // all sections this advisor owns
   final String? section; // convenience: the primary section (sections[0])
   final String? classroomId; // advisor's default classroom
@@ -23,6 +26,7 @@ class StaffProfile {
   });
 
   bool get isAdmin => role == 'admin';
+  bool get isCoordinator => role == 'coordinator';
   bool get isAdvisor => role == 'advisor' || role == 'admin';
 
   factory StaffProfile.fromFirestore(Map<String, dynamic> d, String uid) {

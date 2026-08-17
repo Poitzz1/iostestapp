@@ -27,6 +27,11 @@
  * Advisor `uid` must be the Firebase Auth UID of an already-registered
  * account (Console → Authentication → Users). The app looks up staff by UID,
  * so a wrong UID silently means "not staff".
+ *
+ * You only need this script to bootstrap the FIRST coordinator (or admin) on
+ * a fresh project. After that, a coordinator adds every advisor from inside
+ * the app (Manage Advisors screen) — no further console work or re-run of
+ * this script is needed for ordinary advisor onboarding.
  */
 
 import { readFileSync, existsSync } from "node:fs";
@@ -82,16 +87,17 @@ advisors.forEach((a, i) => {
   }
   if (!a.staff_id) problems.push(`${where}: staff_id is required.`);
   // Advisors must own at least one section (that's what they open sessions
-  // for). An admin may have none — they can still capture Wi-Fi fingerprints
-  // and manage classrooms without owning a section.
-  const isAdminRole = a.role === "admin";
+  // for). An admin or coordinator may have none — a coordinator only manages
+  // the advisor roster (see assignAdvisor in functions/index.js) and never
+  // opens a session itself.
+  const exemptFromSections = a.role === "admin" || a.role === "coordinator";
   if (!Array.isArray(a.sections) || a.sections.length === 0) {
-    if (!isAdminRole) {
+    if (!exemptFromSections) {
       problems.push(`${where}: sections must be a non-empty list, e.g. ["CSE-A"].`);
     }
   }
-  if (a.role && !["advisor", "admin"].includes(a.role)) {
-    problems.push(`${where}: role must be "advisor" or "admin" (got "${a.role}").`);
+  if (a.role && !["advisor", "admin", "coordinator"].includes(a.role)) {
+    problems.push(`${where}: role must be "advisor", "admin", or "coordinator" (got "${a.role}").`);
   }
 });
 

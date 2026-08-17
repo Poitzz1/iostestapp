@@ -45,6 +45,12 @@ class QualityGate {
   final double minSharpness;
   final double minCenterScore;
 
+  /// [minBrightness] 40 — the original value, restored.
+  ///
+  /// It was briefly dropped to 22 to get dim rooms working. That was the wrong
+  /// lever: it does not make a dark frame usable, it just stops us saying so,
+  /// and the embedding is computed either way. A refusal the student can act on
+  /// ("find better light") is worth more than a scan that will not match.
   const QualityGate({
     this.minBrightness = 40,
     this.saturationLevel = 250,
@@ -52,6 +58,38 @@ class QualityGate {
     this.minSharpness = 8.0,
     this.minCenterScore = 0.55,
   });
+
+  // ── Low light: the app does NOT drive the camera ──────────────────────────
+  //
+  // DO NOT add an exposure controller here, and DO NOT add a torch. Both were
+  // tried; both made things worse, in different ways.
+  //
+  // The torch made the same palm stop matching itself. An LED a hand's width
+  // from a palm is a specular hotspot with hard falloff, and glare is this
+  // model's documented worst case (see the asymmetry note above: ~0.935 under
+  // 40% DARKENING but ~0.704 under 40% brightening, "worse with real glare").
+  // With v5's genuine mean at 0.6279 against a 0.5508 threshold there is only
+  // 0.077 of margin — far less than glare costs.
+  //
+  // Driving exposure compensation toward a target mean luma was worse still: it
+  // deadlocked capture completely. The control signal available here is
+  // [_mean] over the WHOLE FRAME, and a palm held close against a dark
+  // background has a low frame mean even when the palm itself is correctly lit.
+  // Chasing that mean saturates the palm long before the mean arrives, at which
+  // point [maxBlowoutFraction] rejects the frame as "too bright" — while the
+  // mean, still short of target, tells the controller to push harder. The gate
+  // and the controller fight each other and nothing is ever capturable.
+  //
+  // Fixing that properly needs a control signal measured over the PALM REGION
+  // rather than the frame, which is not available at this point in the pipeline
+  // (the ROI comes from hand detection, which runs after this gate). Until it
+  // is, the camera's own auto-exposure — a well-tuned vendor algorithm with
+  // access to the real metering grid — is left alone to do its job.
+  //
+  // Low light is now understood to be a MODEL/ENROLLMENT-PROTOCOL problem, not
+  // a capture-tuning one. See issue.md: the remaining work is re-deriving the
+  // threshold against cross-illumination genuine pairs and enrolling across
+  // lighting conditions, not another loop in this file.
 
   /// Evaluate a live YUV/BGRA frame using its luminance.
   QualityReport evaluate(CameraImage frame) {

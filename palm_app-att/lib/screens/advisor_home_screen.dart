@@ -137,6 +137,21 @@ class _AdvisorHomeScreenState extends ConsumerState<AdvisorHomeScreen> {
                   ],
                 ),
               ),
+              // YEAR 3 ONLY. Opens the resolved day plan so the staff member
+              // can palm-verify and start a period's 5-minute student window
+              // (build brief §5). A section that is not year 3 gets a plain
+              // refusal from the server rather than a different screen.
+              IconButton(
+                tooltip: 'Open a period (Year 3)',
+                icon: const Icon(Icons.schedule, color: AppTheme.accentCyan),
+                onPressed: () => Navigator.of(context).pushNamed(
+                  '/open-period',
+                  arguments: {
+                    'sectionId': staff.section ??
+                        (staff.sections.isNotEmpty ? staff.sections.first : null),
+                  },
+                ),
+              ),
               IconButton(
                 tooltip: 'Section roster',
                 icon: const Icon(Icons.group_add_outlined, color: AppTheme.accentCyan),

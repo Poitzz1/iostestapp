@@ -54,6 +54,8 @@ class AttendanceService {
     GpsReading? gps,
     required bool isMockLocation,
     required String deviceId,
+    Map<String, dynamic>? illumination,
+    Map<String, dynamic>? pose,
   }) async {
     final res = await _functions.httpsCallable('submitAttendance').call({
       'session_id': sessionId,
@@ -65,6 +67,13 @@ class AttendanceService {
       'is_mock_location': isMockLocation,
       'device_id': deviceId,
       'client_timestamp': DateTime.now().toIso8601String(),
+      // Illumination the probe was captured under. The server stores it next
+      // to palm_score and, where the template carries the same stat, records
+      // the delta — see issue.md, cross-illumination genuine rejects.
+      'illumination': illumination,
+      // Pose the probe was captured at — out-of-plane tilt is the largest
+      // uncorrected nuisance factor. See issue.md.
+      'pose': pose,
     });
     return AttendanceDecision.fromMap((res.data as Map).cast<String, dynamic>());
   }
@@ -128,9 +137,13 @@ class AttendanceDecision {
         'model_version_mismatch' =>
           'The palm model has been updated. Please re-enroll your palm — your '
               'previous scan is no longer compatible.',
+        'section_not_assigned' =>
+          'You have not been assigned to a section yet. Ask your coordinator '
+              'or advisor to add you to a class, then try again.',
+        // Legacy code from the removed pilot allowlist — see AttendanceRecord.
         'section_not_in_pilot' =>
-          'Palm attendance is not yet enabled for your section. Your advisor '
-              'will mark attendance manually.',
+          'Palm attendance is not enabled for your section. Your advisor will '
+              'mark attendance manually.',
         'invalid_nonce' => 'Session expired — please try again.',
         _ => 'Attendance could not be verified.',
       };

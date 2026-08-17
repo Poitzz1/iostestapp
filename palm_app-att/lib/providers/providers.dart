@@ -3,10 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '../config/deploy_config.dart';
 import '../models/student_profile.dart';
+import '../services/advisor_service.dart';
 import '../services/attendance_service.dart';
 import '../services/auth_service.dart';
 import '../services/capture_controller.dart';
 import '../services/classroom_service.dart';
+import '../services/timetable_service.dart';
 import '../services/device_service.dart';
 import '../services/liveness_detector.dart';
 import '../services/hand_detector.dart';
@@ -143,7 +145,12 @@ final attendanceServiceProvider =
 final sessionServiceProvider = Provider<SessionService>((ref) => SessionService());
 final classroomServiceProvider =
     Provider<ClassroomService>((ref) => ClassroomService());
+
+/// YEAR-3 timetable / venue / palm-verified session opening.
+final timetableServiceProvider =
+    Provider<TimetableService>((ref) => TimetableService());
 final rosterServiceProvider = Provider<RosterService>((ref) => RosterService());
+final advisorServiceProvider = Provider<AdvisorService>((ref) => AdvisorService());
 
 // ─── Parity Test ─────────────────────────────────────────────────────────────
 

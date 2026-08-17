@@ -42,3 +42,11 @@ android {
 flutter {
     source = "../.."
 }
+
+dependencies {
+    // Required on the compile classpath so javac can resolve type annotations
+    // referenced by androidx.camera:camera-core (used by the camera plugin's
+    // CameraX backend); otherwise compileDebugJavaWithJavac fails with
+    // "class file for androidx.concurrent.futures.CallbackToFutureAdapter not found".
+    implementation("androidx.concurrent:concurrent-futures:1.1.0")
+}

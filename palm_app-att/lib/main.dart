@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'config/app_theme.dart';
 import 'firebase_options.dart';
 import 'screens/advisor_home_screen.dart';
+import 'screens/open_period_screen.dart';
 import 'screens/assign_student_screen.dart';
 import 'screens/attendance_screen.dart';
 import 'screens/capture_screen.dart';
@@ -13,6 +14,7 @@ import 'screens/consent_screen.dart';
 import 'screens/enrollment_success_screen.dart';
 import 'screens/hand_select_screen.dart';
 import 'screens/home_screen.dart';
+import 'screens/manage_advisors_screen.dart';
 import 'screens/sign_in_screen.dart';
 import 'screens/splash_screen.dart';
 import 'screens/verify_email_screen.dart';
@@ -49,14 +51,17 @@ class PalmPayApp extends StatelessWidget {
     '/success': (_) => const EnrollmentSuccessScreen(),
     '/attendance': (_) => const AttendanceScreen(),
     '/advisor': (_) => const AdvisorHomeScreen(),
+    // YEAR 3 ONLY — palm-verified period opening (build brief §5).
+    '/open-period': (_) => const OpenPeriodScreen(),
     '/assign-students': (_) => const AssignStudentScreen(),
+    '/manage-advisors': (_) => const ManageAdvisorsScreen(),
     '/wifi-fingerprint': (_) => const WifiFingerprintScreen(),
   };
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'PalmPay Attendance',
+      title: 'Cit Attendance',
       theme: AppTheme.darkTheme,
       debugShowCheckedModeBanner: false,
       initialRoute: '/',

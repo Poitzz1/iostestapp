@@ -19,6 +19,18 @@ subprojects {
     project.evaluationDependsOn(":app")
 }
 
+// androidx.camera:camera-core (pulled in by the camera plugin's CameraX backend)
+// references androidx.concurrent.futures.CallbackToFutureAdapter in type annotations
+// but doesn't put it on javac's compile classpath itself, causing
+// "class file for androidx.concurrent.futures.CallbackToFutureAdapter not found".
+subprojects {
+    if (project.name == "camera_android_camerax") {
+        project.afterEvaluate {
+            dependencies.add("implementation", "androidx.concurrent:concurrent-futures:1.1.0")
+        }
+    }
+}
+
 tasks.register<Delete>("clean") {
     delete(rootProject.layout.buildDirectory)
 }

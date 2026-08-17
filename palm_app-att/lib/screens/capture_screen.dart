@@ -12,6 +12,7 @@ import '../config/app_theme.dart';
 import '../providers/providers.dart';
 import '../services/capture_controller.dart' as cap;
 import '../services/hand_detector.dart';
+import '../services/quality_gate.dart';
 import '../widgets/quality_feedback_overlay.dart';
 import '../widgets/scan_ring_painter.dart';
 
@@ -152,14 +153,24 @@ class _CaptureScreenState extends ConsumerState<CaptureScreen>
       // times at the classroom door. (Was 1; with the genuine-score margin
       // over the threshold as thin as it is, the extra pass of averaging is
       // cheap insurance against false rejects.)
-      final isAttendance = (_routeArgs?['mode'] as String?) == 'attendance';
+      // Modes: 'enroll' (student, 4 passes), 'attendance' (student probe),
+      // 'staff-enroll' (staff template), 'staff-open' (staff probe to open a
+      // session). Staff use the SAME pipeline as students — same quality
+      // gates, same multi-frame average, same model-version gate — because a
+      // second capture path would be a second thing to keep correct.
+      final mode = (_routeArgs?['mode'] as String?) ?? 'enroll';
+      final isProbe = mode == 'attendance' || mode == 'staff-open';
+      final isAttendance = isProbe;
       _captureCtrl!.start(
         sensorOrientation: cam.sensorOrientation,
-        passes: isAttendance ? 2 : 4,
+        passes: isProbe ? 2 : 4,
         // Enrollment varies (and VERIFIES) the pose across passes so the
         // template generalises; attendance holds one pose — the probe needs
         // to match the template, not add diversity to it.
-        varyPose: !isAttendance,
+        // Pose AND lighting variation are for the STUDENT enrolment only —
+        // they build a template that generalises. A probe must MATCH the
+        // template, so attendance and staff opening hold one pose.
+        varyPose: mode == 'enroll',
       );
 
       // Start streaming frames to capture controller
@@ -180,9 +191,31 @@ class _CaptureScreenState extends ConsumerState<CaptureScreen>
     }
   }
 
+  /// Illumination the finished capture was taken under.
+  ///
+  /// MEASURED, not controlled. The app deliberately does not drive exposure —
+  /// see the note in QualityGate. These numbers describe whatever the camera's
+  /// own auto-exposure settled on, which is exactly what makes them worth
+  /// recording: they are an observation of the real operating condition rather
+  /// than of something the app forced.
+  Map<String, dynamic> _illuminationPayload() {
+    final ill = _captureCtrl?.illumination ?? cap.CaptureIllumination.empty;
+    return ill.toJson();
+  }
+
+  /// Pose the finished capture was taken at — see [cap.CapturePose]. Recorded
+  /// alongside illumination because out-of-plane tilt is the second-largest
+  /// measured nuisance factor (r=-0.169) and, unlike in-plane rotation, nothing
+  /// in the pipeline corrects it.
+  Map<String, dynamic> _posePayload() {
+    final pose = _captureCtrl?.pose ?? cap.CapturePose.empty;
+    return pose.toJson();
+  }
+
   void _onProgress(cap.CaptureProgress p) {
     if (!mounted) return;
     setState(() => _progress = p);
+
 
     // Haptic + pulse on accepted frame. A completed pass gets a longer,
     // stronger buzz so it reads as distinct from a single accepted frame.
@@ -227,6 +260,12 @@ class _CaptureScreenState extends ConsumerState<CaptureScreen>
     // enrollment and attendance; only what happens to the vector differs).
     final template = _captureCtrl!.buildTemplate();
 
+    // Illumination this vector was captured under, carried alongside it. See
+    // CaptureIllumination — without this a rejected genuine scan leaves no
+    // record of the one variable most likely to have caused it.
+    final illumination = _illuminationPayload();
+    final pose = _posePayload();
+
     // The user's explicit selection is authoritative for identity; the
     // detector's handedness is logged only for diagnostics.
     final detectedSide = _captureCtrl!.autoDetectedSide;
@@ -248,10 +287,17 @@ class _CaptureScreenState extends ConsumerState<CaptureScreen>
     await Future.delayed(const Duration(milliseconds: 500));
     if (!mounted) return;
 
-    if (mode == 'attendance') {
-      // Return the probe embedding to the attendance flow, which submits it
-      // to the server for the 1:1 comparison.
-      navigator.pop(template);
+    // Every probe/enrol flow other than the student's own enrolment simply
+    // hands the vector back to whoever pushed this screen.
+    if (mode == 'attendance' ||
+        mode == 'staff-open' ||
+        mode == 'staff-enroll') {
+      navigator.pop({
+        'template': template,
+        'illumination': illumination,
+        'pose': pose,
+        'handSide': handSide,
+      });
       return;
     }
 
@@ -260,6 +306,14 @@ class _CaptureScreenState extends ConsumerState<CaptureScreen>
       'template': template,
       'handSide': handSide,
       'consentAt': consentAt,
+      'illumination': illumination,
+      'pose': pose,
+      // MULTI-TEMPLATE: the per-pass vectors kept SEPARATE, each with the
+      // lighting it was captured under. Averaging them into one blurred
+      // template is what the max()-scoring change exists to avoid.
+      'passTemplates': _captureCtrl!.passTemplates,
+      'lightingSpread': _captureCtrl!.lightingSpread,
+      'lightingSpreadOk': _captureCtrl!.lightingSpreadOk,
     });
   }
 
@@ -506,7 +560,7 @@ class _CaptureScreenState extends ConsumerState<CaptureScreen>
               ),
               const SizedBox(height: AppTheme.spacingMd),
               Text(
-                'PalmPay needs camera access to capture your palm for enrollment. '
+                'Cit Attendance needs camera access to capture your palm for enrollment. '
                 'Please grant camera permission in your device settings.',
                 style: AppTheme.bodyMedium,
                 textAlign: TextAlign.center,

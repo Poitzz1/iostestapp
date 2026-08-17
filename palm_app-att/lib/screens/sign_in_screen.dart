@@ -126,7 +126,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
 
                   const SizedBox(height: AppTheme.spacingLg),
 
-                  Text('Welcome to PalmPay', style: AppTheme.displayMedium)
+                  Text('Welcome to Cit Attendance', style: AppTheme.displayMedium)
                       .animate()
                       .fadeIn(delay: 200.ms, duration: 400.ms),
 

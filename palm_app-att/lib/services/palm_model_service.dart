@@ -5,7 +5,8 @@ import 'package:onnxruntime/onnxruntime.dart';
 
 import '../config/deploy_config.dart';
 
-/// Loads `palm_256_l2_fp32.onnx` and runs inference on-device.
+/// Loads the .onnx named by `deploy_config.json -> model_file` and runs
+/// inference on-device.
 ///
 /// One [OrtSession] is created once and reused for every frame. Inference is
 /// synchronous native work; callers should run capture-loop inference off the

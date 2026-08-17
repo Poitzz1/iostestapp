@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
@@ -14,9 +15,178 @@ import 'quality_gate.dart';
 
 enum CapturePhase { idle, warming, capturing, done, error }
 
+/// Illumination the template/probe was actually captured under.
+///
+/// Recorded because a genuine pair can be rejected purely for having been
+/// enrolled and verified under different lighting — one measured case scored
+/// 0.407 against a 0.5508 threshold for the same palm (see issue.md). Nothing
+/// in the system could explain that after the fact: attendance records carried
+/// GPS, Wi-Fi and device id but no measure of light, and the student document
+/// never recorded what the template was enrolled under. So the correlation
+/// between "how different was the lighting" and "how far did the score fall"
+/// could only ever be reproduced by hand, one attempt at a time.
+///
+/// These stats are taken over the frames that were ACCEPTED — the ones actually
+/// averaged into the vector — not every frame the camera produced, so they
+/// describe the image the model really saw.
+class CaptureIllumination {
+  /// How many accepted frames these statistics summarise.
+  final int frames;
+
+  /// Mean luma (0..255) across accepted frames, and its spread. A large [std]
+  /// means the lighting moved DURING capture, which is its own problem: the
+  /// template is then an average over conditions rather than a record of one.
+  final double lumaMean;
+  final double lumaStd;
+  final double lumaMin;
+  final double lumaMax;
+
+  /// Mean fraction of near-saturated pixels — glare, which this model family
+  /// degrades under far more than it does under simple darkening.
+  final double blowoutMean;
+
+  const CaptureIllumination({
+    required this.frames,
+    required this.lumaMean,
+    required this.lumaStd,
+    required this.lumaMin,
+    required this.lumaMax,
+    required this.blowoutMean,
+  });
+
+  static const empty = CaptureIllumination(
+    frames: 0,
+    lumaMean: 0,
+    lumaStd: 0,
+    lumaMin: 0,
+    lumaMax: 0,
+    blowoutMean: 0,
+  );
+
+  double _r(double v) => (v * 1000).roundToDouble() / 1000;
+
+  Map<String, dynamic> toJson() => {
+        'frames': frames,
+        'luma_mean': _r(lumaMean),
+        'luma_std': _r(lumaStd),
+        'luma_min': _r(lumaMin),
+        'luma_max': _r(lumaMax),
+        'blowout_mean': _r(blowoutMean),
+      };
+}
+
+/// Pose the template/probe was actually captured at.
+///
+/// The companion to [CaptureIllumination], and recorded for the same reason:
+/// a genuine pair can be pushed down purely by HOW the palm was presented, and
+/// until this was logged there was no way to tell that apart from a bad match.
+///
+/// v5's own diagnostic (3,210 real comparisons) ranked the two geometric
+/// nuisance factors: in-plane rotation r=-0.322, out-of-plane tilt r=-0.169.
+/// The rotation-aligned crop CANCELS the first. Nothing cancels the second —
+/// a crop cannot undo foreshortening. Field observation: same palm, same
+/// lighting, phone angled up vs down scored 0.607 where same-angle scored
+/// 0.800.
+///
+/// So [poseRatioMean] is the field that matters here. [tiltDegMean] is logged
+/// as a CONTROL: v5 should have removed its influence, and if low scores still
+/// track it, the rotation alignment is not doing its job.
+class CapturePose {
+  final int frames;
+
+  /// Palm width / palm height — dist(index_mcp, pinky_mcp) over
+  /// dist(wrist, middle_mcp). Foreshortening from out-of-plane tilt squashes
+  /// one axis, so this moving is the proxy for "the palm was angled".
+  final double poseRatioMean;
+  final double poseRatioStd;
+
+  /// In-plane rotation the palm was presented at, degrees from vertical.
+  /// Expected to have NO effect on score — see the class doc.
+  final double tiltDegMean;
+  final double tiltDegStd;
+
+  /// Apparent palm size as a fraction of frame width — a distance proxy.
+  final double sizeMean;
+  final double sizeStd;
+
+  const CapturePose({
+    required this.frames,
+    required this.poseRatioMean,
+    required this.poseRatioStd,
+    required this.tiltDegMean,
+    required this.tiltDegStd,
+    required this.sizeMean,
+    required this.sizeStd,
+  });
+
+  static const empty = CapturePose(
+    frames: 0,
+    poseRatioMean: 0,
+    poseRatioStd: 0,
+    tiltDegMean: 0,
+    tiltDegStd: 0,
+    sizeMean: 0,
+    sizeStd: 0,
+  );
+
+  double _r(double v) => (v * 10000).roundToDouble() / 10000;
+
+  Map<String, dynamic> toJson() => {
+        'frames': frames,
+        'pose_ratio_mean': _r(poseRatioMean),
+        'pose_ratio_std': _r(poseRatioStd),
+        'tilt_deg_mean': _r(tiltDegMean),
+        'tilt_deg_std': _r(tiltDegStd),
+        'size_mean': _r(sizeMean),
+        'size_std': _r(sizeStd),
+      };
+}
+
 /// What each enrollment pass asks the student to change, verified by the
 /// pose-conformance gate rather than taken on trust.
 enum _PoseVariant { baseline, further, closer, tilted }
+
+/// What each pass asks the student to change about the LIGHT.
+///
+/// This is the load-bearing half of multi-template enrolment. Storing three
+/// templates helps only if they span the person's lighting range: in the
+/// offline simulation the groups were built by sorting crops by luma and
+/// splitting, so the spread existed by construction. Three passes captured
+/// back-to-back in one spot produce three near-identical vectors and zero
+/// improvement — the schema change alone does nothing.
+///
+/// So the student is asked to MOVE, and compliance is checked against the
+/// measured accepted-frame luma exactly the way pose conformance already is.
+/// The camera is never driven to fake the difference: a torch and an
+/// exposure-compensation controller were both tried and reverted (the torch
+/// made a palm stop matching itself; the controller deadlocked capture against
+/// the blowout gate). The student moves; auto-exposure is left alone.
+enum _LightVariant { baseline, brighter, dimmer }
+
+/// Minimum change in mean luma (0-255) that counts as "the student actually
+/// moved into different light".
+///
+/// 18 is deliberately modest. The measured cross-illumination failure in
+/// issue.md involved a luma delta of ~27, and the bench showed score changes
+/// from deltas of that order — but a classroom often cannot offer more, and an
+/// unreachable bar would just train students to fake compliance by waving the
+/// phone. Under-spread enrolments are FLAGGED rather than refused (see
+/// [lightingSpreadOk]); the alternative is refusing to enrol someone whose room
+/// has uniform light, which is worse than enrolling them with a warning.
+const double kMinLumaSpread = 18.0;
+
+/// One pass's averaged template plus the lighting it was captured under.
+class PassTemplate {
+  final Float32List vec;
+
+  /// Null when the pass recorded no accepted-frame luma. Null is meaningful —
+  /// it means "unknown", not "dark" — and must not be coerced to 0 anywhere,
+  /// or a spread calculation will read it as a huge lighting difference.
+  final double? lumaMean;
+  final double? lumaStd;
+
+  const PassTemplate({required this.vec, this.lumaMean, this.lumaStd});
+}
 
 class CaptureProgress {
   final CapturePhase phase;
@@ -153,6 +323,74 @@ class CaptureController {
   HandSide? _autoDetectedSide;
   HandSide? get autoDetectedSide => _autoDetectedSide;
 
+  // Illumination of every ACCEPTED frame, across all passes — see
+  // [CaptureIllumination]. Kept as raw samples so the spread can be reported,
+  // not just the mean; "lighting changed mid-capture" and "lighting was steady
+  // but wrong" are different faults and a mean alone cannot tell them apart.
+  final List<double> _acceptedLuma = [];
+  final List<double> _acceptedBlowout = [];
+  // Pose of every accepted frame — see [CapturePose].
+  // Luma of the frames accepted in the CURRENT pass, and one entry per
+  // completed pass. These are what turn multi-template enrolment from a schema
+  // change into a real improvement: each stored template carries the lighting
+  // it was captured under, and the spread across them is checked rather than
+  // assumed (see kMinLumaSpread).
+  final List<double> _passLuma = [];
+  final List<double> _passTemplateLuma = [];
+  final List<double> _passTemplateLumaStd = [];
+
+  final List<double> _acceptedPoseRatio = [];
+  final List<double> _acceptedTiltDeg = [];
+  final List<double> _acceptedSize = [];
+
+  /// Illumination the template was captured under. Valid once frames have been
+  /// accepted; [CaptureIllumination.empty] before that.
+  CaptureIllumination get illumination {
+    if (_acceptedLuma.isEmpty) return CaptureIllumination.empty;
+    final n = _acceptedLuma.length;
+    final mean = _acceptedLuma.reduce((a, b) => a + b) / n;
+    var sq = 0.0;
+    for (final v in _acceptedLuma) {
+      sq += (v - mean) * (v - mean);
+    }
+    return CaptureIllumination(
+      frames: n,
+      lumaMean: mean,
+      lumaStd: math.sqrt(sq / n),
+      lumaMin: _acceptedLuma.reduce(math.min),
+      lumaMax: _acceptedLuma.reduce(math.max),
+      blowoutMean: _acceptedBlowout.isEmpty
+          ? 0
+          : _acceptedBlowout.reduce((a, b) => a + b) / _acceptedBlowout.length,
+    );
+  }
+
+  /// Pose the template was captured at. See [CapturePose].
+  CapturePose get pose {
+    if (_acceptedPoseRatio.isEmpty) return CapturePose.empty;
+    (double, double) stat(List<double> xs) {
+      final m = xs.reduce((a, b) => a + b) / xs.length;
+      var sq = 0.0;
+      for (final v in xs) {
+        sq += (v - m) * (v - m);
+      }
+      return (m, math.sqrt(sq / xs.length));
+    }
+
+    final (pr, prSd) = stat(_acceptedPoseRatio);
+    final (td, tdSd) = stat(_acceptedTiltDeg);
+    final (sz, szSd) = stat(_acceptedSize);
+    return CapturePose(
+      frames: _acceptedPoseRatio.length,
+      poseRatioMean: pr,
+      poseRatioStd: prSd,
+      tiltDegMean: td,
+      tiltDegStd: tdSd,
+      sizeMean: sz,
+      sizeStd: szSd,
+    );
+  }
+
   // Liveness state: stored between frames for comparison.
   List<int>? _previousLuma;
   Float32List? _previousEmbedding;
@@ -211,14 +449,32 @@ class CaptureController {
   /// their score down.
   static String _passPrompt(int pass, int total, {required bool varyPose}) {
     if (total <= 1 || !varyPose) return 'Center your palm and hold still';
-    final hint = switch (_poseVariantFor(pass)) {
+    final pose = switch (_poseVariantFor(pass)) {
       _PoseVariant.baseline => 'hold as you did before',
       _PoseVariant.further => 'move your hand slightly further away',
       _PoseVariant.closer => 'bring your hand a little closer',
       _PoseVariant.tilted => 'tilt your palm very slightly',
     };
-    return 'Pass $pass of $total — $hint';
+    // The LIGHTING instruction leads, because it is the one that decides
+    // whether multi-template enrolment does anything at all.
+    final light = switch (_lightVariantFor(pass)) {
+      _LightVariant.baseline => null,
+      _LightVariant.brighter => 'move toward the window or a brighter spot',
+      _LightVariant.dimmer => 'step away from the light, into shade',
+    };
+    return light == null
+        ? 'Pass $pass of $total — $pose'
+        : 'Pass $pass of $total — $light, then $pose';
   }
+
+  /// Pass 1 is the baseline; later passes alternate brighter / dimmer so the
+  /// stored templates straddle the student's normal lighting rather than all
+  /// sitting to one side of it.
+  static _LightVariant _lightVariantFor(int pass) => switch ((pass - 1) % 3) {
+        1 => _LightVariant.brighter,
+        2 => _LightVariant.dimmer,
+        _ => _LightVariant.baseline,
+      };
 
   static _PoseVariant _poseVariantFor(int pass) => switch ((pass - 1) % 4) {
         1 => _PoseVariant.further,
@@ -287,6 +543,14 @@ class CaptureController {
     _passRatios.clear();
     _embeddings.clear();
     _passTemplates.clear();
+    _acceptedLuma.clear();
+    _acceptedBlowout.clear();
+    _acceptedPoseRatio.clear();
+    _acceptedTiltDeg.clear();
+    _acceptedSize.clear();
+    _passLuma.clear();
+    _passTemplateLuma.clear();
+    _passTemplateLumaStd.clear();
     _pass = 1;
     _finalTemplate = null;
     _autoDetectedSide = null;
@@ -376,6 +640,37 @@ class CaptureController {
         ));
         return;
       }
+      // ── Step 2.4: The whole palm must be IN the frame ─────────────────────
+      // MediaPipe reports 21 landmarks even when only the fingers are in shot,
+      // extrapolating the wrist and knuckles past the edge. Those phantom
+      // points are correctly proportioned, so every check above passes, and the
+      // crop then centres off-frame and is clipped to a sliver that gets
+      // stretched to 224x224 and embedded as a palm.
+      //
+      // Nothing downstream can detect this. The embedding is well-formed, the
+      // cosine score is a normal-looking number — just of the wrong picture.
+      // It is what let finger-only frames be captured, and what made one
+      // student's scans scatter from 0.21 to 0.86 against their own template.
+      // Averaging makes it worse, not better: a few sliver frames poison the
+      // whole template, and a poisoned template then mis-scores every honest
+      // scan afterwards.
+      final roi = det.roi;
+      if (roi != null && !roi.isFullyVisible) {
+        _logFrame(frameClock, stageUs, 'palm_not_fully_visible');
+        _emit(CaptureProgress(
+          phase: CapturePhase.capturing,
+          goodFrames: _embeddings.length,
+          targetFrames: maxFrames,
+          pass: _pass,
+          totalPasses: _passesThisRun,
+          lastQuality: q,
+          message: roi.palmPointsInFrame < 7
+              ? 'Show your whole palm — move your hand back'
+              : 'Move your palm into the ring',
+        ));
+        return;
+      }
+
       _autoDetectedSide ??= det.side;
 
       // ── Step 2.5: Pose conformance (enrollment passes 2+) ─────────────────
@@ -501,9 +796,19 @@ class CaptureController {
       _logFrame(frameClock, stageUs, 'accepted');
       _embeddings.add(emb);
       _lastAcceptedAt = now;
+      // Illumination of the frames that actually reached the model (see
+      // [CaptureIllumination]). Recorded here, at acceptance, so rejected
+      // frames cannot skew what we claim the template was captured under.
+      _acceptedLuma.add(q.brightness);
+      _acceptedBlowout.add(q.blowoutFraction);
+      _passLuma.add(q.brightness);
+      if (roi != null) {
+        _acceptedPoseRatio.add(roi.poseRatio);
+        _acceptedTiltDeg.add(roi.tiltFromVerticalDeg);
+        _acceptedSize.add(roi.halfWFrac);
+      }
       // Pose samples for this pass — pass 1's mean becomes the baseline the
       // later passes are verified against.
-      final roi = det.roi;
       if (_varyPose && roi != null) {
         _passSizes.add(roi.halfWFrac);
         _passRatios.add(roi.poseRatio);
@@ -528,6 +833,23 @@ class CaptureController {
       // This pass just finished: fold its frames into one pass template.
       _passTemplates.add(EmbeddingMath.buildTemplate(_embeddings));
       _embeddings.clear();
+
+      // Record the lighting THIS pass was captured under, before the buffer is
+      // reset. Without it a stored template cannot say what light it came from,
+      // and the spread check below has nothing to work with.
+      if (_passLuma.isNotEmpty) {
+        final m = _passLuma.reduce((a, b) => a + b) / _passLuma.length;
+        var sq = 0.0;
+        for (final v in _passLuma) {
+          sq += (v - m) * (v - m);
+        }
+        _passTemplateLuma.add(m);
+        _passTemplateLumaStd.add(math.sqrt(sq / _passLuma.length));
+      } else {
+        _passTemplateLuma.add(double.nan);
+        _passTemplateLumaStd.add(double.nan);
+      }
+      _passLuma.clear();
 
       // Pass 1 defines the pose baseline that passes 2+ are checked against.
       if (_varyPose && _pass == 1 && _passSizes.isNotEmpty) {
@@ -620,6 +942,49 @@ class CaptureController {
       _running = false;
     }
   }
+
+  /// The per-pass templates as SEPARATE vectors, each with the lighting it was
+  /// captured under — the multi-template enrolment payload.
+  ///
+  /// This is the same data [buildTemplate] averages into one vector; here it is
+  /// kept apart instead. Averaging across lighting conditions produces a single
+  /// blurred template that matches none of them well; keeping them separate and
+  /// scoring max() at verification is what cut false rejects 28.7% -> 11.1% in
+  /// the offline simulation.
+  ///
+  /// Returns fewer entries than passes only if a pass produced no accepted
+  /// frames, which cannot normally happen (a pass ends when it fills).
+  List<PassTemplate> get passTemplates {
+    final out = <PassTemplate>[];
+    for (var i = 0; i < _passTemplates.length; i++) {
+      final luma = i < _passTemplateLuma.length ? _passTemplateLuma[i] : double.nan;
+      final std = i < _passTemplateLumaStd.length ? _passTemplateLumaStd[i] : double.nan;
+      out.add(PassTemplate(
+        vec: _passTemplates[i],
+        lumaMean: luma.isNaN ? null : luma,
+        lumaStd: std.isNaN ? null : std,
+      ));
+    }
+    return out;
+  }
+
+  /// Spread of enrolment lighting actually achieved, or null if fewer than two
+  /// passes recorded a luma.
+  double? get lightingSpread {
+    final l = _passTemplateLuma.where((v) => !v.isNaN).toList();
+    if (l.length < 2) return null;
+    l.sort();
+    return l.last - l.first;
+  }
+
+  /// Did the student actually move into different light?
+  ///
+  /// False means the stored templates are near-duplicates and multi-template
+  /// enrolment will deliver none of its benefit for this student. The record is
+  /// still stored — refusing to enrol someone whose room has uniform light is
+  /// worse than enrolling them with a flag — but it is flagged, never silently
+  /// accepted as if it had worked.
+  bool get lightingSpreadOk => (lightingSpread ?? 0) >= kMinLumaSpread;
 
   /// True once every pass has completed and the final template is ready.
   bool get hasEnough => _finalTemplate != null;

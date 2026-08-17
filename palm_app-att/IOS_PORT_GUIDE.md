@@ -1,5 +1,18 @@
 # PalmPay — iOS Port Guide
 
+> ## ⚠️ PARTLY OUT OF DATE — the data collector no longer exists
+>
+> This guide was written when the in-app data collector (`lib/collector/`) was
+> the only reachable feature. That module has since been **removed entirely**
+> from this app, along with its separate Firebase project wiring and the
+> `linkCollectorSubject` Cloud Function. The production enrollment + attendance
+> flow is now the whole app.
+>
+> **Ignore every section about the collector** (§B, its Firebase options, its
+> Storage/upload requirements). Everything about the production flow — camera,
+> MediaPipe hand detection, ONNX runtime, Wi-Fi scanning, permissions — still
+> applies and is still the real work of an iOS port.
+
 Handoff doc for building out iOS support. Written for someone who has not seen
 this codebase before. Read this before touching `ios/` — most of what looks
 like it needs porting actually already works cross-platform; the real gaps are

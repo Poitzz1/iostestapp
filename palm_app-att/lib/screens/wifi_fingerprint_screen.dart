@@ -119,7 +119,7 @@ class _WifiFingerprintScreenState extends ConsumerState<WifiFingerprintScreen> {
             : null,
         WifiScanFailure.permissionDenied =>
           'Location permission is required to read Wi-Fi. Grant it in '
-              'Settings → Apps → PalmPay → Permissions → Location.',
+              'Settings → Apps → Cit Attendance → Permissions → Location.',
         WifiScanFailure.locationServiceOff =>
           'Turn on Location (the system toggle, not just the permission) — '
               'Android returns no BSSIDs while it is off.',

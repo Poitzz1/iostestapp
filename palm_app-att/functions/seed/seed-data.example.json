@@ -19,6 +19,15 @@
       "sections": ["CSE-C"],
       "role": "admin",
       "classroom_id": "C102"
+    },
+    {
+      "_comment": "Bootstrap coordinator — after this, add every advisor from the app's Manage Advisors screen instead of editing this file.",
+      "uid": "REPLACE_WITH_COORDINATOR_AUTH_UID",
+      "name": "Dr. M. Iyer",
+      "staff_id": "CIT1005",
+      "department": "CSE",
+      "sections": [],
+      "role": "coordinator"
     }
   ],
 

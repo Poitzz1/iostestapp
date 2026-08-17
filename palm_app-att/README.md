@@ -1,46 +1,36 @@
 # PalmPay Attendance — Mobile App
 
-> ## 🚧 THIS BUILD: attendance is OFF; the data collector is the only feature
+> ## ⚠️ SCOPED ROLLOUT — THIRD YEAR ONLY, and not production-grade security
 >
-> `AppMode.productionAttendanceEnabled` is **false**
-> ([`lib/config/app_mode.dart`](lib/config/app_mode.dart)). Palm enrollment and
-> attendance marking are switched off **for everyone — students and advisors
-> alike** — and every route into them resolves to a "coming soon" screen. The
-> gate is applied at the route table, not by hiding buttons: a route that can be
-> reached by name will be.
+> **Scope.** The timetable / venue-resolution / role work is gated on
+> `sections/{id}.year == 3`. Years 1, 2 and 4 keep the pre-existing behaviour
+> and never enter the new code paths — the gate is opt-in, so an unknown
+> section or a missing year falls back to the old logic rather than the new.
+> See `STEP0_AUDIT.md` for the blast-radius analysis, including the two changes
+> that could **not** be cleanly gated by year.
 >
-> Nothing has been deleted. Every screen, service, Cloud Function and security
-> rule below is still present and still correct. Flip the one flag to bring the
-> flow back.
+> **What Wi-Fi verification actually proves — read this before trusting it.**
+> Routers on this campus are roof-mounted and rooms are roughly 7 m × 6 m × 3 m.
+> Adjacent rooms on the same floor therefore see nearly the same access points
+> at nearly the same signal strength. Matching is done on the RSSI-ranked
+> profile (strongest-AP overlap *plus* signal strength within tolerance), not on
+> bare BSSID presence, which is a real improvement — but it still gives
+> **building / floor / zone-level confidence, NOT reliable room-level proof**.
+> It cannot be relied on to tell room 301 from room 302, and nothing in this
+> repository should be read as claiming otherwise.
 >
-> What users *can* reach is the **in-app palm data collector**
-> ([`lib/collector/`](lib/collector/README.md)) — the module that captures the
-> real-world data needed to fix the ~14% false-accept rate described below.
-> Sign-in and email verification stay live, because the collector stores its
-> pseudonymous `subject_id` mapping on the student's production record.
+> **The real presence anchor is the staff-opened, palm-verified, time-boxed
+> session.** A member of staff authorised for that period palm-verifies on the
+> spot, which opens a 5-minute window for that section. Wi-Fi is a supporting
+> check inside that window, not the primary one.
 >
-> **Advisors keep marking attendance manually** in the meantime, exactly as they
-> already do as the pilot's backstop.
-
-> ## ⚠️ SUPERVISED PILOT — not production-grade security
+> **The palm layer is not a standalone gate either.** `issue.md` records genuine
+> pairs losing ~0.22 cosine to a lighting change and ~0.19 to palm angle,
+> against an operating margin of 0.077. Expect false rejects.
 >
-> *(Applies to the attendance flow described in this document, which is
-> currently switched off — see above.)*
->
-> This is a **scoped pilot on 1–2 sections**, not a campus-wide rollout, and
-> the palm layer is **not a standalone gate**. Measured on real phone photos of
-> two people with the current v4 model: **false rejects 0%**, but **false
-> accepts ~14%**. That is usable as *one layer* alongside the Wi-Fi fingerprint
-> and session window, under supervision — it is not a finished security
-> feature and must not be described as one.
->
-> **Manual attendance marking by the advisor remains the backstop** for anyone
-> who fails palm or location verification, and is not being removed during the
-> pilot. Device binding is deliberately **not enforced** in this build (§5a).
->
-> Attendance is accepted only for sections in the pilot allowlist
-> (`config/pilot.sections` in Firestore); everyone else gets an explicit
-> "not yet enabled for your section" message.
+> **Manual marking by the session opener (Absent / OD / Other + reason) remains
+> the backstop** and is deliberately not removed. Device binding is still **not
+> enforced**.
 
 Single mobile app for **both** palm enrollment and daily attendance marking, on
 the student's own phone. Verification is **server-side and 1:1**.

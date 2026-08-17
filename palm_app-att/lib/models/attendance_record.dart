@@ -52,8 +52,12 @@ class AttendanceRecord {
         'gps_out_of_campus' => "You don't appear to be on campus.",
         'model_version_mismatch' =>
           'Enrolled under an older palm model — re-enrollment required.',
+        'section_not_assigned' =>
+          'Not assigned to a section yet — ask your coordinator.',
+        // Legacy: emitted by the old pilot-allowlist build. Kept so historical
+        // records still render a message instead of the generic fallback.
         'section_not_in_pilot' =>
-          'Palm attendance is not yet enabled for this section.',
+          'Palm attendance was not enabled for this section at the time.',
         _ => 'Attendance could not be verified.',
       };
 

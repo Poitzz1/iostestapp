@@ -15,7 +15,7 @@ dependencies:
   flutter_riverpod: ^2.5.1
   riverpod_annotation: ^2.3.5
 
-  # On-device model runtime (loads palm_256_l2_fp32.onnx)
+  # On-device model runtime (loads the .onnx named by deploy_config.model_file)
   onnxruntime: ^1.4.1
 
   # Real device camera + frame streaming
@@ -63,11 +63,19 @@ dev_dependencies:
   flutter_lints: ^4.0.0
   riverpod_generator: ^2.4.0
   build_runner: ^2.4.11
+  flutter_launcher_icons: ^0.14.3
 
 flutter:
   uses-material-design: true
   assets:
     - assets/models/deploy_config.json
-    - assets/models/palm_256_l2_fp32.onnx
+    - assets/models/palm_256_l2_fp32_v5.onnx
+    - assets/logo.jpg
     - assets/3d/
     - assets/parity/
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/logo.jpg"
+  remove_alpha_ios: true

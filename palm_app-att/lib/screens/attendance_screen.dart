@@ -156,15 +156,26 @@ class _AttendanceScreenState extends ConsumerState<AttendanceScreen> {
 
     // 4. Palm capture — reuse the shared capture screen in attendance mode.
     if (!mounted) return;
-    final template = await Navigator.of(context).pushNamed<Object?>(
+    // Capture returns the probe vector AND the illumination it was taken
+    // under; the latter rides along to the server so a low score can later be
+    // correlated with a lighting difference instead of guessed at (issue.md).
+    final captured = await Navigator.of(context).pushNamed<Object?>(
       '/capture',
       arguments: {'mode': 'attendance', 'handSide': profile.handSide},
     );
-    if (template is! Float32List) {
+    if (captured is! Map) {
       // User backed out of capture.
       setState(() => _step = _Step.ready);
       return;
     }
+    final template = captured['template'];
+    if (template is! Float32List) {
+      setState(() => _step = _Step.ready);
+      return;
+    }
+    final probeIllumination =
+        (captured['illumination'] as Map?)?.cast<String, dynamic>();
+    final probePose = (captured['pose'] as Map?)?.cast<String, dynamic>();
 
     // 5. Submit — the server decides.
     setState(() {
@@ -181,6 +192,8 @@ class _AttendanceScreenState extends ConsumerState<AttendanceScreen> {
             gps: gps,
             isMockLocation: gps?.isMock ?? false,
             deviceId: deviceId,
+            illumination: probeIllumination,
+            pose: probePose,
           );
       if (!mounted) return;
       _decision = decision;
