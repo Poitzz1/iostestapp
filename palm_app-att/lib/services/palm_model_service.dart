@@ -1,79 +1,53 @@
 import 'dart:typed_data';
 
-import 'package:flutter/services.dart' show rootBundle;
-import 'package:onnxruntime/onnxruntime.dart';
-
 import '../config/deploy_config.dart';
+import 'palm_model.dart';
+
+// Resolved at compile time. Native gets the FFI-backed `onnxruntime` package;
+// web gets the `dart:js_interop` bridge to `onnxruntime-web`, because
+// `onnxruntime` has no web target and `dart:ffi` cannot be compiled to JS.
+// Callers of PalmModelService are unaffected by which one they got.
+import 'palm_model_native.dart'
+    if (dart.library.js_interop) 'palm_model_web.dart';
+
+export 'palm_model.dart' show ModelPrecision, PrecisionParityResult;
 
 /// Loads the .onnx named by `deploy_config.json -> model_file` and runs
 /// inference on-device.
 ///
-/// One [OrtSession] is created once and reused for every frame. Inference is
-/// synchronous native work; callers should run capture-loop inference off the
-/// UI isolate (see [CaptureController]).
+/// Thin facade over the platform [PalmModel] implementation, kept so the rest
+/// of the app has one name to depend on. The swap between the native and web
+/// runtimes happens in the conditional import above and is invisible here.
 class PalmModelService {
   final DeployConfig cfg;
-  OrtSession? _session;
+  final PalmModel _model;
 
-  PalmModelService(this.cfg);
+  PalmModelService(this.cfg) : _model = createPalmModel(cfg);
 
-  bool get isLoaded => _session != null;
+  /// Escape hatch for tests and for the fp16 parity check, which needs the
+  /// concrete web implementation. Production code should not reach for this.
+  PalmModel get model => _model;
 
-  Future<void> load() async {
-    if (_session != null) return;
-    OrtEnv.instance.init();
-    final raw = await rootBundle.load('assets/models/${cfg.modelFile}');
-    final bytes = raw.buffer.asUint8List(raw.offsetInBytes, raw.lengthInBytes);
-    final options = OrtSessionOptions()
-      ..setIntraOpNumThreads(1)
-      ..setSessionGraphOptimizationLevel(GraphOptimizationLevel.ortEnableAll);
-    _session = OrtSession.fromBuffer(bytes, options);
-  }
+  bool get isLoaded => _model.isLoaded;
+
+  /// Precision inference is running at — [ModelPrecision.fp32] unless a parity
+  /// check has explicitly promoted it. Never INT8; see [ModelPrecision].
+  ModelPrecision get precision => _model.precision;
+
+  /// Execution backend, for diagnostics (`onnxruntime/native`,
+  /// `onnxruntime-web/wasm`).
+  String get backend => _model.backend;
+
+  Future<void> load() => _model.load();
 
   /// Run one NCHW [1,3,H,W] float tensor through the model and return the raw
   /// 256-float output. The output is already L2-normalized by the graph — we do
   /// NOT normalize it again here (README §2).
-  Float32List embed(Float32List nchw) {
-    final session = _session;
-    if (session == null) {
-      throw StateError('PalmModelService.load() not called');
-    }
-    final s = cfg.inputSize;
-    final shape = [1, 3, s, s];
-    final inputTensor = OrtValueTensor.createTensorWithDataList(nchw, shape);
-    final inputs = {cfg.inputName: inputTensor};
-    final runOptions = OrtRunOptions();
-    List<OrtValue?>? outputs;
-    try {
-      outputs = session.run(runOptions, inputs, [cfg.outputName]);
-      final out = outputs.first!.value;
-      final flat = _flatten(out);
-      if (flat.length != cfg.embeddingDim) {
-        throw StateError(
-            'model returned ${flat.length} dims, expected ${cfg.embeddingDim}');
-      }
-      return Float32List.fromList(flat);
-    } finally {
-      inputTensor.release();
-      runOptions.release();
-      outputs?.forEach((o) => o?.release());
-    }
-  }
+  ///
+  /// Now returns a Future: the web runtime's `run()` is asynchronous and there
+  /// is no way to block on a JS promise in the browser. Native inference is
+  /// still synchronous work under the hood.
+  Future<Float32List> embed(Float32List nchw) => _model.embed(nchw);
 
-  List<double> _flatten(Object? value) {
-    // onnxruntime returns nested lists shaped like the output ([1, 256]).
-    if (value is List && value.isNotEmpty && value.first is List) {
-      return (value.first as List).map((e) => (e as num).toDouble()).toList();
-    }
-    if (value is List) {
-      return value.map((e) => (e as num).toDouble()).toList();
-    }
-    throw StateError('unexpected model output type: ${value.runtimeType}');
-  }
-
-  void dispose() {
-    _session?.release();
-    _session = null;
-    OrtEnv.instance.release();
-  }
+  void dispose() => _model.dispose();
 }

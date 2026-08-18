@@ -45,12 +45,22 @@ class AttendanceService {
 
   /// Submit the gathered evidence. Returns the server's decision — the client
   /// renders it, it does not compute it.
+  /// [wifi] is null on clients that have no way to scan for access points —
+  /// which on the web is EVERY client, on every browser, by design and not as a
+  /// degraded mode (there is no browser API for AP scanning at all). When it is
+  /// null the `wifi_scan` key is omitted from the payload entirely rather than
+  /// sent as `[]`: an empty list is indistinguishable from "scanned and saw
+  /// nothing", which the server treats as a wrong-room failure. An ABSENT key
+  /// is what tells the server this client structurally cannot supply Wi-Fi
+  /// evidence, so it must fall back to the no-Wi-Fi verdict policy instead of
+  /// rejecting with `wifi_mismatch`. See README §"what Wi-Fi verification
+  /// actually proves" and `functions/index.js`.
   Future<AttendanceDecision> submit({
     required String sessionId,
     required String nonce,
     required Float32List probeEmbedding,
     required HandSide handSide,
-    required List<WifiAccessPointInfo> wifi,
+    List<WifiAccessPointInfo>? wifi,
     GpsReading? gps,
     required bool isMockLocation,
     required String deviceId,
@@ -62,7 +72,7 @@ class AttendanceService {
       'nonce': nonce,
       'probe_embedding': probeEmbedding.toList(),
       'hand_side': handSide.label,
-      'wifi_scan': wifi.map((a) => a.toPayload()).toList(),
+      if (wifi != null) 'wifi_scan': wifi.map((a) => a.toPayload()).toList(),
       'gps': gps?.toPayload(),
       'is_mock_location': isMockLocation,
       'device_id': deviceId,

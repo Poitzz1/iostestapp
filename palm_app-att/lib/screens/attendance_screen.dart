@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,7 +18,8 @@ import '../widgets/particle_background.dart';
 
 /// Attendance marking flow (spec §5). The client only gathers evidence and
 /// calls the server; the server decides. Steps: confirm enrolled → find an open
-/// session → collect Wi-Fi + GPS → capture palm → submit → show the result.
+/// session → collect Wi-Fi (native only) + GPS → capture palm → submit → show
+/// the result. On web the Wi-Fi step does not exist — see `_submitFlow`.
 class AttendanceScreen extends ConsumerStatefulWidget {
   const AttendanceScreen({super.key});
 
@@ -103,33 +105,54 @@ class _AttendanceScreenState extends ConsumerState<AttendanceScreen> {
     final session = _session!;
     setState(() {
       _step = _Step.submitting;
-      _statusLine = 'Scanning Wi-Fi to confirm you\'re in class…';
+      _statusLine = kIsWeb
+          ? 'Checking location…'
+          : 'Scanning Wi-Fi to confirm you\'re in class…';
     });
 
-    // 1. Wi-Fi (primary presence signal) — surface specific fixes on failure.
-    final wifi = await ref.read(wifiScanServiceProvider).scan();
-    if (!wifi.ok) {
-      setState(() {
-        _step = _Step.error;
-        _errorMsg = switch (wifi.failure!) {
-          WifiScanFailure.locationServiceOff =>
-            'Turn on Location so we can confirm you\'re in the classroom (Wi-Fi scanning needs it).',
-          WifiScanFailure.permissionDenied =>
-            'Location permission is needed to read Wi-Fi. Enable it in settings.',
-          WifiScanFailure.unsupported =>
-            'Wi-Fi scanning isn\'t supported on this device.',
-          // Reached when the scan returned NO networks at all — which is not
-          // a "wrong room" situation, so the message must not imply one. In
-          // practice it is almost always the system Location toggle (Android
-          // returns zero BSSIDs while it is off, even with permission granted).
-          WifiScanFailure.cannotScan =>
-            'Couldn\'t see any Wi-Fi networks. Check that both Wi-Fi AND '
-                'Location are switched on, then try again. If you have just '
-                'retried several times, wait about two minutes — Android '
-                'limits an app to 4 Wi-Fi scans every 2 minutes.',
-        };
-      });
-      return;
+    // 1. Wi-Fi (primary presence signal on native) — surface specific fixes on
+    // failure.
+    //
+    // SKIPPED ENTIRELY ON WEB. No browser exposes Wi-Fi access-point scanning
+    // to a web app — not as a permission the student can grant, not behind a
+    // flag, not on any browser or OS. This is not a degraded web scan; there is
+    // nothing to degrade. `wifiAps` stays null, `submit` therefore omits the
+    // `wifi_scan` key altogether, and the server applies its no-Wi-Fi verdict
+    // policy (session window + palm + GPS-where-the-room-has-coordinates).
+    //
+    // Do not "fix" this with public IP, WebRTC ICE candidates, or a captive
+    // portal probe. None of those establish that the student is in the ROOM —
+    // they establish, at best, that the traffic left the campus network, which
+    // a student on campus Wi-Fi anywhere on site satisfies just as well from
+    // the canteen. Substituting one would restore the APPEARANCE of a presence
+    // gate while removing the thing that made it one.
+    List<WifiAccessPointInfo>? wifiAps;
+    if (!kIsWeb) {
+      final wifi = await ref.read(wifiScanServiceProvider).scan();
+      if (!wifi.ok) {
+        setState(() {
+          _step = _Step.error;
+          _errorMsg = switch (wifi.failure!) {
+            WifiScanFailure.locationServiceOff =>
+              'Turn on Location so we can confirm you\'re in the classroom (Wi-Fi scanning needs it).',
+            WifiScanFailure.permissionDenied =>
+              'Location permission is needed to read Wi-Fi. Enable it in settings.',
+            WifiScanFailure.unsupported =>
+              'Wi-Fi scanning isn\'t supported on this device.',
+            // Reached when the scan returned NO networks at all — which is not
+            // a "wrong room" situation, so the message must not imply one. In
+            // practice it is almost always the system Location toggle (Android
+            // returns zero BSSIDs while it is off, even with permission granted).
+            WifiScanFailure.cannotScan =>
+              'Couldn\'t see any Wi-Fi networks. Check that both Wi-Fi AND '
+                  'Location are switched on, then try again. If you have just '
+                  'retried several times, wait about two minutes — Android '
+                  'limits an app to 4 Wi-Fi scans every 2 minutes.',
+          };
+        });
+        return;
+      }
+      wifiAps = wifi.aps;
     }
 
     // 2. GPS (coarse campus sanity check + mock-location risk flag).
@@ -188,7 +211,7 @@ class _AttendanceScreenState extends ConsumerState<AttendanceScreen> {
             nonce: nonce,
             probeEmbedding: template,
             handSide: profile.handSide,
-            wifi: wifi.aps,
+            wifi: wifiAps,
             gps: gps,
             isMockLocation: gps?.isMock ?? false,
             deviceId: deviceId,

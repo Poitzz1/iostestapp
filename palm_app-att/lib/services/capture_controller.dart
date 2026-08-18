@@ -769,7 +769,9 @@ class CaptureController {
       stageUs['preprocess_us'] = preprocessClock.elapsedMicroseconds;
 
       final inferenceClock = Stopwatch()..start();
-      final emb = model.embed(tensor); // already L2-normalized by the graph
+      // Awaited: the web runtime returns a JS promise, so embed() is async on
+      // every target now. `_process` was already an async frame handler.
+      final emb = await model.embed(tensor); // already L2-normalized by the graph
       stageUs['inference_us'] = inferenceClock.elapsedMicroseconds;
 
       // ── Step 6: Liveness — embedding variance check ───────────────────────

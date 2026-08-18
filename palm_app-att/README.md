@@ -19,6 +19,40 @@
 > It cannot be relied on to tell room 301 from room 302, and nothing in this
 > repository should be read as claiming otherwise.
 >
+> **On web, there is no Wi-Fi evidence at all — not degraded, absent.** The
+> browser build sends **no `wifi_scan` field whatsoever**. This is not a weaker
+> scan, a coarser fingerprint, or a fallback that fires when a scan fails: no
+> browser, on any operating system, exposes Wi-Fi access-point scanning to a web
+> app. There is no permission a student can grant to enable it and no flag that
+> turns it on. So for a web client the paragraph above does not apply in
+> degraded form — it does not apply at all, and whatever building/floor/zone
+> confidence Wi-Fi contributes on Android and iOS contributes **nothing** on
+> web.
+>
+> What a web `present` actually rests on: the staff-opened, time-boxed session
+> window, the palm match, and GPS **only where that classroom has coordinates
+> configured** (`latitude`/`longitude` are optional per room, and the server
+> skips the GPS check entirely when they are absent). In a room with no
+> coordinates, a web attendance record is anchored by the session window and the
+> palm alone. Records carry `wifi_evidence_supplied: false` so these can be told
+> apart from Wi-Fi-backed ones — anything aggregating attendance quality should
+> split on that field rather than treating every `present` row as the same
+> claim.
+>
+> No browser-side substitute is used, and none should be added. Public IP,
+> WebRTC ICE candidates, and captive-portal probes all establish at best that
+> traffic left the campus network — which a student in the canteen satisfies
+> exactly as well as one in the room. Adding one would restore the *appearance*
+> of a room-level gate while removing the thing that made it one.
+>
+> **Web device binding is weaker too, and is labelled as such.** There is no
+> browser API returning a stable hardware-tied identifier. The web build mints a
+> random UUID and persists it in `localStorage`: clearable, per-browser rather
+> than per-machine, and writable from the page's own JS console. It supports
+> "probably the same browser as last time" and nothing stronger. See
+> `lib/services/device_id_web.dart`. Device binding remains unenforced, and this
+> is a reason to keep it that way.
+>
 > **The real presence anchor is the staff-opened, palm-verified, time-boxed
 > session.** A member of staff authorised for that period palm-verifies on the
 > spot, which opens a 5-minute window for that section. Wi-Fi is a supporting

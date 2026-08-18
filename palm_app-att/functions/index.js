@@ -325,7 +325,10 @@ export const submitAttendance = onCall(async (request) => {
     nonce,
     probe_embedding,
     hand_side,
-    wifi_scan = [],
+    // NOT defaulted. `wifi_scan` being ABSENT is load-bearing and must stay
+    // distinguishable from `[]` — see `wifiEvidenceSupplied` below. Defaulting
+    // it to [] here would erase exactly the signal the web policy depends on.
+    wifi_scan,
     gps = null,
     is_mock_location = false,
     device_id = null,
@@ -337,6 +340,34 @@ export const submitAttendance = onCall(async (request) => {
   if (!session_id || !nonce || !Array.isArray(probe_embedding)) {
     throw new HttpsError("invalid-argument", "Missing session_id, nonce or probe_embedding.");
   }
+
+  // ── Does this client supply Wi-Fi evidence at all? ─────────────────────────
+  //
+  // PRODUCT DECISION, not a bug workaround. Web clients NEVER send `wifi_scan`,
+  // because no browser on any OS exposes access-point scanning to a web app.
+  // There is no permission to request and no degraded mode to fall back to, so
+  // for a web client this key is absent by design and permanently.
+  //
+  // The distinction below is between three different things that used to look
+  // identical once `wifi_scan` was defaulted to []:
+  //
+  //   absent        -> client structurally cannot scan (web). Apply the
+  //                    no-Wi-Fi policy: session window + palm + GPS-if-configured.
+  //   [] (empty)    -> client CAN scan and saw nothing. That is a real failure
+  //                    (Wi-Fi off, Location off, throttled) and still rejects —
+  //                    a native client that sees zero networks has not proven
+  //                    presence, it has proven its radio is off.
+  //   [ ...aps ]    -> normal native path, unchanged.
+  //
+  // A native client cannot obtain the relaxed policy by omitting the field:
+  // omission is what the relaxed policy keys on, so a tampered native client
+  // that drops `wifi_scan` gets the SAME treatment as a browser — which is the
+  // honest position, because at that point it has supplied exactly as much
+  // room-level evidence as a browser does, namely none. This is a real
+  // reduction in what attendance proves; see the README section on what Wi-Fi
+  // verification actually proves.
+  const wifiEvidenceSupplied = Array.isArray(wifi_scan);
+  const wifiScanList = wifiEvidenceSupplied ? wifi_scan : [];
 
   const { threshold, modelVersion, adaptiveEnabled, adaptiveThreshold } =
     await loadModelConfig();
@@ -610,6 +641,9 @@ export const submitAttendance = onCall(async (request) => {
     const palmOk = score >= threshold;
 
     // 6. Wi-Fi fingerprint — ≥ min_bssid_matches of the classroom's BSSIDs.
+    //
+    // SKIPPED ENTIRELY when the client supplied no `wifi_scan` key (web). See
+    // the `wifiEvidenceSupplied` note at the top of this function.
     const classroomId = evClassroomId;
     const roomSnap = classroomId
       ? await tx.get(db.doc(`classrooms/${classroomId}`))
@@ -618,13 +652,22 @@ export const submitAttendance = onCall(async (request) => {
     const room = roomSnap.data();
     let matched;
     let wifiOk;
-    if (year3) {
+    if (!wifiEvidenceSupplied) {
+      // No Wi-Fi evidence to weigh. Note this does NOT fall through to
+      // `classroom_not_configured`: the room may well be configured, this
+      // client just cannot read APs. Rejecting here would make web attendance
+      // impossible in every correctly-configured room, which is the opposite
+      // of the intent.
+      matched = [];
+      evMatched = matched;
+      wifiOk = true;
+    } else if (year3) {
       // RSSI-RANKED PROFILE match. Roof-mounted routers and ~7x6x3 m rooms mean
       // adjacent rooms see nearly the same APs at nearly the same strength, so
       // set overlap alone cannot separate 301 from 302. The score is recorded on
       // every attempt — pass or fail — so rssi_tolerance can be tuned from real
       // data instead of guessed.
-      const prof = matchWifiProfile(room.wifi_fingerprint, wifi_scan, {
+      const prof = matchWifiProfile(room.wifi_fingerprint, wifiScanList, {
         rssi_tolerance: room.rssi_tolerance,
         min_bssid_matches: room.min_bssid_matches,
         top_n: room.wifi_top_n,
@@ -639,7 +682,7 @@ export const submitAttendance = onCall(async (request) => {
         (room.wifi_fingerprint || []).map((a) => String(a.bssid).toLowerCase())
       );
       const scanned = new Set(
-        (wifi_scan || []).map((a) => String(a.bssid || "").toLowerCase())
+        wifiScanList.map((a) => String(a.bssid || "").toLowerCase())
       );
       matched = [...registered].filter((b) => scanned.has(b));
       evMatched = matched;
@@ -729,6 +772,15 @@ export const submitAttendance = onCall(async (request) => {
       probe_embedding_hash: sha256Hex(JSON.stringify(probe_embedding)),
       wifi_matched_bssids: matched,
       wifi_match_count: matched.length,
+      // Whether the client supplied Wi-Fi evidence AT ALL. False means this
+      // record was decided WITHOUT any room-level presence signal — the client
+      // (a browser) structurally cannot produce one. A `present` with
+      // `wifi_evidence_supplied: false` rests only on the session window, the
+      // palm match, and GPS where the room has coordinates; it is materially
+      // weaker than a `present` with Wi-Fi behind it and must not be read as
+      // the same claim. Anything aggregating attendance quality should split on
+      // this field rather than treating all `present` rows alike.
+      wifi_evidence_supplied: wifiEvidenceSupplied,
       gps_lat: gps?.lat ?? null,
       gps_lng: gps?.lng ?? null,
       gps_accuracy_m: gps?.accuracy_m ?? null,

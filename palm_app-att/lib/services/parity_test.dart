@@ -52,7 +52,7 @@ class ParityTest {
         .toList(growable: false);
 
     final tensor = pre.fromImage(decoded);
-    final Float32List appVec = model.embed(tensor);
+    final Float32List appVec = await model.embed(tensor);
 
     final sim = EmbeddingMath.cosine(appVec, expectedVec);
     if (sim > cfg.parityThreshold) {

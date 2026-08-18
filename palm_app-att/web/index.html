@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
+
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
+
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
+  <base href="$FLUTTER_BASE_HREF">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="PalmPay Attendance — palm enrollment and attendance.">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="palmpay_enroll">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>palmpay_enroll</title>
+  <link rel="manifest" href="manifest.json">
+
+  <!--
+    ONNX Runtime Web — the browser's model runtime.
+
+    The `onnxruntime` pub package is FFI-backed and has NO web target (pub.dev
+    lists Android/iOS/Linux/macOS/Windows and "Web (Coming soon)"; building for
+    web fails in `dart:ffi` with "Only JS interop members may be 'external'").
+    So the web build bridges to the official `onnxruntime-web` package instead,
+    through `dart:js_interop` — see lib/services/palm_model_web.dart. This
+    script is what defines the global `ort` that file binds against.
+
+    SELF-HOSTED ON PURPOSE — do not swap this for a CDN <script>. The app has to
+    work on a campus network with restricted external egress, and a CDN
+    dependency here fails closed for every student at once, at the capture
+    screen, with no local fallback. The .wasm binaries are pinned to the same
+    origin via `ort.env.wasm.wasmPaths` in palm_model_web.dart.
+
+    Vendor these two into web/assets/ort/ before building (see README §web):
+      npm pack onnxruntime-web
+      cp .../dist/ort.min.js            web/assets/ort/
+      cp .../dist/*.wasm                web/assets/ort/
+  -->
+  <script src="assets/ort/ort.min.js"></script>
+</head>
+<body>
+  <!--
+    You can customize the "flutter_bootstrap.js" script.
+    This is useful to provide a custom configuration to the Flutter loader
+    or to give the user feedback during the initialization process.
+
+    For more details:
+    * https://docs.flutter.dev/platform-integration/web/initialization
+  -->
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>

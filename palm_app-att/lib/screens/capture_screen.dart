@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:camera/camera.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -129,12 +130,36 @@ class _CaptureScreenState extends ConsumerState<CaptureScreen>
         orElse: () => cameras.first,
       );
 
-      // Create camera controller
+      // Create camera controller.
+      //
+      // Resolution is deliberately NOT the same on both targets:
+      //
+      // NATIVE — ResolutionPreset.medium (~720x480). The native pipeline gets
+      // a YUV420 frame stream straight off the sensor with no re-encoding, so
+      // medium carries enough real detail for the ROI crop, and the preset is
+      // what the v5 crop geometry was validated against.
+      //
+      // WEB — ResolutionPreset.veryHigh (~1920x1080). `camera_web` maps the
+      // preset onto getUserMedia's `width`/`height` `ideal` constraints, so
+      // asking for veryHigh is what actually puts
+      // `{video: {width: {ideal: 1920}, height: {ideal: 1080}}}` on the wire
+      // instead of letting the browser pick its default (frequently 640x480).
+      // This matters more on web than on native, not less: a browser gives no
+      // manual focus and no exposure control, the stream is compressed in real
+      // time, and a laptop webcam is a much bigger optical step down than a
+      // phone sensor. Resolution is the one capture-quality lever the platform
+      // still leaves us, so we ask for it explicitly rather than accept a
+      // default. `ideal` (not `exact`) means a device that cannot do 1080p
+      // negotiates down instead of failing to open.
+      //
+      // imageFormatGroup is native-only — the browser hands back encoded
+      // frames, and requesting yuv420 there is meaningless.
       _camera = CameraController(
         cam,
-        ResolutionPreset.medium,
+        kIsWeb ? ResolutionPreset.veryHigh : ResolutionPreset.medium,
         enableAudio: false,
-        imageFormatGroup: ImageFormatGroup.yuv420,
+        imageFormatGroup:
+            kIsWeb ? ImageFormatGroup.unknown : ImageFormatGroup.yuv420,
       );
 
       await _camera!.initialize();
@@ -173,7 +198,32 @@ class _CaptureScreenState extends ConsumerState<CaptureScreen>
         varyPose: mode == 'enroll',
       );
 
-      // Start streaming frames to capture controller
+      // Start streaming frames to capture controller.
+      //
+      // NOT AVAILABLE ON WEB. `camera_web` throws
+      // `UnimplementedError('Streaming is not currently supported on web')`
+      // from `onStreamedFrameAvailable` — there is no CameraImage stream in a
+      // browser at all. The whole verification pipeline downstream of here
+      // (QualityGate, LivenessDetector, PalmPreprocessor, HandDetector) takes a
+      // CameraImage, so the web path needs a different frame source:
+      // `takePicture()` on a timer, decoded to an `img.Image`, fed through the
+      // same gates.
+      //
+      // That port is NOT done yet, and this deliberately fails loudly rather
+      // than silently capturing nothing. Rebuilding those four services around
+      // a second frame representation is the remaining work for web capture —
+      // and it has to keep the v5 ROI crop bit-identical to the training spec
+      // (see MediaPipeHandDetector.palmRoiFrom), so it is not a mechanical
+      // substitution. `hand_detection` already exposes `detect(Uint8List)`,
+      // which is the intended entry point for the web frame source.
+      if (kIsWeb) {
+        throw UnsupportedError(
+          'Palm capture is not yet available in the browser: camera_web '
+          'provides no frame stream, and the capture pipeline has not been '
+          'ported to takePicture() frames. Use the Android or iOS app to '
+          'enroll or mark attendance.',
+        );
+      }
       await _camera!.startImageStream((CameraImage frame) {
         _captureCtrl?.onFrame(frame);
       });
