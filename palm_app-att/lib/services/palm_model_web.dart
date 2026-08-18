@@ -100,7 +100,15 @@ class WebPalmModel implements PalmModel {
     if (_session != null) return;
 
     // Serve the WASM binaries from our own origin (see [wasmPaths]).
-    _ort.env.wasm.wasmPaths = 'assets/ort/'.toJS;
+    //
+    // Must be an ABSOLUTE url. onnxruntime-web loads its backend glue as an ES
+    // module, and a bare relative path like 'assets/ort/' fails module
+    // resolution with:
+    //   no available backend found. ERR: [wasm] TypeError: Failed to resolve
+    //   module specifier 'assets/ort/ort-wasm-simd-threaded.mjs'
+    // `Uri.base` is the page URL on web, so resolving against it also keeps
+    // this correct when the app is served under a sub-path (--base-href).
+    _ort.env.wasm.wasmPaths = Uri.base.resolve('assets/ort/').toString().toJS;
     // Single-threaded: no cross-origin isolation assumption. See [numThreads].
     _ort.env.wasm.numThreads = 1;
 

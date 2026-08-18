@@ -12,9 +12,7 @@ import 'package:flutter/foundation.dart'
 /// update the appId values with the platform-specific ones.
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
-    if (kIsWeb) {
-      throw UnsupportedError('PalmPay enrollment app is mobile-only.');
-    }
+    if (kIsWeb) return web;
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
@@ -31,6 +29,24 @@ class DefaultFirebaseOptions {
   // ──────────────────────────────────────────────────────────────────────────
   // Firebase project: attcit-52e7d
   // ──────────────────────────────────────────────────────────────────────────
+
+  /// Web app config for the SAME Firebase project — no new project, no new
+  /// collections, no new rules.
+  ///
+  /// These are not new credentials. The `appId` below is the web app that was
+  /// already registered in the console for `attcit-52e7d` — note that
+  /// [android] and [ios] have been borrowing it (`…:web:…`), as the class doc
+  /// says. Wiring it to the web target is using it for the platform it was
+  /// actually issued for.
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyDy62WRnWC4DvKH9fZtiQQDpBQBDxyIq5g',
+    appId: '1:9708266649:web:12155f5a4436433e81c408',
+    messagingSenderId: '9708266649',
+    projectId: 'attcit-52e7d',
+    storageBucket: 'attcit-52e7d.firebasestorage.app',
+    authDomain: 'attcit-52e7d.firebaseapp.com',
+    databaseURL: 'https://attcit-52e7d.firebaseio.com',
+  );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDy62WRnWC4DvKH9fZtiQQDpBQBDxyIq5g',

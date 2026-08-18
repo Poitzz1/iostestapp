@@ -1,8 +1,22 @@
 # ONNX Runtime Web — vendored runtime
 
-This directory is intentionally checked in **empty apart from this file**. The
-`onnxruntime-web` distribution is ~10 MB of JS + WASM and does not belong in
-git; it is vendored at build time.
+The `onnxruntime-web` distribution is **committed here** (~11 MB) so
+`flutter build web` works from a fresh clone with no extra setup step. Files:
+
+| File | Purpose |
+|---|---|
+| `ort.min.js` | The runtime. Loaded by `web/index.html`, defines the global `ort`. |
+| `ort-wasm-simd-threaded.wasm` | The WASM backend binary. |
+| `ort-wasm-simd-threaded.mjs` | Its JS loader glue. |
+
+Pinned to `onnxruntime-web@1.20.1`. To update:
+
+```bash
+npm install onnxruntime-web@<version>
+cp node_modules/onnxruntime-web/dist/ort.min.js                  web/assets/ort/
+cp node_modules/onnxruntime-web/dist/ort-wasm-simd-threaded.wasm web/assets/ort/
+cp node_modules/onnxruntime-web/dist/ort-wasm-simd-threaded.mjs  web/assets/ort/
+```
 
 ## Why this exists at all
 
